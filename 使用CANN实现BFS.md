@@ -1,6 +1,6 @@
 # 使用CANN的C++接口实现BFS
 
-之前在构思项目的时候存在一个错误逻辑：要使用NPU——》必须采用mindspore——》mindspore只支持python，而CPU代码采用C++——》需要解决c++和python之间的调度问题——》文件传输？混合编程？——》……。但是实际上第一步逻辑就错了，因为要使用NPU不一定非要采用mindspore。mindspore只是一个为了提高可编程性，降低开发成本的python框架，它是建立在CANN计算架构的基础上。由于矩阵实现的BFS算法非常简单，实际上可以绕过mindspore框架，直接用CANN的C++接口实现。
+之前在构思项目的时候存在一个错误逻辑：要使用NPU——》必须采用mindspore——》mindspore只支持python，而CPU代码采用C++——》需要解决c++和python之间的调度问题——》文件传输？混合编程？——》……。但是实际上第一步逻辑就错了，因为要使用NPU不一定非要采用mindspore。mindspore只是一个为了提高可编程性，降低开发成本的python框架，它是建立在CANN计算架构的基础上。由于矩阵实现的BFS算法非常简单，实际上可以绕过mindspore框架，直接用CANN的C++算子实现在NPU上执行BFS算法。
 
 ## 背景知识
 
@@ -47,14 +47,16 @@ ModelArts是面向开发者的一站式AI开发平台，为机器学习与深度
 
 AI Core中包含计算单元、存储单元、与控制单元。
 
+[昇腾AI处理器](https://bbs.huaweicloud.com/blogs/134295)
+
 #### 计算单元
 
 计算单元是AI Core中提供强大算力的核心单元，相当于AI Core的主力军。AI Core中的计算单元主要包括：Cube Unit（矩阵计算单元）、Vector Unit（向量计算单元）和Scalar Unit（标量计算单元），完成AI Core中不同类型的数据计算。
 
 | 计算单元 | 描述                                                         |
 | -------- | ------------------------------------------------------------ |
-| Cube     | Cube负责执行**矩阵**运算。Cube每次执行可以完成一个fp16的16*16与16*16的矩阵乘，例如C=A*B，如果是int8输入，则一次完成16*32与32*16的矩阵乘。其中A来源于L0A，B来源于L0B，L0C存储矩阵乘的结果和中间结果。 |
-| Vector   | Vector负责执行**向量**运算。其算力低于Cube，但灵活度高于Cube（如支持数学中的求倒数，求平方根等）。Vector所有计算的源数据以及目标数据都要求存储在Unified Buffer中，并要求32Byte对齐。 |
+| Cube     | Cube负责执行**矩阵**运算。Cube每次执行可以完成一个fp16的16*16与16 *16的矩阵乘，例如C=A *B，如果是int8输入，则一次完成16 *32与32 *16的矩阵乘。其中A来源于L0A，B来源于L0B，L0C存储矩阵乘的结果和中间结果。 |
+| Vector   | Vector负责执行**向量**运算。**其算力低于Cube，但灵活度高于Cube**（如支持数学中的求倒数，求平方根等）。Vector所有计算的源数据以及目标数据都要求存储在Unified Buffer中，并要求32Byte对齐。 |
 | Scalar   | Scalar负责各类型的标量数据运算和程序的流程控制。功能上可以看做一个小CPU，完成整个程序的循环控制、分支判断、Cube/Vector等指令的地址和参数计算以及基本的算术运算等。 |
 
 #### 存储单元
@@ -107,6 +109,7 @@ AI Core的存储单元分为如下三类：
 AI Core采用顺序取指令、并行执行指令的调度方式，如下图所示：
 
 图：AI Core指令调度方式
+
 ![img](https://www.hiascend.com/doc_center/source/zh/CANNCommunityEdition/63RC2alpha002/operatordevelopment/opdevg/figure/zh-cn_image_0000001550388744.png)
 
 指令序列被顺序译码。根据指令的类型，有两种可能：
@@ -114,9 +117,132 @@ AI Core采用顺序取指令、并行执行指令的调度方式，如下图所�
 - 如果指令是Scalar指令，指令会被直接执行。
 - 其他指令，指令会被调度到5个独立的分类队列，然后再分配到某个空间的执行部件执行。
 
-## 在NPU上执行BFS
+## 算子开发
 
-### 使用mindspore
+### 调用已有算子
+
+调研发现以下CANN中以下两个算子可以分别实现矩阵向量加，以及归约操作
+
+#### 矩阵向量加
+
+| 矩阵向量加                          |                                                              |
+| ----------------------------------- | ------------------------------------------------------------ |
+| name                                | AddV2()                                                      |
+| source code                         | elewise_calculation_ops.h                                    |
+| return                              | Returns x1 + x2 element-wise                                 |
+| Inputs                              | x1: A tensor. Must be one of the following types: float16, float32, float64, uint8, int8, int16, int32, int64, complex64, complex128. x2: A tensor of the same type as "x1" |
+| Attention                           | Constraints: AddV2 supports broadcasting.                    |
+| Outputs                             | y: A tensor. Has the same type as "x1".                      |
+| Third-party framework compatibility | Compatible with the TensorFlow operator AddV2.               |
+
+#### 归约操作
+
+| 归约操作                            |                                                              |
+| ----------------------------------- | ------------------------------------------------------------ |
+| name                                | ReduceMin                                                    |
+| source code                         | reduce_ops.h                                                 |
+| function                            | Computes the minimum of elements across dimensions of a tensor . |
+| Inputs                              | input_tensor: A Tensor. Must be one of the following types: float16, float32, int8, uint8. axes: A Tensor of type int8 or int32. Specifies the dimensions to reduce. Defaults to "None". |
+| Attributes                          | keep_dims: An optional bool. If "True", reduced dimensions will be retained. Defaults to "False". |
+| Outputs                             | A Tensor. Must be one of the following types: float16, float32, int8, uint8 . |
+| Attention                           | Constraints: If "axes = None", all dimensions will be reduced. "axes" must be in the range [-rank(input_shape), rank(input_shape)) . |
+| Third-party framework compatibility | Compatible with the TensorFlow operator reduce_min.          |
+
+###  开发自定义算子
+
+算子（Operator，简称OP）是算法中的一个个计算单元。CANN支持用户使用多种方式来开发自定义算子，包括TBE DSL、TBE TIK、AICPU、Ascend C四种开发方式。其中TBE DSL、TBE TIK算子运行在AI Core上，AI CPU算子运行在AI CPU上，。
+
+图：算子执行
+
+![img](https://www.hiascend.com/p/resource/202303/53f839963fce401e8e2c4965303ccc21.png)
+
+> AI Core是昇腾AI处理器的计算核心，负责执行矩阵、向量、标量计算密集的算子任务。
+>
+> AI CPU负责执行不适合跑在AI Core上的算子，是AI Core算子的补充，主要承担非矩阵类、逻辑比较复杂的分支密集型计算。
+
+#### 一览表
+
+下面的开发方式一览表，对上述几种开发方式作对比说明，您可以根据各种开发方式的适用场景选择适合的开发方式。
+
+| 算子开发方式 | TIK                                                          | AI CPU                                                       | AI CPU                                                       | Ascend C                                                     |
+| ------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 语言         | Python                                                       | Python                                                       | C++                                                          | C++                                                          |
+| 计算单元     | AI Cor                                                       | AI Core                                                      | AI CPU                                                       | AI Core                                                      |
+| 优点         | 接口高度封装，开发者无需感知硬件内部逻辑，入门较快。         | 开发者可自行控制数据搬运和调度过程，熟悉AI处理器架构的开发者，可以快速开发出高效的算子。 | 提供原生C++接口，具备C++程序开发能力的开发者入门较快。无需感知硬件内部复杂逻辑。 | C/C++原语编程 编程模型屏蔽硬件差异，编程范式提高开发效率 多层级API封装，从简单到灵活，兼顾易用与高效 调试方法简单 |
+| 适用场景     | 适用于通用场景下的逻辑运算，开发效率较高；对于特殊场景支持度不足。 | 适用各类算子的开发，对复杂计算场景支持度好。                 | AI CPU算子性能较低，算子无法通过AI Core方式实现或者需要临时快速打通网络的场景下使用。 | 当前TIK C++支持的AI处理器型号为昇腾310P AI处理器、昇腾910 AI处理器，其他型号暂不支持。<br/>当前支持用户使用g++等C/C++编译器编译在cpu侧执行的TIK C++算子，并使用gdb单步调试；支持用户使用CCEC编译器编译在npu侧执行的TIK C++算子，实现加速计算。 |
+
+#### 基于TBE开发框架的算子开发
+
+TBE（Tensor Boost Engine：张量加速引擎）是CANN提供的算子开发框架，开发者可以基于此框架使用Python语言开发自定义算子，通过TBE进行算子开发有TBE DSL、TBE TIK两种方式。
+
+> TBE DSL（Domain-Specific Language ，基于特性域语言）开发方式
+
+为了方便开发者进行自定义算子开发，CANN预先提供一些常用运算的调度，封装成一个个运算接口，称为基于TBE DSL开发。DSL接口已高度封装，用户仅需要使用DSL接口完成计算过程的表达，后续的算子调度、算子优化及编译都可通过已有的接口一键式完成，适合初级开发用户。
+
+> TBE TIK（Tensor Iterator Kernel）开发方式
+
+TIK（Tensor Iterator Kernel）是一种基于Python语言的动态编程框架，呈现为一个Python模块，运行于Host CPU上。开发者可以通过调用TIK提供的API基于Python语言编写自定义算子，TIK编译器会将其编译为昇腾AI处理器应用程序的二进制文件。
+
+TIK需要用户手工控制数据搬运和计算流程，入门较高，但开发方式比较灵活，能够充分挖掘硬件能力，在性能上有一定的优势。
+
+#### AI CPU算子开发方式
+
+AI CPU算子的开发接口即为原生C++接口，具备C++程序开发能力的开发者能够较容易的开发出AI CPU算子。AI CPU算子在AI CPU上运行。
+
+#### Ascend C算子开发方式
+
+TIK C++是一种使用C/C++作为前端语言的算子开发工具，通过四层接口抽象、并行编程范式、CPU侧模拟NPU孪生调试等技术，极大提高算子开发效率，助力AI开发者低成本完成算子开发和模型调优部署。
+
+图：TIK C++算子开发流程
+
+![img](https://pic1.zhimg.com/80/v2-fab18c69493aa2f84453792f2f1333ec_720w.webp)
+
+
+
+**算子开发流程：**
+
+- 算子分析：分析算子的数学表达式、输入、输出以及计算逻辑的实现，明确需要调用的TIK C++接口。
+- 核函数定义：定义TIK C++算子入口函数。
+- 根据矢量编程范式实现算子类：完成核函数的内部实现。核函数（Kernel Function）是TIK C++算子设备侧实现的入口。TIK C++允许用户使用核函数这种C/C++函数的语法扩展来管理设备端的运行代码，用户在核函数中进行算子类对象的创建和其成员函数的调用，由此实现该算子的所有功能。核函数是主机端和设备端连接的桥梁
+- 核函数是直接在设备端执行的代码。在核函数中，需要为在一个核上执行的代码规定要进行的数据访问和计算操作，当核函数被调用时，多个核将并行执行同一个计算任务。核函数需要按照如下规则进行编写。
+- 使用函数类型限定符除了需要按照C/C++函数声明的方式定义核函数之外，还要为核函数加上额外的函数类型限定符，包含__global__和__aicore__。
+  使用__global__函数类型限定符来标识它是一个核函数，可以被<<<...>>>调用；使用__aicore__函数类型限定符来标识该核函数在设备端AI Core上执行：
+- **__global__****__aicore__** void kernel_name(argument list);
+
+![img](https://pic1.zhimg.com/80/v2-5adb6d0a5a18be5b4e09bffd1d6f1c8c_720w.webp)
+
+**使用变量类型限定符：**
+指针入参变量统一的类型定义为__gm__ uint8_t*，这里统一使用uint8_t类型的指针，在后续的使用中需要将其转化为实际的指针类型；用户亦可直接传入实际的指针类型。
+
+![img](https://pic3.zhimg.com/80/v2-e5bd437b84ff0dee8ad72000eb73f312_720w.webp)
+
+- 核函数的调用语句是C/C++函数调用语句的一种扩展。
+  核函数使用内核调用符<<<...>>>这种语法形式，来规定核函数的执行配置：
+  kernel_name<<<blockDim, l2ctrl, stream>>>(argument **list**);
+  内核调用符仅可在NPU侧编译时调用，CPU侧编译无法识别该符号。
+  执行配置由3个参数决定：
+- blockDim，规定了核函数将会在几个核上执行。每个执行该核函数的核会被分配一个逻辑ID，表现为内置变量block_idx，可以在核函数的实现中直接使用；
+- l2ctrl，保留参数，暂时设置为固定值nullptr，开发者无需关注；
+- stream，类型为aclrtStream，stream是一个任务队列，应用程序通过stream来管理任务的并行。核函数的调用是异步的，核函数的调用结束后，控制权立刻返回给主机端，可以调用以下函数来强制主机端程序等待所有核函数执行完毕。
+  aclError aclrtSynchronizeStream(aclrtStream stream);
+
+**算子执行的不同模式：**
+
+TIK C++算子可用CPU模式或NPU模式执行
+
+CPU模式：算子功能调试用，可以模拟在NPU上的计算行为，不需要依赖昇腾设备
+
+NPU模式：算子功能/性能调试，可以使用NPU的强大算力进行运算加速
+
+![img](https://i0.hdslb.com/bfs/article/bd0bf60ce3bf2c02e4924833ae6ede3b8a276d24.png@942w_249h_progressive.webp)
+
+代码里使用内置宏 __CCE_KT_TEST__标识被宏包括的代码在CPU或NPU模式下编译。
+
+![img](https://i0.hdslb.com/bfs/article/9307b02958a895a6107c5f5b9cc53e67c38f32df.png@942w_111h_progressive.webp)
+
+## NPU上应用开发流程
+
+### 使用mindspore接口
 
 mindspore提供了python接口，可以直接实现矩阵向量加，以及矩阵归约。使用比较灵活，文件读写，格式转换等操作也比较方便。代价是执行效率比较低。
 
@@ -129,33 +255,15 @@ def BFSMatmul(x,y,eye):
     return output
 ```
 
-### 使用CANN
+### 使用单算子调用
 
-#### AscendCL
-
-**AscendCL（Ascend Computing Language）**是一套用于在昇腾平台上开发深度神经网络推理应用的C语言API库，提供运行资源管理、内存管理、模型加载与执行、算子加载与执行、媒体数据处理等API，能够实现利用昇腾硬件计算资源、在昇腾CANN平台上进行**深度学习推理计算**、**图形图像预处理**、**单算子加速计算**等能力。简单来说，就是统一的API框架，实现对所有资源的调用。
+**AscendCL（Ascend Computing Language）**是一套用于在昇腾平台上开发深度神经网络推理应用的C语言API库，提供运行资源管理、内存管理、模型加载与执行、算子加载与执行、媒体数据处理等API，实现对所有昇腾资源的调用。
 
 > CANN社区版文档包含应用开发（C&C++），注意较早版本只有python版本的
 
-#### 单算子调用与模型推理的差别
-
 如果AI应用中不仅仅包括模型推理，还有数学运算（例如BLAS基础线性代数运算）、数据类型转换等功能，也想使用昇腾的算力，可以采用**单算子调用**的方式，直接通过AscendCL接口加载并执行单个算子，省去模型构建、训练的过程，相对轻量级，又可以使用昇腾的算力。另外，自定义的算子，也可以通过单算子调用的方式来验证算子的功能。
 
-在解释单算子调用与模型推理的差别前，我们先观察下面这个开发流程图，先找出基本的共同点、不同点。
-
-- 共同点：
-  - 不管是模型推理，还是单算子调用，都需要AscendCL初始化和去初始化、运行管理资源申请和释放。
-  - 不管是模型推理，还是单算子调用，都涉及加载、执行的步骤，但是要注意，两者的加载、执行是调用不同的AscendCL接口。
-- 不同点：
-  - 模型推理涉及模型卸载的步骤，单算子调用不涉及。
-
-图：单算子调用与模型推理的流程对比
-
-![img](https://www.hiascend.com/doc_center/source/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/figure/zh-cn_image_0000001550544848.png)
-
-#### 单算子调用功能开发流程
-
-图：开发流程
+图：单算子调用开发流程
 
 ![zh-cn_image_0000001600969477.png](https://www.hiascend.com/doc_center/source/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/figure/zh-cn_image_0000001600969477.png)
 
@@ -167,7 +275,28 @@ def BFSMatmul(x,y,eye):
 
    在开发应用前，您需要先创建目录，存放代码文件、编译脚本、测试图片数据、模型文件等。
 
-1. 编译算子时，有以下两种方式（参见[单算子调用流程](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/aclcppdevg_000073.html)中的说明）：
+   参考目录结构：
+
+   ```
+   ├App名称
+   ├── op_model              // 该目录下存放编译算子的算子描述文件
+   │   ├── xxx.json               
+   
+   ├── data
+   │   ├── xxxxxx           // 测试数据
+   
+   ├── inc                   // 该目录下存放声明函数的头文件
+   │   ├── xxx.h               
+   
+   ├── out                   // 该目录下存放输出结果     
+   
+   ├── src   
+   │   ├── xxx.json         // 系统初始化的配置文件
+   │   ├── CMakeLists.txt   // 编译脚本
+   │   ├── xxx.cpp          // 实现文件   
+   ```
+
+3. 编译算子时，有以下两种方式（参见[单算子调用流程](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/aclcppdevg_000073.html)中的说明）：
 
    - 使用ATC工具编译算子生成om模型文件
 
@@ -179,25 +308,43 @@ def BFSMatmul(x,y,eye):
 
      该种方式，直接调用AscendCL接口编译、执行算子。
 
-2. 开发应用。
+4. 开发应用。
 
    依赖的头文件和库文件的说明请参见[调用接口依赖的头文件和库文件说明](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/aclcppdevg_000004.html#ZH-CN_TOPIC_0000001550704284__section1494913184520)。
 
    单算子调用的流程请参见[单算子调用流程](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/aclcppdevg_000073.html)及相关的示例代码。
 
+   开发应用流程：
+
+   - AscendCL初始化，请参见
+
+     AscendCL初始化与去初始化[AscendCL初始化与去初始化](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/aclcppdevg_000010.html)。
+
+     使用AscendCL接口开发应用时，必须先调用[aclInit](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/aclcppdevg_03_0015.html)接口进行AscendCL初始化，否则可能会导致后续系统内部资源初始化出错，进而导致其它业务异常。
+
+   - 运行管理资源申请，请参见[运行管理资源申请与释放](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/aclcppdevg_000011.html)。
+
+   - 数据传输，请参见[数据传输](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/aclcppdevg_000012.html)。
+
+   - 执行模型推理。请参见[模型推理](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/aclcppdevg_000013.html)。
+
+     若需要处理模型推理的结果，还需要进行数据后处理，例如对于图片分类应用，通过数据后处理从推理结果中查找最大置信度的类别标识。
+
+     模型推理结束后，需及时释放推理相关资源。
+
+   - 所有数据处理结束后，需及时释放运行管理资源，请参见[运行管理资源申请与释放](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/aclcppdevg_000011.html)。
+
+   - 执行AscendCL去初始化，请参见[AscendCL初始化与去初始化](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/aclcppdevg_000010.html)。
+
 5. 编译运行应用，请参见[应用调试](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/aclcppdevg_000100.html)。
 
-## 算子调用实例
+## 代码实现
 
-[使用Ascend算子开发](https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/63RC2alpha002/operatordevelopment/ascendcopdevg/atlas_ascendc_10_0001.html)
-
-### 样例
-
-#### 功能描述
+### 功能描述
 
 该样例主要实现矩阵-矩阵相乘的运算：C = αAB + βC，A、B、C都是16*16的矩阵，矩阵乘的结果是一个16 *16的矩阵。
 
-#### 目录结构
+### 目录结构
 
 样例代码结构如下所示。
 
@@ -222,7 +369,7 @@ def BFSMatmul(x,y,eye):
 │   ├── gemm_runner.cpp            //执行矩阵乘运算相关函数的实现文件
 ```
 
-#### 环境要求
+### 环境要求
 
 - 操作系统及架构：CentOS 7.6 x86_64、CentOS aarch64、Ubuntu 18.04 x86_64、EulerOS x86、EulerOS aarch64
 
@@ -236,7 +383,7 @@ def BFSMatmul(x,y,eye):
 
   以下步骤中，开发环境指编译开发代码的环境，运行环境指运行算子、推理或训练等程序的环境，运行环境上必须带昇腾AI处理器。开发环境和运行环境可以合设在同一台服务器上，也可以分设，分设场景下，开发环境下编译出来的可执行文件，在运行环境下执行时，若开发环境和运行环境上的操作系统架构不同，则需要在开发环境中执行交叉编译。
 
-#### 准备单算子模型和测试数据
+### 准备单算子模型和测试数据
 
 1. 配置CANN基础环境变量和Python环境变量，请参见[Link](https://file+.vscode-resource.vscode-cdn.net/e%3A/华科实验室论文/Huawei_accelerator/samples-master/cplusplus/environment/environment_variable_configuration_CN.md)。
 
@@ -270,7 +417,7 @@ def BFSMatmul(x,y,eye):
    - --soc_version：昇腾AI处理器的版本。进入“CANN软件安装目录/compiler/data/platform_config”目录，".ini"文件的文件名即为昇腾AI处理器的版本，请根据实际情况选择。
    - --output：生成的om文件必须放在“run/out/op_models“目录下。
 
-#### 编译运行
+### 编译运行
 
 1. 配置CANN基础环境变量和Python环境变量，请参见[Link](https://file+.vscode-resource.vscode-cdn.net/e%3A/华科实验室论文/Huawei_accelerator/samples-master/cplusplus/environment/environment_variable_configuration_CN.md)。
 
@@ -362,7 +509,7 @@ def BFSMatmul(x,y,eye):
 
       执行成功后，会直接在终端窗口显示矩阵A的数据、矩阵B的数据以及矩阵乘的结果，同时在“result_files“目录下，生成存放矩阵乘结果的matrix_c.bin文件。
 
-#### 关键接口介绍
+### 关键接口介绍
 
 在该样例中，涉及的关键功能及其对应的接口，如下所示：
 
@@ -387,55 +534,6 @@ def BFSMatmul(x,y,eye):
 - **单算子调用**
   - 调用aclblasGemmEx接口实现矩阵-矩阵相乘的运算，由用户指定矩阵中元素的数据类型。在aclblasGemmEx接口内部封装了系统内置的矩阵乘算子GEMM。
   - 使用ATC（Ascend Tensor Compiler）工具将内置的矩阵乘算子GEMM的算子描述信息（包括输入输出Tensor描述、算子属性等）编译成适配昇腾AI处理器的离线模型（*.om文件），用于验证矩阵乘算子GEMM的运行结果。
-
-## 调用已有算子
-
-
-
-##  新算子开发
-
-算子（Operator，简称OP）是算法中的一个个计算单元。CANN支持用户使用多种方式来开发自定义算子，包括TBE DSL、TBE TIK、AICPU三种开发方式。其中TBE DSL、TBE TIK算子运行在AI Core上，AI CPU算子运行在AI CPU上。
-
-图：算子执行
-
-![img](https://www.hiascend.com/p/resource/202303/53f839963fce401e8e2c4965303ccc21.png)
-
-> AI Core是昇腾AI处理器的计算核心，负责执行矩阵、向量、标量计算密集的算子任务。
->
-> AI CPU负责执行不适合跑在AI Core上的算子，是AI Core算子的补充，主要承担非矩阵类、逻辑比较复杂的分支密集型计算。
-
-### 基于TBE开发框架的算子开发
-
-TBE（Tensor Boost Engine：张量加速引擎）是CANN提供的算子开发框架，开发者可以基于此框架使用Python语言开发自定义算子，通过TBE进行算子开发有TBE DSL、TBE TIK两种方式。
-
-> TBE DSL（Domain-Specific Language ，基于特性域语言）开发方式
-
-为了方便开发者进行自定义算子开发，CANN预先提供一些常用运算的调度，封装成一个个运算接口，称为基于TBE DSL开发。DSL接口已高度封装，用户仅需要使用DSL接口完成计算过程的表达，后续的算子调度、算子优化及编译都可通过已有的接口一键式完成，适合初级开发用户。
-
-> TBE TIK（Tensor Iterator Kernel）开发方式
-
-TIK（Tensor Iterator Kernel）是一种基于Python语言的动态编程框架，呈现为一个Python模块，运行于Host CPU上。开发者可以通过调用TIK提供的API基于Python语言编写自定义算子，TIK编译器会将其编译为昇腾AI处理器应用程序的二进制文件。
-
-TIK需要用户手工控制数据搬运和计算流程，入门较高，但开发方式比较灵活，能够充分挖掘硬件能力，在性能上有一定的优势。
-
-### AI CPU算子开发方式
-
-AI CPU算子的开发接口即为原生C++接口，具备C++程序开发能力的开发者能够较容易的开发出AI CPU算子。AI CPU算子在AI CPU上运行。
-
-### Ascend C算子开发方式
-
-### 一览表
-
-下面的开发方式一览表，对上述几种开发方式作对比说明，您可以根据各种开发方式的适用场景选择适合的开发方式。
-
-| 算子开发方式 | TIK                                                          | AI CPU                                                       | AI CPU                                                       | Ascend C                                                     |
-| ------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 语言         | Python                                                       | Python                                                       | C++                                                          | C++                                                          |
-| 计算单元     | AI Cor                                                       | AI Core                                                      | AI CPU                                                       | AI Core                                                      |
-| 优点         | 接口高度封装，开发者无需感知硬件内部逻辑，入门较快。         | 开发者可自行控制数据搬运和调度过程，熟悉AI处理器架构的开发者，可以快速开发出高效的算子。 | 提供原生C++接口，具备C++程序开发能力的开发者入门较快。无需感知硬件内部复杂逻辑。 | C/C++原语编程 编程模型屏蔽硬件差异，编程范式提高开发效率 多层级API封装，从简单到灵活，兼顾易用与高效 调试方法简单 |
-| 适用场景     | 适用于通用场景下的逻辑运算，开发效率较高；对于特殊场景支持度不足。 | 适用各类算子的开发，对复杂计算场景支持度好。                 | AI CPU算子性能较低，算子无法通过AI Core方式实现或者需要临时快速打通网络的场景下使用。 | 当前TIK C++支持的AI处理器型号为昇腾310P AI处理器、昇腾910 AI处理器，其他型号暂不支持。<br/>当前支持用户使用g++等C/C++编译器编译在cpu侧执行的TIK C++算子，并使用gdb单步调试；支持用户使用CCEC编译器编译在npu侧执行的TIK C++算子，实现加速计算。 |
-
-### 
 
 ## 链接汇总
 
