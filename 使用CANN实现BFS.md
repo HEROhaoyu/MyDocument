@@ -8,7 +8,7 @@
 
 图：NPU开发层次结构
 
-![image-20230604171458374](C:\Users\HERO\AppData\Roaming\Typora\typora-user-images\image-20230604171458374.png)
+![image-20230604171458374](使用CANN实现BFS.assets/image-20230604171458374.png)
 
 #### AI芯片
 
@@ -43,7 +43,7 @@ ModelArts是面向开发者的一站式AI开发平台，为机器学习与深度
 昇腾AI处理器的计算核心主要由AI Core构成，从控制上可以看成是一个相对简化的现代微处理器的基本架构。它包括了三种基础计算资源：**矩阵计算单元（Cube Unit）、向量计算单元（Vector Unit）和标量计算单元（Scalar Unit）**。这三种计算单元各司其职，形成了三条独立的执行流水线，在系统软件的统一调度下互相配合达到优化的计算效率。此外在矩阵计算单元和向量计算单元内部还提供了不同精度、不同类型的计算模式。
 
 图：AI Core架构
-![img](https://www.hiascend.com/doc_center/source/zh/CANNCommunityEdition/63RC2alpha002/operatordevelopment/opdevg/figure/zh-cn_image_0000001601187641.png)
+![img](使用CANN实现BFS.assets/zh-cn_image_0000001601187641.png)
 
 AI Core中包含计算单元、存储单元、与控制单元。
 
@@ -110,7 +110,7 @@ AI Core采用顺序取指令、并行执行指令的调度方式，如下图所�
 
 图：AI Core指令调度方式
 
-![img](https://www.hiascend.com/doc_center/source/zh/CANNCommunityEdition/63RC2alpha002/operatordevelopment/opdevg/figure/zh-cn_image_0000001550388744.png)
+![img](使用CANN实现BFS.assets/zh-cn_image_0000001550388744.png)
 
 指令序列被顺序译码。根据指令的类型，有两种可能：
 
@@ -154,7 +154,7 @@ AI Core采用顺序取指令、并行执行指令的调度方式，如下图所�
 
 图：算子执行
 
-![img](https://www.hiascend.com/p/resource/202303/53f839963fce401e8e2c4965303ccc21.png)
+![img](使用CANN实现BFS.assets/53f839963fce401e8e2c4965303ccc21.png)
 
 > AI Core是昇腾AI处理器的计算核心，负责执行矩阵、向量、标量计算密集的算子任务。
 >
@@ -195,7 +195,7 @@ TIK C++是一种使用C/C++作为前端语言的算子开发工具，通过四�
 
 图：TIK C++算子开发流程
 
-![img](https://pic1.zhimg.com/80/v2-fab18c69493aa2f84453792f2f1333ec_720w.webp)
+![img](使用CANN实现BFS.assets/v2-fab18c69493aa2f84453792f2f1333ec_720w.webp)
 
 
 
@@ -234,11 +234,11 @@ CPU模式：算子功能调试用，可以模拟在NPU上的计算行为，不�
 
 NPU模式：算子功能/性能调试，可以使用NPU的强大算力进行运算加速
 
-![img](https://i0.hdslb.com/bfs/article/bd0bf60ce3bf2c02e4924833ae6ede3b8a276d24.png@942w_249h_progressive.webp)
+![img](使用CANN实现BFS.assets/bd0bf60ce3bf2c02e4924833ae6ede3b8a276d24.png@942w_249h_progressive.webp)
 
 代码里使用内置宏 __CCE_KT_TEST__标识被宏包括的代码在CPU或NPU模式下编译。
 
-![img](https://i0.hdslb.com/bfs/article/9307b02958a895a6107c5f5b9cc53e67c38f32df.png@942w_111h_progressive.webp)
+![img](使用CANN实现BFS.assets/9307b02958a895a6107c5f5b9cc53e67c38f32df.png@942w_111h_progressive.webp)
 
 ## NPU上应用开发流程
 
@@ -265,7 +265,7 @@ def BFSMatmul(x,y,eye):
 
 图：单算子调用开发流程
 
-![zh-cn_image_0000001600969477.png](https://www.hiascend.com/doc_center/source/zh/CANNCommunityEdition/63RC2alpha002/infacldevg/aclcppdevg/figure/zh-cn_image_0000001600969477.png)
+![zh-cn_image_0000001600969477.png](使用CANN实现BFS.assets/zh-cn_image_0000001600969477.png)
 
 1. 准备环境。
 

@@ -3,7 +3,7 @@
 使用Ascend C开发方式开发的算子运行在AI Core上。AI Core是昇腾AI处理器中的计算核心，AI处理器内部有多个AI Core。AI Core内部并行计算架构抽象示意图如[图1](javascript:;)所示。
 
 **图1** AI Core内部并行计算架构抽象示意图
-![img](https://www.hiascend.com/doc_center/source/zh/CANNCommunityEdition/63RC2alpha002/operatordevelopment/ascendcopdevg/figure/zh-cn_image_0000001601077657.png)
+![img](AI Core内部并行计算架构抽象.assets/zh-cn_image_0000001601077657.png)
 
 AI Core中包含**计算单元、存储单元、搬运单元**等核心组件。计算单元包括了三种基础计算资源：**Cube计算单元、Vector计算单元和Scalar计算单元**。存储单元即为AI Core的内部存储，统称为Local Memory，与此相对应，AI Core的外部存储称之为Global Memory。DMA搬运单元负责在Global Memory和Local Memory之间搬运数据。
 
