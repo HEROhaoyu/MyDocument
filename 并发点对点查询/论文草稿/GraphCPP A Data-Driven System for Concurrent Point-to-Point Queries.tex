@@ -88,8 +88,10 @@ Observation 2: Segments of paths composed of high-degree vertices are more likel
 To enhance the execution efficiency of concurrent point-to-point queries on dynamic graphs, following a detailed examination of the computational intricacies, we propose a data-driven efficient concurrent point-to-point query system, GraphCPP. It employs a cache-centric execution mechanism that is centered around data, enabling multiple tasks to share the results of a single data load by capitalizing on the data similarity between concurrent tasks. Additionally, it establishes a distance index between high-degree vertices through a core-subgraph-based query acceleration mechanism, facilitating shared computation of high-frequency overlapping paths among different tasks. Furthermore, it leverages path prediction to drive the batch execution of similar queries with overlapping paths, further exploiting data similarity.
 
 \subsection{System Architecture}
-The figure below illustrates the system architecture of GraphCPP. We chose Gemini as the benchmark due to its current status as a state-of-the-art distributed memory graph computing engine, known for its commendable performance and programmability.
-Building upon Gemini, we incorporated a fine-grained graph partition management module, an associated task triggering module, and a fine-grained data synchronization module. While reusing Gemini's graph partition storage mechanism, we introduced a fine-grained graph partition management module. This module logically subdivides the coarse-grained graph partitions into finer-grained units that can be accommodated by the Last Level Cache (LLC). It employs a priority calculation formula to determine the priority of the current partition based on the number of associated tasks (higher association count leads to higher priority). The partition management module schedules the partition with the highest priority to the cache, leveraging Gemini's access interface in the process. The associated task triggering module, relying on the task information provided by the partition management module, triggers the batch execution of associated tasks. Finally, considering that different tasks may access the same data block in different sequences, which could hinder data sharing, the data synchronization module employs a fine-grained synchronization approach to facilitate shared access to cached data.
+The figure below illustrates the system architecture of GraphCPP. Gemini is a state-of-the-art distributed memory graph computing engine, known for its commendable performance and programmability.
+
+Building upon Gemini’s framework, we introduced the fine-grained graph block management module, the graph block-task association mechanism, and the associated task triggering module. Specifically, GraphCPP utilizes the same graph partitioning mechanism as Gemini for graph loading. Subsequently, we employ formula x to determine the block size, followed by a straightforward ID mapping to logically partition the coarse-grained graph partition into fine-grained graph blocks. Point-to-point query tasks are executed using an iterative computation for graph traversal, with active vertices dynamically changing during execution. We consider query task qi to be associated with a graph block bi if qi has active vertices on bi. We employ a graph block-task association mechanism that tracks the active vertices of query tasks to establish the association between graph blocks and query tasks. This module adopts a priority scheduling strategy, determining the priority of a graph block based on the number of associated tasks. The higher the number of associations, the higher the priority, making it more likely to be prioritized for caching. The associated task triggering module uses the information provided by the graph block management module to trigger the batch execution of tasks associated with the graph blocks in the cache. Finally, considering that different tasks may access the same data block in different sequences, which could hinder data sharing, the data synchronization module employs a fine-grained synchronization approach to facilitate shared access to cached data.
+
 
 \begin{figure}[!t]
 \centering
@@ -99,7 +101,7 @@ Building upon Gemini, we incorporated a fine-grained graph partition management 
 \end{figure}
  
 \subsection{Overall Execution Workflow}
-We will present the overall execution flow of GraphCPP in pseudo-code. This algorithm takes two input parameters: the set C, containing all graph blocks held by the current computing node, and the set Q, containing all query tasks present on the current computing node. Initially, we allocate a dynamically-sized continuous memory space to store all query tasks (Line 1). Then, we enter a looping process as long as there are unfinished query tasks (Line 2). In this process, GraphCPP calls ChoseNextSharingChunk to select the currently highest-priority graph block, ci. By calculating the associated blocks for each task (i.e., tasks with active vertices in the current block), we identify all query tasks related to the current graph block ci (Line 4). Next, we load ci into the cache and concurrently process all related query operations, qi (Line 5). We invoke GraphCPPCompute to perform the point-to-point query operation qi on the current block. If the query is not yet complete, we update the state of query qi and generate new query tasks (Line 6). If the newly generated query is associated with the current graph block ci, it is added to Qci, and we return to Line 5 to continue querying. Otherwise, the information for the newly generated query is stored in the query task collection, and the task is suspended.
+We will present the overall execution flow of GraphCPP in pseudo-code. This algorithm takes two input parameters: the set B, containing all graph blocks held by the current computing node, and the set Q, containing all query tasks present on the current computing node. Initially, we allocate a dynamically-sized continuous memory space to store all query tasks (Line 1). Then, we enter a looping process as long as there are unfinished query tasks (Line 2). In this process, GraphCPP calls ChoseNextSharingBlock to update the association between query tasks and graph blocks, and select the currently highest-priority graph block, bi. By calculating the associated blocks for each task (i.e., tasks with active vertices in the current block), we identify all query tasks related to the current graph block bi (Line 4). Next, we load ci into the cache and concurrently process all related query operations, qi (Line 5). We invoke GraphCPPCompute to perform the point-to-point query operation qi on the current block. If the query is not yet complete, we update the state of query qi and generate new query tasks (Line 6). If the newly generated query is associated with the current graph block bi, it is added to Qbi, and we return to Line 5 to continue querying. Otherwise, the information for the newly generated query is stored in the query task collection, and the task is suspended.
 
 \begin{algorithm}
   \caption{Concurrent Point-to-Point Queries on a Set of Graph Blocks Owned by a Graph Partition}
@@ -122,18 +124,17 @@ We will present the overall execution flow of GraphCPP in pseudo-code. This algo
   \end{algorithmic}
   \end{algorithm}
   
-The above algorithm demonstrates the data sharing mechanism in GraphCPP, with the GraphCPPCompute function utilizing the compute sharing mechanism. The following sections will provide a detailed explanation of these two optimization mechanisms.  
+The above algorithm demonstrates the data sharing mechanism in GraphCPP, with the GraphCPPCompute function utilizing the compute sharing mechanism. The following sections will provide a detailed explanation of these two optimization mechanisms.
 
 \subsection{Data Access Sharing Mechanism}
 In Section 2.2, we observed a significant overlap in the graph structure data access among concurrent tasks. Under the existing processing mechanism, this overlapping data cannot be shared and utilized. However, for point-to-point query tasks on the graph, the order of data access does not affect the correctness of the results. Our data sharing mechanism essentially transforms the original "task → data" linear task scheduling order into a "data → task" fine-grained concurrent task scheduling order, thereby improving cache utilization efficiency and system throughput. To implement this execution model, we need to address two issues: 1) How to determine the shared data segments? 2) How to implement data sharing among multiple tasks? Below are our implementation details.
 
 A. How to Determine Shared Data Segments?
 
-1.Determine the granularity of shared graph data. Distributed memory systems use caching to improve data access efficiency. Ideally, the shared graph partition should be able to fit entirely into the Last Level Cache (LLC), thereby avoiding the frequent swapping in and out of block parts. However, the granularity of graph partition should not be too small, as it would increase the synchronization overhead of task processing. The following demonstrates how to determine an appropriate block size by considering both block-level graph structure data and task-specific data.
+1.Determine the granularity of shared graph block. Distributed memory graph computing systems need to load data into the cache to improve data access efficiency. Ideally, the data of shared graph should be able to fit entirely into the Last Level Cache (LLC), thereby avoiding the frequent swapping in and out of block parts. However, the granularity of graph blocks should not be too small, as it would increase the synchronization overhead of task processing. We employ formula x to determine an appropriate size for shared graph blocks. In this formula, BS represents the size of the graph structure data for the to-be-determined shared graph block, GS denotes the size of the graph structure data for the partition to which the block belongs, |V| signifies the total number of vertices on the partition, VS stands for the average space needed to store the status information of a vertex, N represents the number of concurrently queried tasks, LLCS denotes the size of the LLC cache space, and RS refers to the reserved redundant space. The two terms on the right side of formula x respectively represent the graph structure data and task-specific data (whose size is proportional to the scale of the graph block and the number of concurrently queried tasks). The right side of the formula indicates the size of the available space for each task after deducting the reserved cache space. Through this formula, we determine the maximum granularity of each shared graph block under the condition of accommodating the LLC capacity.
 
-We use CS to represent the size of the fine-grained data block to be determined for sharing, and GS to represent the size of the graph structure data on each graph partition. $a$ represents the proportion of the shared block part in the partition image. We use $|V|$ to represent the total number of vertices on the partition. $a*|V|$ represents an approximate value of the number of vertices owned by the shared block. We use VS to represent the average space required to store the status information of a vertex. $a*|V|*V_S$ represents the maximum space required for storing task-specific data on the shared block for query tasks. Considering that multiple cores in multi-core processors execute concurrently, task-specific information for multiple queries needs to be retained in the cache. We use N to represent the number of threads executing parallel computations, and $T_S$ represents the space required to store task-specific data of associated tasks for the current block in the cache. RS is the size of reserved redundant space. LLCS is the size of LLC cache space. Under the premise of satisfying the following inequalities, the maximum value of $C_S$ is the size of the graph block.
 
-2. Logical Partitioning. Distributed systems commonly employ partitioning techniques to divide a large-scale graph into graph partitions that can fit into the memory of a single machine. Building upon the memory-level graph partitioning, GraphCPP further divides the graph into fine-grained graph blocks. Unlike previous physical partitioning, the block partitioning here is based on logical divisions. Pseudocode for partitioning graph blocks in GraphCPP is presented in Listing X:
+2. Logical Partitioning. Once the granularity of shared graph blocks is established, GraphCPP can proceed with the logical partitioning during the graph preprocessing phase. This process involves subdividing coarse-grained graph partitions on the distributed system into finer-grained shared graph blocks. Pseudocode for partitioning graph blocks in GraphCPP is presented in Listing X:
 
 \begin{algorithm}
 \caption{Logical Partition Algorithm}
@@ -155,790 +156,74 @@ We use CS to represent the size of the fine-grained data block to be determined 
 \end{algorithmic}
 \end{algorithm}
 
-Logical Partitioning Function takes two parameters: one is the graph partition structure data Pi recorded in edge table format, and the other is the set of logically divided blocks called $block_set$. Then, define the variable $block_edge_num$ to record the current partition's number of edges. Define the variable block, which is a dictionary with keys representing source vertex IDs, and values representing the number of outgoing edges for each vertex. Iterate through each edge in the partition. If the edge has already been loaded into the current partition, increment the corresponding count of outgoing edges for that partition. If the vertex is added to the block dictionary for the first time, set the count of outgoing edges for the partition to 1. After processing each edge, check if the current block is full. If so, add the current block to $block_set$. This way, after traversing all the data in the partition, every edge in the partition is assigned to a specific graph block, resulting in a set of logically partitioned graph blocks.
+Logical Partitioning Function takes two parameters: one is the graph partition structure data Pi recorded in edge table format, and the other is the and the other is the collection B of graph blocks owned by this partition.   We utilize a dictionary structure called block_table to aggregate information about the graph blocks, where the keys record the source vertex IDs of the edges, and values record the number of outgoing edges for each vertex. Iterate through each edge in the partition. If the edge has already been loaded into the current partition, increment the corresponding count of outgoing edges for that partition. If the vertex is added to the block dictionary for the first time, set the count of outgoing edges for the partition to 1. After processing each edge, check if the current block is full. If so, add the current block to block_set. This way, after traversing all the data in the partition, every edge in the partition is assigned to a specific graph block, resulting in a set of logically partitioned graph blocks.
 
-3. Associate Query Tasks with Respective Blocks. In the previous step, we achieved fine-grained block partitioning using a logical approach. Since this partitioning is purely logical and the data remains contiguous on the physical storage medium, it becomes straightforward to determine the block a vertex belongs to based on its ID. Specifically, each query task maintains a record of the active vertex set during the traversal process. Initially, we infer the block in which a vertex resides by examining its ID. Subsequently, we employ a specially designed array to store the partitions traversed by each task. Due to the pruning-based traversal strategy employed in point-to-point queries, the number of active vertices in each round of execution is relatively low. This allows us to establish the association between query tasks and their respective blocks at a low cost.
+B. Achieving Data Sharing Among Multiple Tasks
 
-4. Determining Priority for Partition Scheduling. After establishing the association between query tasks and their corresponding blocks, we can tally the number of tasks associated with each block. A higher task count implies that more tasks share this block, indicating a greater benefit derived from scheduling this block. Consequently, such blocks are given priority during scheduling.
+1. Establishing the Association between Shared Blocks and Query Tasks. Through the previous steps, we have achieved fine-grained graph partitioning using a logical approach. Since this is only a logical partitioning, the data remains contiguous on the physical storage medium. Hence, it is easy to determine the partition a vertex belongs to based on its ID. During the execution of a query, each task qi maintains a set of active vertices, Setact,i, following the update policy outlined below:
+a. Initially, Set_(act,i) contains only the source vertex Si of the query.
 
-Through the aforementioned steps, we generate partitions for task sharing. By employing an economical priority scheduling sequence, we load these graph partitions into the LLC cache. Subsequently, a fine-grained processing mechanism is required to effectively utilize this shared data.
+b. The active vertices in Set_(act,i) are processed according to the point-to-point query algorithm, and the processed vertices are removed from the set of active vertices.
+c. If a vertex's state is changed in this round and it is not pruned, the vertex is added to Set_(act,i) and awaits processing in the next round.
+We first deduce the graph block in which the vertex is located based on its ID, and then use a specially designed array to store the partitions traversed by each task. Since point-to-point queries employ a pruning-based traversal strategy, the number of active vertices in each round is not large. Therefore, it is possible to establish the association between query tasks and their corresponding blocks with relatively low overhead.
 
+2. Determining the Priority of Partition Scheduling. Once the association between query tasks and corresponding blocks is established, we can tally the number of tasks associated with each block. The more tasks associated with a block, the greater the benefits it brings. In this scenario, the block is prioritized for loading into the Last Level Cache (LLC).
 
+3. Triggering Concurrent Execution of Associated Tasks. Having obtained the shared graph data blocks, active query tasks associated with the LLC-resident graph structural data can be deduced. These tasks are executed in batches. As illustrated in Algorithm X, after one round of execution, active tasks generate new active vertices. If these new active vertices are still associated with the current shared block, the query tasks continue execution. The shared block remains in the LLC until all associated query tasks have been processed before it is evicted.
 
+\subsection{Computation Sharing Mechanism}
+Tripoline initially introduced the concept of a global index, utilizing idle computational resources to maintain distance values from high-degree vertices to other vertices, thus enabling the sharing of these high-degree vertex distance values across different query tasks. However, the global index mechanism exhibits the following shortcomings:  Shortcoming 1: The global index necessitates the recording of distance values between high-degree vertices and all other vertices. When the graph's scale is extremely large, the computational and storage costs of establishing the index become substantial. Shortcoming 2: In point-to-point queries on streaming graphs, each round of graph updates introduces new edges and edge deletions. The global index requires dynamic updates of the index relationships between high-degree vertices and every vertex based on the latest graph snapshot. This implies that any update to the streaming graph impacts the indexing of all vertices, resulting in a significant computational overhead for maintaining the index.
 
-  
+In general, to better address incoming random queries at any given time, the more high-degree vertices selected, the higher the coverage of overlapping paths, leading to more effective computation sharing. However, as mentioned above, we cannot indefinitely increase the number of high-degree vertices, even if we can allocate a portion of idle computational resources to distribute the costs of calculating and maintaining the index. In response to this, this paper builds upon the global index and introduces a lightweight core subgraph index. Compared to the global index, the core subgraph index has a smaller selection threshold and a higher quantity of high-degree vertices, enabling a higher coverage and providing more precise upper bound values. Additionally, it no longer maintains distance values from high-degree vertices to all vertices; instead, it only needs to maintain indices among high-degree vertices. Consequently, its overhead is significantly reduced compared to the global index. Pseudocode for core subgraph query is shown in Listing XXXX.
 
-\section{Where to get the IEEEtran Templates}
-\noindent The {\bf{IEEE Template Selector}} will always have the most up-to-date versions of the \LaTeX\ and MSWord templates. Please see: \url{https://template-selector.ieee.org/} and follow the steps to find the correct template for your intended publication. Many publications use the IEEETran LaTeX templates, however, some publications have their own special templates. Many of these are  based on IEEEtran, but may have special instructions that vary slightly from those in this document.
+\begin{algorithm}
+    \caption{Core Subgraph Query Algorithm}
+    \begin{algorithmic}[1]
+    \State $global\_index \gets \text{BuildGlobalIndex}(k)$ \Comment{Step 1: Calculate $k$ Global Index}
+    \State $core\_subgraph\_index \gets \text{BuildCoreSubgraphIndex}(m, global\_index)$ \Comment{Build $m$ Core Subgraph Index}
+    \Function{GraphCPPCompute}{$q, b$}
+        \State $active\_vertices \gets \text{InitializeActiveVertices}(q, b)$ \Comment{Determine active vertices based on query task and graph block}
+        \State \Call{InitializeBoundsFromGlobalIndex}{$global\_index$} \Comment{Initialize bounds based on the global index}
+        \While{$\text{active\_vertices is not empty}$}
+            \For{$vertex$ in $active\_vertices$}
+                \If{$vertex$ is in $core\_subgraph$}
+                    \State \Call{UpdateBoundsByCoreVertices}{$vertex, core\_subgraph\_index$}
+                \Else
+                    \For{$nbr$ in \Call{GetOutgoingNeighbors}{$vertex$}} \Comment{Traverse outgoing neighbors of $vertex$}
+                        \State \Call{UpdateBoundsByNeighbors}{$nbr$}
+                    \EndFor
+                \EndIf
+            \EndFor
+            \State $active\_vertices \gets \text{UpdateActiveVertices}()$
+        \EndWhile
+    \EndFunction
+    \end{algorithmic}
+    \end{algorithm}
 
-\section{Where to get \LaTeX \ help - user groups}
-\noindent The following on-line groups are very helpful to beginning and experienced \LaTeX\ users. A search through their archives can provide many answers to common questions.
-\begin{list}{}{}
-\item{\url{http://www.latex-community.org/}} 
-\item{\url{https://tex.stackexchange.com/} }
-\end{list}
 
-\section{Document Class Options in IEEEtran}
-\noindent At the beginning of your \LaTeX\ file you will need to establish what type of publication style you intend to use. The following list shows appropriate documentclass options for each of the types covered by IEEEtran.
+The execution steps for achieving computation sharing are as follows: 1. Establish a Global Index (Lines 1): We employ a strategy similar to SGraph for computing the global index. After sorting the degrees of vertices, the system selects the top k vertices with the highest degrees (where the value of k is user-determined). Subsequently, an SSSP algorithm is executed to compute the shortest paths (including distance values and path parent nodes) between these k high-degree vertices and all vertices in the graph. The results are stored in an array indexed by the IDs of the high-degree vertices. 2. Establish a Core Subgraph Index (Lines 2): Allowing more high-degree vertices, typically one order of magnitude larger than k, which are ranked in the top m in terms of degree, to be included in the core subgraph. As the global index vertices have already recorded the indices to reach the global index, these vertices are excluded. Additionally, once the global index is established, point-to-point queries for the shortest paths between points on the core subgraph can be directly computed using upper and lower bound pruning. 3. Query Acceleration (Lines 3): Perform point-to-point queries, starting by utilizing the global index to determine approximate upper and lower bounds. Subsequently, pruning queries begin. Under normal circumstances, the system traverses each outgoing edge vertex of the current vertex, sequentially performing pruning checks on the distance values of each vertex to determine the next round of active vertices. If the current query vertex belongs to the core subgraph, in addition to visiting neighboring out-edge vertices, all other high-degree vertices connected to this vertex must also be accessed. Under normal circumstances, the state propagation between these high-degree vertices may require multiple hops. With the core subgraph, the propagation between these points can be accomplished in a single step. In addition to expediting state propagation, a hidden factor is that the core subgraph is populated with high-degree vertices, making them more likely to appear on the shortest path between two points, thereby expediting the path discovery process. 4. Query Termination (Lines 6): Apply upper and lower bound query techniques for pruning. For unidirectional queries, starting from the source vertex, reaching the destination vertex indicates the discovery of a path. For bidirectional queries, the convergence of queries from both directions indicates the discovery of a path. If a new path value is smaller than the current upper bound, it is updated as the new upper bound. If the path value is greater than the current upper bound, it is pruned. The discovery of a path does not imply the end of iteration; it is necessary to assess the active vertices in the graph. Only when all possible paths have been attempted, the upper bound is updated to the shortest path value, and all vertex edge path values are greater than the current upper bound, and the number of active vertices decreases to zero, does the iteration conclude. Through the aforementioned steps, we achieve efficient data sharing using the lightweight core subgraph index.
 
-\begin{list}{}{}
-\item{Regular Journal Article}
-\item{{\tt{$\backslash$documentclass[journal]{IEEEtran}}}}\\
-\item{{Conference Paper}}
-\item{{\tt{$\backslash$documentclass[conference]{IEEEtran}}}}\\
-\item{Computer Society Journal Article}
-\item{{\tt{$\backslash$documentclass[10pt,journal,compsoc]{IEEEtran}}}}\\
-\item{Computer Society Conference Paper}
-\item{{\tt{$\backslash$documentclass[conference,compsoc]{IEEEtran}}}}\\
-\item{{Communications Society Journal Article}}
-\item{{\tt{$\backslash$documentclass[journal,comsoc]{IEEEtran}}}}\\
-\item{{Brief, Correspondence or Technote}}
-\item{{\tt{$\backslash$documentclass[9pt,technote]{IEEEtran}}}}
-\end{list}
+\subsection{Other Optimization}
+1. Core Subgraph Maintenance:
 
-There are other options available for each of these when submitting for peer review or other special requirements. IEEE recommends to compose your article in the base 2-column format to make sure all your equations, tables and graphics will fit the final 2-column format. Please refer to the document ``IEEEtran\_HOWTO.pdf'' for more information on settings for peer review submission if required by your EIC.
+GraphCPP streamlines the traditional "global index," which maintains distance values for all vertices, into a "core subgraph index" that only maintains distance values between high-degree vertices. During computation, the global index is reused to perform point-to-point queries based on upper and lower bound pruning to obtain the shortest path values between high-degree vertices on the core subgraph. In terms of storage, each high-degree vertex only needs to store a small amount of distance values between high-degree vertices. Clearly, compared to the global index, both the computational and storage costs of the core subgraph index are significantly reduced. Additionally, for index maintenance on dynamic graphs, we have implemented special optimizations. Specifically, when calculating the shortest path between high-degree vertices, each vertex records its parent node on the path. When the final path converges, we can obtain the set of all vertices on the shortest path by retracing from the destination vertex. We store each set of shortest paths indexed by the starting point of the path. When a graph update occurs, we first check whether the affected active vertices are part of any shortest path. If they are not, the index remains unaffected and does not require an update. If they are, we need to recalculate the distance values for that index.
 
-\section{How to Create Common Front Matter}
-\noindent The following sections describe general coding for these common elements. Computer Society publications and Conferences may have their own special variations and will be noted below.
-\subsection{Paper Title}
-\noindent The title of your paper is coded as:
+2. Batch Execution of Similar Tasks
 
-\begin{verbatim}
-\title{The Title of Your Paper}
-\end{verbatim}
+Different query tasks arrive randomly, and they often follow distinct traversal paths. We observed that when two tasks have very low similarity, their overlapping path proportion decreases, and there might be no overlap at all. However, if the starting and target vertices of two queries are located in adjacent data blocks within the graph, the paths they traverse during the query process are highly likely to be close to each other. To address this, we propose a strategy for batch executing similar tasks, selecting batches of similar tasks from the task pool at a time to further leverage data similarity.Specifically, GraphCPP first randomly selects a query task from the task pool, obtaining the starting and target vertices of the task. It then executes a k-hop SSSP to retrieve the neighboring vertex sets SetS for the starting vertex and SetD for the target vertex (the value of k is determined by the user and is typically set to 3 by default). Subsequently, it iterates through the task pool, filtering out all the query tasks where the starting point is in SetS and the target point is in SetD. These tasks are treated as similar tasks and executed concurrently.It is worth noting that if the starting or target vertex of a query belongs to a high-degree vertex, the index can be directly used to accelerate the query process, bypassing the regular query steps. Excluding the high-degree vertices, the overhead of the k-hop SSSP is minimal, and the execution can be done concurrently with normal queries, with negligible additional costs.
 
-\noindent Please try to avoid the use of math or chemical formulas in your title if possible.
+\section{EXPERIMENTAL EVALUATION}
 
-\subsection{Author Names and Affiliations}
-\noindent The author section should be coded as follows:
-\begin{verbatim}
-\author{Masahito Hayashi 
-\IEEEmembership{Fellow, IEEE}, Masaki Owari
-\thanks{M. Hayashi is with Graduate School 
-of Mathematics, Nagoya University, Nagoya, 
-Japan}
-\thanks{M. Owari is with the Faculty of 
-Informatics, Shizuoka University, 
-Hamamatsu, Shizuoka, Japan.}
-}
-\end{verbatim}
-Be sure to use the $\backslash$IEEEmembership command to identify IEEE membership status.
-Please see the ``IEEEtran\_HOWTO.pdf'' for specific information on coding authors for Conferences and Computer Society publications. Note that the closing curly brace for the author group comes at the end of the thanks group. This will prevent you from creating a blank first page.
+\section{RELATED WORK}
+Point-to-Point Queries: Existing work has conducted extensive research on point-to-point queries. For instance, 𝐻𝑢𝑏2 [x] proposed a hub-centric specialized accelerator, which contends that vertices with a large number of connections, i.e., hubs, expand the search space, making shortest path calculations exceptionally challenging. It introduced the hub-Network concept to confine the search scope of hub nodes. The online pruning of hub search process was achieved using the hub2-Labeling method. However, due to 𝐻𝑢𝑏2's specialization in a dedicated accelerator, its applicability is limited. PnP observed the traversal process of point-to-point queries and introduced an upper-bound-based pruning strategy, reducing unnecessary vertex traversals and providing a fresh perspective for point-to-point query research. Tripoline derived an approximate "upper bound" between two points by maintaining some "permanent vertices" in daily operations, using them as intermediaries. This approach enabled "prior-knowledge-free" upper bound queries. SGraph further developed on the aforementioned methods, leveraging the triangle inequality principle on the graph to propose upper-bound and lower-bound pruning strategies, achieving sub-second point-to-point queries on the graph. However, these systems mainly focus on optimizing the speed of individual point-to-point queries, overlooking the severe load of large-scale concurrent queries.
 
-\subsection{Running Heads}
-\noindent The running heads are declared by using the $\backslash${\tt{markboth}} command. There are two arguments to this command: the first contains the journal name information and the second contains the author names and paper title.
-\begin{verbatim}
-\markboth{Journal of Quantum Electronics, 
-Vol. 1, No. 1, January 2021}
-{Author1, Author2, 
-\MakeLowercase{\textit{(et al.)}: 
-Paper Title}
-\end{verbatim}
+Concurrent Graph Computing: Numerous graph computing systems have explored concurrent computing. GraphM pointed out the "data access similarity" among concurrent graph computing tasks and proposed a data-centric scheduling strategy to facilitate data sharing between multiple tasks, thereby enhancing the throughput of concurrent graph computing. However, GraphM is a single-machine out-of-core graph computing system that adopts the BSP computing model and is only applicable to static graphs. Building upon this, CGraph[x] extended the application scenarios to distributed dynamic graph computing systems. It optimized the communication mechanism and load balancing strategy for distributed scenarios. However, like GraphM, it is still an out-of-core system and is not suitable for high-load scenarios of concurrent queries, even though it can distribute the disk access cost across different subgraphs through scheduling strategies. ForkGraph efficiently conducts concurrent graph processing in memory and employs a concession-based scheduling strategy, handling only a portion of the data in each iteration to accelerate overall execution speed. However, it is a single-machine in-memory system and has not been optimized for point-to-point queries, making it unsuitable for executing concurrent point-to-point query tasks on massive datasets.
 
-\subsection{Copyright Line}
-\noindent For Transactions and Journals papers, this is not necessary to use at the submission stage of your paper. The IEEE production process will add the appropriate copyright line. If you are writing a conference paper, please see the ``IEEEtran\_HOWTO.pdf'' for specific information on how to code "Publication ID Marks".
+\section{CONCLUSION}
+This paper introduces a concurrent point-to-point query system, GraphCPP, which leverages data similarity between concurrent queries to achieve data sharing among multiple tasks. Furthermore, it employs a lightweight core subgraph index to enhance computation sharing among multiple tasks. Experimental results demonstrate that GraphCPP outperforms the state-of-the-art graph query system, SGraph, by a factor of XXX.
 
-\subsection{Abstracts}
-\noindent The abstract is the first element of a paper after the $\backslash${\tt{maketitle}} macro is invoked.  The coding is simply:
-\begin{verbatim}
-\begin{abstract}
-Text of your abstract.
-\end{abstract}
-\end{verbatim}
-Please try to avoid mathematical and chemical formulas in the abstract.
+\section{ACKNOWLEDGMENTS}
 
-\subsection{Index Terms}
-\noindent The index terms are used to help other researchers discover your paper. Each society may have it's own keyword set. Contact the EIC of your intended publication for this list.
-\begin{verbatim}
-\begin{IEEEkeywords}
-Broad band networks, quality of service
-\end{IEEEkeywords}
-\end{verbatim}
-\section{How to Create Common Body Elements}
-\noindent The following sections describe common body text elements and how to code them.
-
-\subsection{Initial Drop Cap Letter}
-\noindent The first text paragraph uses a ``drop cap'' followed by the first word in ALL CAPS. This is accomplished by using the $\backslash${\tt{IEEEPARstart}} command as follows:
-\begin{verbatim}
-\IEEEPARstart{T}{his} is the first paragraph 
-of your paper. . .
-\end{verbatim}
-
-\subsection{Sections and Subsections}
-\noindent Section headings use standard \LaTeX\ commands: $\backslash${\tt{section}}, $\backslash${\tt{subsection}} and $\backslash${\tt{subsubsection}}. Numbering is handled automatically for you and varies according to type of publication. It is common to not indent the first paragraph following a section head by using $\backslash${\tt{noindent}} as follows:
-\begin{verbatim}
-\section{Section Head}
-\noindent The text of your paragraph . . .
-\end{verbatim}
-
-\subsection{Citations to the Bibliography}
-\noindent The coding for the citations are made with the \LaTeX\ $\backslash${\tt{cite}} command. This will produce individual bracketed reference numbers in the IEEE style. At the top of your \LaTeX\ file you should include:
-\begin{verbatim}
-\usepackage{cite}
-\end{verbatim}
-For a single citation code as follows:
-\begin{verbatim}
-see \cite{ams}
-\end{verbatim}
-This will display as: see \cite{ams}\\
-
-For multiple citations code as follows:
-\begin{verbatim}
-\cite{ams,oxford,lacomp}
-\end{verbatim}
-
-This will display as \cite{ams,oxford,lacomp}
-
-\subsection{Figures}
-\noindent Figures are coded with the standard \LaTeX\ commands as follows:
-\begin{verbatim}
-\begin{figure}[!t]
-\centering
-\includegraphics[width=2.5in]{fig1}
-\caption{This is the caption for one fig.}
-\label{fig1}
-\end{figure}
-\end{verbatim}
-The [!t] argument enables floats to the top of the page to follow IEEE style. Make sure you include:
-\begin{verbatim}
-\usepackage{graphicx}
-\end{verbatim}
- 
-\noindent at the top of your \LaTeX file with the other package declarations. 
-
-To cross-reference your figures in the text use the following code example:
-\begin{verbatim}
-See figure \ref{fig1} ...
-\end{verbatim}
-This will produce:\\
-See figure \ref{fig1} . . .
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=2.5in]{fig1}
-\caption{This is the caption for one fig.}
-\label{fig1}
-\end{figure}
-
-\subsection{Tables}
-\noindent Tables should be coded with the standard \LaTeX\ coding. The following example shows a simple table.
-
-
-\begin{verbatim}
-\begin{table}
-\begin{center}
-\caption{Filter design equations  ...}
-\label{tab1}
-\begin{tabular}{| c | c | c |}
-\hline
-Order & Arbitrary coefficients & 
-coefficients\\
-of filter & $e_m$ &   $b_{ij}$ \\
-\hline
-1& $b_{ij}=\hat{e}.\hat{\beta_{ij}}$, 
-& $b_{00}=0$\\
-\hline
-2&$\beta_{22}=(~1,-1,-1,~~1,~~1,~~1)$ &\\ 
-\hline
-3& $b_{ij}=\hat{e}.\hat{\beta_{ij}}$, 
-& $b_{00}=0$,\\
-\hline 
-\end{tabular}
-\end{center}
-\end{table}
-\end{verbatim}
-To reference the table in the text, code as follows:
-\begin{verbatim}Table~\ref{tab1} lists the closed-form...\end{verbatim}
-to produce:
-
-Table~\ref{tab1} lists the closed-form . . .
-
-
-%moved here for pagination purposes
-\begin{table}
-\begin{center}
-\caption{A Simple Table Example.}
-\label{tab1}
-\begin{tabular}{| c | c | c |}
-\hline
-Order & Arbitrary coefficients & coefficients\\
-of filter & $e_m$ &   $b_{ij}$ \\
-\hline
-1& $b_{ij}=\hat{e}.\hat{\beta_{ij}}$, & $b_{00}=0$\\
-\hline
-2&$\beta_{22}=(~1,-1,-1,~~1,~~1,~~1)$ &\\ 
-\hline
-3& $b_{ij}=\hat{e}.\hat{\beta_{ij}}$, & $b_{00}=0$,\\
-\hline 
-\end{tabular}
-\end{center}
-\end{table}
-
-
-\subsection{Lists}
-\noindent In this section, we will consider three types of lists: simple unnumbered, numbered and bulleted. There have been numerous options added to IEEEtran to enhance the creation of lists. If your lists are more complex than those shown below, please refer to the  ``IEEEtran\_HOWTO.pdf'' for additional options.\\
-
-\noindent{\bf A plain  unnumbered list}
-
-\begin{list}{}{}
-\item{bare\_jrnl.tex}
-\item{bare\_conf.tex}
-\item{bare\_jrnl\_compsoc.tex}
-\item{bare\_conf\_compsoc.tex}
-\item{bare\_jrnl\_comsoc.tex}
-\end{list}
-
-\noindent coded as:
-\begin{verbatim}
-\begin{list}{}{}
-\item{bare\_jrnl.tex}
-\item{bare\_conf.tex}
-\item{bare\_jrnl\_compsoc.tex}
-\item{bare\_conf\_compsoc.tex}
-\item{bare\_jrnl\_comsoc.tex}
-\end{list}
-\end{verbatim}
-\noindent{\bf A simple numbered list}
-
-\begin{enumerate}
-\item{bare\_jrnl.tex}
-\item{bare\_conf.tex}
-\item{bare\_jrnl\_compsoc.tex}
-\item{bare\_conf\_compsoc.tex}
-\item{bare\_jrnl\_comsoc.tex}
-\end{enumerate}
-\noindent coded as: 
-\begin{verbatim}
-\begin{enumerate}
-\item{bare\_jrnl.tex}
-\item{bare\_conf.tex}
-\item{bare\_jrnl\_compsoc.tex}
-\item{bare\_conf\_compsoc.tex}
-\item{bare\_jrnl\_comsoc.tex}
-\end{enumerate}
-\end{verbatim}
-
-\noindent{\bf A simple bulleted list}
-
-\begin{itemize}
-\item{bare\_jrnl.tex}
-\item{bare\_conf.tex}
-\item{bare\_jrnl\_compsoc.tex}
-\item{bare\_conf\_compsoc.tex}
-\item{bare\_jrnl\_comsoc.tex}
-\end{itemize}
-
-\noindent coded as:
-
-\begin{verbatim}
-\begin{itemize}
-\item{bare\_jrnl.tex}
-\item{bare\_conf.tex}
-\item{bare\_jrnl\_compsoc.tex}
-\item{bare\_conf\_compsoc.tex}
-\item{bare\_jrnl\_comsoc.tex}
-\end{itemize}
-\end{verbatim}
-
-
-\subsection{Other Elements}
-\noindent For other less common elements such as Algorithms, Theorems and Proofs, and Floating Structures such as page-wide tables, figures or equations, please refer to the ``IEEEtran\_HOWTO.pdf'' section on ``Double Column Floats.''
-
-
-\section{How to Create Common Back Matter Elements}
-\noindent The following sections demonstrate common back matter elements such as Acknowledgments, Bibliographies, Appendicies and Author Biographies.
-
-\subsection{Acknowledgments}
-\noindent This should be a simple paragraph before the bibliography to thank those individuals and institutions who have supported your work on this article.
-
-\begin{verbatim}
-\section{Acknowledgments}
-\noindent Text describing those who 
-supported your paper.
-\end{verbatim}
-
-\subsection{Bibliographies}
-\noindent {\bf{References Simplified:}} A simple way of composing references is to use the $\backslash${\tt{bibitem}} macro to define the beginning of a reference as in the following examples:\\
-
-
-\noindent [6] H. Sira-Ramirez. ``On the sliding mode control of nonlinear systems,'' \textit{Systems \& Control Letters}, vol. 19, pp. 303--312, 1992.
-
-\noindent coded as:
-\begin{verbatim}
-\bibitem{Sira3}
-H. Sira-Ramirez. ``On the sliding mode 
-control of nonlinear systems,'' 
-\textit{Systems \& Control Letters}, 
-vol. 19, pp. 303--312, 1992.
-\end{verbatim}
-
-\noindent [7] A. Levant.``Exact differentiation of signals with unbounded higher derivatives,''  in \textit{Proceedings of the 45th IEEE Conference on Decision and Control}, San Diego, California, USA, pp. 5585--5590, 2006.
-
-\noindent coded as:
-\begin{verbatim}\bibitem{Levant}
-A. Levant. ``Exact differentiation of 
-signals with unbounded higher 
-derivatives,''  in \textit{Proceedings 
-of the 45th IEEE Conference on 
-Decision and Control}, San Diego, 
-California, USA, pp. 5585--5590, 2006.
-\end{verbatim}
-
-
-\noindent [8] M. Fliess, C. Join, and H. Sira-Ramirez. ``Non-linear estimation is easy,'' \textit{International Journal of Modelling, Identification and Control}, vol. 4, no. 1, pp. 12--27, 2008.
-
-\noindent coded as:
-\begin{verbatim}
-\bibitem{Cedric}
-M. Fliess, C. Join, and H. Sira-Ramirez. 
-``Non-linear estimation is easy,'' 
-\textit{International Journal of Modelling, 
-Identification and Control}, vol. 4, 
-no. 1, pp. 12--27, 2008.
-\end{verbatim}
-
-\noindent [9] R. Ortega, A. Astolfi, G. Bastin, and H. Rodriguez. ``Stabilization of food-chain systems using a port-controlled Hamiltonian description,'' in \textit{Proceedings of the American Control Conference}, Chicago, Illinois, USA, pp. 2245--2249, 2000.
-
-\noindent coded as:
-\begin{verbatim}
-\bibitem{Ortega}
-R. Ortega, A. Astolfi, G. Bastin, and H. 
-Rodriguez. ``Stabilization of food-chain 
-systems using a port-controlled Hamiltonian 
-description,'' in \textit{Proceedings of the 
-American Control Conference}, Chicago, 
-Illinois, USA, pp. 2245--2249, 2000.
-\end{verbatim}
-
-\subsection{Accented Characters in References}
-\noindent When using accented characters in references, please use the standard LaTeX coding for accents. {\bf{Do not use math coding for character accents}}. For example:
-\begin{verbatim}
-\'e, \"o, \`a, \~e 
-\end{verbatim}
-will produce: \'e, \"o, \`a, \~e 
-
-
-\subsection{Use of BibTeX}
-\noindent If you wish to use BibTeX, please see the documentation that accompanies the IEEEtran Bibliography package.
-
-\subsection{Biographies and Author Photos}
-\noindent Authors may have options to include their photo or not. Photos should be a bit-map graphic (.tif or .jpg) and sized to fit in the space allowed. Please see the coding samples below:
-\begin{verbatim}
-\begin{IEEEbiographynophoto}{Jane Doe}
-Biography text here without a photo.
-\end{IEEEbiographynophoto}
-\end{verbatim}
-or a biography with a photo
-
-\begin{verbatim}
-\begin{IEEEbiography}[{\includegraphics
-[width=1in,height=1.25in,clip,
-keepaspectratio]{fig1.png}}]
-{IEEE Publications Technology Team} 
-In this paragraph you can place 
-your educational, professional background 
-and research and other interests.
-\end{IEEEbiography}
-\end{verbatim}
-
-Please see the end of this document to see the output of these coding examples.
-
-
-
-\section{Mathematical Typography \\ and Why It Matters}
-
-\noindent Typographical conventions for mathematical formulas have been developed to {\bf provide uniformity and clarity of presentation across mathematical texts}. This enables the readers of those texts to both understand the author's ideas and to grasp new concepts quickly. While software such as \LaTeX \ and MathType\textsuperscript{\textregistered} can produce aesthetically pleasing math when used properly, it is also very easy to misuse the software, potentially resulting in incorrect math display.
-
-IEEE aims to provide authors with the proper guidance on mathematical typesetting style and assist them in writing the best possible article.
-
-As such, IEEE has assembled a set of examples of good and bad mathematical typesetting. You will see how various issues are dealt with. The following publications have been referenced in preparing this material:
-
-\begin{list}{}{}
-\item{\emph{Mathematics into Type}, published by the American Mathematical Society}
-\item{\emph{The Printing of Mathematics}, published by Oxford University Press}
-\item{\emph{The \LaTeX Companion}, by F. Mittelbach and M. Goossens}
-\item{\emph{More Math into LaTeX}, by G. Gr\"atzer}
-\item{AMS-StyleGuide-online.pdf, published by the American Mathematical Society}
-\end{list}
-
-Further examples can be seen at \url{http://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE-Math-Typesetting-Guide.pdf}
-
-\subsection{Display Equations}
-\noindent A simple display equation example shown below uses the ``equation'' environment. To number the equations, use the $\backslash${\tt{label}} macro to create an identifier for the equation. LaTeX will automatically number the equation for you.
-\begin{equation}
-\label{deqn_ex1}
-x = \sum_{i=0}^{n} 2{i} Q.
-\end{equation}
-
-\noindent is coded as follows:
-\begin{verbatim}
-\begin{equation}
-\label{deqn_ex1}
-x = \sum_{i=0}^{n} 2{i} Q.
-\end{equation}
-\end{verbatim}
-
-To reference this equation in the text use the $\backslash${\tt{ref}} macro. 
-Please see (\ref{deqn_ex1})\\
-\noindent is coded as follows:
-\begin{verbatim}
-Please see (\ref{deqn_ex1})\end{verbatim}
-
-\subsection{Equation Numbering}
-\noindent {\bf{Consecutive Numbering:}} Equations within an article are numbered consecutively from the beginning of the
-article to the end, i.e., (1), (2), (3), (4), (5), etc. Do not use roman numerals or section numbers for equation numbering.\\
-
-\noindent {\bf{Appendix Equations:}} The continuation of consecutively numbered equations is best in the Appendix, but numbering
- as (A1), (A2), etc., is permissible.\\
-
-\noindent {\bf{Hyphens and Periods}}: Hyphens and periods should not be used in equation numbers, i.e., use (1a) rather than
-(1-a) and (2a) rather than (2.a) for sub-equations. This should be consistent throughout the article.
-
-\subsection{Multi-line equations and alignment}
-\noindent Here we show several examples of multi-line equations and proper alignments.
-
-\noindent {\bf{A single equation that must break over multiple lines due to length with no specific alignment.}}
-\begin{multline}
-\text{The first line of this example}\\
-\text{The second line of this example}\\
-\text{The third line of this example}
-\end{multline}
-
-\noindent is coded as:
-\begin{verbatim}
-\begin{multline}
-\text{The first line of this example}\\
-\text{The second line of this example}\\
-\text{The third line of this example}
-\end{multline}
-\end{verbatim}
-
-\noindent {\bf{A single equation with multiple lines aligned at the = signs}}
-\begin{align}
-a &= c+d \\
-b &= e+f
-\end{align}
-\noindent is coded as:
-\begin{verbatim}
-\begin{align}
-a &= c+d \\
-b &= e+f
-\end{align}
-\end{verbatim}
-
-The {\tt{align}} environment can align on multiple  points as shown in the following example:
-\begin{align}
-x &= y & X & =Y & a &=bc\\
-x' &= y' & X' &=Y' &a' &=bz
-\end{align}
-\noindent is coded as:
-\begin{verbatim}
-\begin{align}
-x &= y & X & =Y & a &=bc\\
-x' &= y' & X' &=Y' &a' &=bz
-\end{align}
-\end{verbatim}
-
-
-
-
-
-\subsection{Subnumbering}
-\noindent The amsmath package provides a {\tt{subequations}} environment to facilitate subnumbering. An example:
-
-\begin{subequations}\label{eq:2}
-\begin{align}
-f&=g \label{eq:2A}\\
-f' &=g' \label{eq:2B}\\
-\mathcal{L}f &= \mathcal{L}g \label{eq:2c}
-\end{align}
-\end{subequations}
-
-\noindent is coded as:
-\begin{verbatim}
-\begin{subequations}\label{eq:2}
-\begin{align}
-f&=g \label{eq:2A}\\
-f' &=g' \label{eq:2B}\\
-\mathcal{L}f &= \mathcal{L}g \label{eq:2c}
-\end{align}
-\end{subequations}
-
-\end{verbatim}
-
-\subsection{Matrices}
-\noindent There are several useful matrix environments that can save you some keystrokes. See the example coding below and the output.
-
-\noindent {\bf{A simple matrix:}}
-\begin{equation}
-\begin{matrix}  0 &  1 \\ 
-1 &  0 \end{matrix}
-\end{equation}
-is coded as:
-\begin{verbatim}
-\begin{equation}
-\begin{matrix}  0 &  1 \\ 
-1 &  0 \end{matrix}
-\end{equation}
-\end{verbatim}
-
-\noindent {\bf{A matrix with parenthesis}}
-\begin{equation}
-\begin{pmatrix} 0 & -i \\
- i &  0 \end{pmatrix}
-\end{equation}
-is coded as:
-\begin{verbatim}
-\begin{equation}
-\begin{pmatrix} 0 & -i \\
- i &  0 \end{pmatrix}
-\end{equation}
-\end{verbatim}
-
-\noindent {\bf{A matrix with square brackets}}
-\begin{equation}
-\begin{bmatrix} 0 & -1 \\ 
-1 &  0 \end{bmatrix}
-\end{equation}
-is coded as:
-\begin{verbatim}
-\begin{equation}
-\begin{bmatrix} 0 & -1 \\ 
-1 &  0 \end{bmatrix}
-\end{equation}
-\end{verbatim}
-
-\noindent {\bf{A matrix with curly braces}}
-\begin{equation}
-\begin{Bmatrix} 1 &  0 \\ 
-0 & -1 \end{Bmatrix}
-\end{equation}
-is coded as:
-\begin{verbatim}
-\begin{equation}
-\begin{Bmatrix} 1 &  0 \\ 
-0 & -1 \end{Bmatrix}
-\end{equation}\end{verbatim}
-
-\noindent {\bf{A matrix with single verticals}}
-\begin{equation}
-\begin{vmatrix} a &  b \\ 
-c &  d \end{vmatrix}
-\end{equation}
-is coded as:
-\begin{verbatim}
-\begin{equation}
-\begin{vmatrix} a &  b \\ 
-c &  d \end{vmatrix}
-\end{equation}\end{verbatim}
-
-\noindent {\bf{A matrix with double verticals}}
-\begin{equation}
-\begin{Vmatrix} i &  0 \\ 
-0 & -i \end{Vmatrix}
-\end{equation}
-is coded as:
-\begin{verbatim}
-\begin{equation}
-\begin{Vmatrix} i &  0 \\ 
-0 & -i \end{Vmatrix}
-\end{equation}\end{verbatim}
-
-\subsection{Arrays}
-\noindent The {\tt{array}} environment allows you some options for matrix-like equations. You will have to manually key the fences, but you'll have options for alignment of the columns and for setting horizontal and vertical rules. The argument to {\tt{array}} controls alignment and placement of vertical rules.
-
-A simple array
-\begin{equation}
-\left(
-\begin{array}{cccc}
-a+b+c & uv & x-y & 27\\
-a+b & u+v & z & 134
-\end{array}\right)
-\end{equation}
-is coded as:
-\begin{verbatim}
-\begin{equation}
-\left(
-\begin{array}{cccc}
-a+b+c & uv & x-y & 27\\
-a+b & u+v & z & 134
-\end{array} \right)
-\end{equation}
-\end{verbatim}
-
-A slight variation on this to better align the numbers in the last column
-\begin{equation}
-\left(
-\begin{array}{cccr}
-a+b+c & uv & x-y & 27\\
-a+b & u+v & z & 134
-\end{array}\right)
-\end{equation}
-is coded as:
-\begin{verbatim}
-\begin{equation}
-\left(
-\begin{array}{cccr}
-a+b+c & uv & x-y & 27\\
-a+b & u+v & z & 134
-\end{array} \right)
-\end{equation}
-\end{verbatim}
-
-An array with vertical and horizontal rules
-\begin{equation}
-\left( \begin{array}{c|c|c|r}
-a+b+c & uv & x-y & 27\\ \hline
-a+b & u+v & z & 134
-\end{array}\right)
-\end{equation}
-is coded as:
-\begin{verbatim}
-\begin{equation}
-\left(
-\begin{array}{c|c|c|r}
-a+b+c & uv & x-y & 27\\
-a+b & u+v & z & 134
-\end{array} \right)
-\end{equation}
-\end{verbatim}
-Note the argument now has the pipe "$\vert$" included to indicate the placement of the vertical rules.
-
-
-\subsection{Cases Structures}
-\noindent Many times we find cases coded using the wrong environment, i.e., {\tt{array}}. Using the {\tt{cases}} environment will save keystrokes (from not having to type the $\backslash${\tt{left}}$\backslash${\tt{lbrace}}) and automatically provide the correct column alignment.
-\begin{equation*}
-{z_m(t)} = \begin{cases}
-1,&{\text{if}}\ {\beta }_m(t) \\ 
-{0,}&{\text{otherwise.}} 
-\end{cases}
-\end{equation*}
-\noindent is coded as follows:
-\begin{verbatim}
-\begin{equation*}
-{z_m(t)} = 
-\begin{cases}
-1,&{\text{if}}\ {\beta }_m(t),\\ 
-{0,}&{\text{otherwise.}} 
-\end{cases}
-\end{equation*}
-\end{verbatim}
-\noindent Note that the ``\&'' is used to mark the tabular alignment. This is important to get  proper column alignment. Do not use $\backslash${\tt{quad}} or other fixed spaces to try and align the columns. Also, note the use of the $\backslash${\tt{text}} macro for text elements such as ``if'' and ``otherwise''.
-
-\subsection{Function Formatting in Equations}
-In many cases there is an easy way to properly format most common functions. Use of the $\backslash$ in front of the function name will in most cases, provide the correct formatting. When this does not work, the following example provides a solution using the $\backslash${\tt{text}} macro.
-
-\begin{equation*} 
-  d_{R}^{KM} = \underset {d_{l}^{KM}} {\text{arg min}} \{ d_{1}^{KM},\ldots,d_{6}^{KM}\}.
-\end{equation*}
-
-\noindent is coded as follows:
-\begin{verbatim}
-\begin{equation*} 
- d_{R}^{KM} = \underset {d_{l}^{KM}} 
- {\text{arg min}} \{ d_{1}^{KM},
- \ldots,d_{6}^{KM}\}.
-\end{equation*}
-\end{verbatim}
-
-\subsection{ Text Acronyms inside equations}
-\noindent This example shows where the acronym ``MSE" is coded using $\backslash${\tt{text\{\}}} to match how it appears in the text.
-
-\begin{equation*}
- \text{MSE} = \frac {1}{n}\sum _{i=1}^{n}(Y_{i} - \hat {Y_{i}})^{2}
-\end{equation*}
-
-\begin{verbatim}
-\begin{equation*}
- \text{MSE} = \frac {1}{n}\sum _{i=1}^{n}
-(Y_{i} - \hat {Y_{i}})^{2}
-\end{equation*}
-\end{verbatim}
-
-\subsection{Obsolete Coding}
-\noindent Avoid the use of outdated environments, such as {\tt{eqnarray}} and \$\$ math delimiters, for display equations. The \$\$ display math delimiters are left over from PlainTeX and should not be used in \LaTeX, ever. Poor vertical spacing will result.
-\subsection{Use Appropriate Delimiters for Display Equations}
-\noindent Some improper mathematical coding advice has been given in various YouTube\textsuperscript{TM} videos on how to write scholarly articles, so please follow these good examples:\\
-
-For {\bf{single-line unnumbered display equations}}, please use the following delimiters: 
-\begin{verbatim}\[ . . . \] or \end{verbatim} 
-\begin{verbatim}\begin{equation*} . . . \end{equation*}\end{verbatim}
-Note that the * in the environment name turns off equation numbering.\\
-
-For {\bf{multiline unnumbered display equations}} that have alignment requirements, please use the following delimiters: 
-\begin{verbatim}
-\begin{align*} . . . \end{align*}
-\end{verbatim}
-
-For {\bf{single-line numbered display equations}}, please use the following delimiters: 
-\begin{verbatim}
-\begin{equation} . . . \end{equation}
-\end{verbatim}
-
-For {\bf{multiline numbered display equations}}, please use the following delimiters: 
-\begin{verbatim}
-\begin{align} . . . \end{align}
-\end{verbatim}
-
-\section{LaTeX Package Suggestions}
-\noindent Immediately after your documenttype declaration at the top of your \LaTeX\ file is the place where you should declare any packages that are being used. The following packages were used in the production of this document.
-\begin{verbatim}
-\usepackage{amsmath,amsfonts}
-% \usepackage{algorithmic}
-\usepackage{array}
-\usepackage[caption=false,font=normalsize,
-   labelfont=sf,textfont=sf]{subfig}
-\u00sepackage{textcomp}
-\usepackage{stfloats}
-\usepackage{url}
-\usepackage{verbatim}
-\usepackage{graphicx}
-\usepackage{balance}
-\end{verbatim}
-
-\section{Additional Advice}
-
-Please use ``soft'' (e.g., \verb|\eqref{Eq}|) or \verb|(\ref{Eq})|
-cross references instead of ``hard'' references (e.g., \verb|(1)|).
-That will make it possible to combine sections, add equations, or
-change the order of figures or citations without having to go through
-the file line by line.
-
-Please note that the \verb|{subequations}| environment in {\LaTeX}
-will increment the main equation counter even when there are no
-equation numbers displayed. If you forget that, you might write an
-article in which the equation numbers skip from (17) to (20), causing
-the copy editors to wonder if you've discovered a new method of
-counting.
-
-{\BibTeX} does not work by magic. It doesn't get the bibliographic
-data from thin air but from .bib files. If you use {\BibTeX} to produce a
-bibliography you must send the .bib files. 
-
-{\LaTeX} can't read your mind. If you assign the same label to a
-subsubsection and a table, you might find that Table I has been cross
-referenced as Table IV-B3. 
-
-{\LaTeX} does not have precognitive abilities. If you put a
-\verb|\label| command before the command that updates the counter it's
-supposed to be using, the label will pick up the last counter to be
-cross referenced instead. In particular, a \verb|\label| command
-should not go before the caption of a figure or a table.
-
-Please do not use \verb|\nonumber| or \verb|\notag| inside the
-\verb|{array}| environment. It will not stop equation numbers inside
-\verb|{array}| (there won't be any anyway) and it might stop a wanted
-equation number in the surrounding equation.
-
-\balance
-
-\section{A Final Checklist}
-\begin{enumerate}{}{}  %
-\item{Make sure that your equations are numbered sequentially and there are no equation numbers missing or duplicated. Avoid hyphens and periods in your equation numbering. Stay with IEEE style, i.e., (1), (2), (3) or for sub-equations (1a), (1b). For equations in the appendix (A1), (A2), etc.}. 
-\item{Are your equations properly formatted? Text, functions, alignment points in cases and arrays, etc. }
-\item{Make sure all graphics are included.}
-\item{Make sure your references are included either in your main LaTeX file or a separate .bib file if calling the external file.}
-\end{enumerate}
 
 \begin{thebibliography}{1} %这里的1是指用最多的数字有几位，比如10就是指用最多的数字有两位
 
