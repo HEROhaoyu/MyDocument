@@ -1,6 +1,8 @@
 \documentclass[lettersize,journal]{IEEEtran} %这一行的作用是设置论文的格式，letterpaper表示纸张大小为美国信纸，journal表示论文类型为期刊论文,IEEEtran表示论文的格式为IEEEtran
 \usepackage{amsmath,amsfonts} %这两个包分别是数学公式和数学字体的宏包
-\usepackage{algorithmic} %这个包是算法的宏包
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+% \usepackage{algorithmic} %这个包是算法的宏包
 \usepackage{array} %这个包是表格和数组的宏包
 \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig} %这个包是子图的宏包,它可以让你在一个图形环境中放置多个图形，可以对子图进行编号，可以对子图进行交叉引用，可以对子图进行标题设置
 \usepackage{textcomp} %这个包是对文本模式下的符号进行扩展的宏包
@@ -71,10 +73,101 @@ Definition 5: Upper Bound and Lower Bound: In point-to-point queries, the upper 
 
 Definition 6: Core Subgraph. Similar to an index, a core subgraph also identifies highly connected vertices in a graph, but it employs a lower threshold for selection, which means that more vertices can be chosen. These highly connected vertices form the core subgraph, where the edge weights between two high-degree vertices represent the distance values between the two points. If two vertices are ultimately unreachable, the edge weight is set to a very large value. The key distinction between the core subgraph and a global index is that the core subgraph only maintains indices among high-degree vertices and does not store distance values for reaching non-high-degree vertices.
 
+\subsection{Redundant Computational Costs in Concurrent Tasks}
+Due to the characteristics of power-law distribution in graphs, a small number of high-degree vertices are connected to the majority of edges. Therefore, as illustrated in Figure 5, even though high-degree vertices represent only a fraction of the total vertices (XX\%), they appear in a significant proportion of paths (XX\%). Further analysis, as shown in Figure 6, reveals that a substantial portion of the overlapping path data accessed by different tasks consists of high-degree vertices. This implies that different query tasks repetitively traverse the shortest paths between high-degree vertices. Within a single graph snapshot period, the query paths between high-degree vertices remain constant, making the redundant computation for them unnecessary. Additionally, since high-degree vertices have numerous outgoing and incoming edges, computing the shortest paths between them results in substantial computational load. Some existing solutions attempt to establish a global index to reduce redundant computation for different tasks. However, as demonstrated in Figure 7, a global index faces a trade-off between the coverage of vertices in the graph and the inherent overhead of the index. Specifically, when the number of indices is low, the index covers fewer paths, failing to achieve a high level of sharing. When the number of indices increases, the associated computational, storage, and maintenance costs escalate proportionally, diminishing the benefits of the index. Given the variations in the properties of different graph datasets and the evolving scenarios of concurrent queries, determining an optimal number of indices becomes challenging. Consequently, a global index is unable to effectively resolve the issue of computational redundancy
 
-\section{\LaTeX \ Distributions: Where to Get Them}
-\noindent IEEE recommends using the distribution from the \TeX User Group at \url{http://www.tug.org}. You can join TUG and obtain a DVD distribution or download for free  from the links provided on their website: \url{http://www.tug.org/texlive/}. The DVD includes distributions for Windows, Mac OS X and Linux operating systems.
+\subsection{Our Motivation}
+Based on the above observations, we have gained the following insights:
+
+Observation 1: There is data access similarity among different tasks, and a significant portion of their traversal paths overlap. However, due to the varying times at which different tasks access overlapping data, and the fact that existing point-to-point query systems do not support data sharing among tasks, accessing overlapping data results in redundant overhead. This inspires us to develop an efficient fine-grained data sharing mechanism. By enabling different tasks to share access to the same data at different times, we aim to reduce data access overhead and improve the throughput of concurrent queries.
+
+Observation 2: Segments of paths composed of high-degree vertices are more likely to be repeatedly traversed by different tasks. Different query paths can be visualized as distinct lines, with high-degree vertices acting as intersections of these lines, frequently appearing in various tasks. Existing global indexing methods incur substantial costs and often impose restrictions on the number of indexed vertices, resulting in a low percentage of shareable paths. This insight motivates us to achieve better computational sharing through lightweight indexing.
+
+
+\section{GraphCPP Overview}
+To enhance the execution efficiency of concurrent point-to-point queries on dynamic graphs, following a detailed examination of the computational intricacies, we propose a data-driven efficient concurrent point-to-point query system, GraphCPP. It employs a cache-centric execution mechanism that is centered around data, enabling multiple tasks to share the results of a single data load by capitalizing on the data similarity between concurrent tasks. Additionally, it establishes a distance index between high-degree vertices through a core-subgraph-based query acceleration mechanism, facilitating shared computation of high-frequency overlapping paths among different tasks. Furthermore, it leverages path prediction to drive the batch execution of similar queries with overlapping paths, further exploiting data similarity.
+
+\subsection{System Architecture}
+The figure below illustrates the system architecture of GraphCPP. We chose Gemini as the benchmark due to its current status as a state-of-the-art distributed memory graph computing engine, known for its commendable performance and programmability.
+Building upon Gemini, we incorporated a fine-grained graph partition management module, an associated task triggering module, and a fine-grained data synchronization module. While reusing Gemini's graph partition storage mechanism, we introduced a fine-grained graph partition management module. This module logically subdivides the coarse-grained graph partitions into finer-grained units that can be accommodated by the Last Level Cache (LLC). It employs a priority calculation formula to determine the priority of the current partition based on the number of associated tasks (higher association count leads to higher priority). The partition management module schedules the partition with the highest priority to the cache, leveraging Gemini's access interface in the process. The associated task triggering module, relying on the task information provided by the partition management module, triggers the batch execution of associated tasks. Finally, considering that different tasks may access the same data block in different sequences, which could hinder data sharing, the data synchronization module employs a fine-grained synchronization approach to facilitate shared access to cached data.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{viso插图}
+\caption{System Architecture}  
+\label{viso插图}
+\end{figure}
  
+\subsection{Overall Execution Workflow}
+We will present the overall execution flow of GraphCPP in pseudo-code. This algorithm takes two input parameters: the set C, containing all graph blocks held by the current computing node, and the set Q, containing all query tasks present on the current computing node. Initially, we allocate a dynamically-sized continuous memory space to store all query tasks (Line 1). Then, we enter a looping process as long as there are unfinished query tasks (Line 2). In this process, GraphCPP calls ChoseNextSharingChunk to select the currently highest-priority graph block, ci. By calculating the associated blocks for each task (i.e., tasks with active vertices in the current block), we identify all query tasks related to the current graph block ci (Line 4). Next, we load ci into the cache and concurrently process all related query operations, qi (Line 5). We invoke GraphCPPCompute to perform the point-to-point query operation qi on the current block. If the query is not yet complete, we update the state of query qi and generate new query tasks (Line 6). If the newly generated query is associated with the current graph block ci, it is added to Qci, and we return to Line 5 to continue querying. Otherwise, the information for the newly generated query is stored in the query task collection, and the task is suspended.
+
+\begin{algorithm}
+  \caption{Concurrent Point-to-Point Queries on a Set of Graph Blocks Owned by a Graph Partition}
+  \label{algorithm:concurrent-queries}
+  \begin{algorithmic}[1]
+  \Procedure{MallocBuffers}{$B, Q$} \Comment{B is the set of graph blocks, and Q is the set of query tasks}
+      \While{\textsc{has\_active}($B$)}
+          \State $bi \gets \text{ChooseNextSharingBlock}()$
+          \State $Q_{bi} \gets \text{ChooseAssociatedQueries}(bi)$
+          \For{$q_i$ \textbf{in} $Q_{bi}$} \Comment{Execute queries in Q in parallel, which is associated with block $bi$}
+              \State $new\_query \gets \text{GraphCPPCompute}(q_i, bi)$ \Comment{The implementation function for point-to-point queries returns the active vertex set after one round of task iteration.}
+              \If{\textsc{has\_Associated}($(bi, new\_query)$)}
+                  \State $Q_{bi}.\text{Push}(new\_query)$
+              \Else
+                  \State $Q.\text{Push}(new\_query)$
+              \EndIf
+          \EndFor
+      \EndWhile
+  \EndProcedure
+  \end{algorithmic}
+  \end{algorithm}
+  
+The above algorithm demonstrates the data sharing mechanism in GraphCPP, with the GraphCPPCompute function utilizing the compute sharing mechanism. The following sections will provide a detailed explanation of these two optimization mechanisms.  
+
+\subsection{Data Access Sharing Mechanism}
+In Section 2.2, we observed a significant overlap in the graph structure data access among concurrent tasks. Under the existing processing mechanism, this overlapping data cannot be shared and utilized. However, for point-to-point query tasks on the graph, the order of data access does not affect the correctness of the results. Our data sharing mechanism essentially transforms the original "task → data" linear task scheduling order into a "data → task" fine-grained concurrent task scheduling order, thereby improving cache utilization efficiency and system throughput. To implement this execution model, we need to address two issues: 1) How to determine the shared data segments? 2) How to implement data sharing among multiple tasks? Below are our implementation details.
+
+A. How to Determine Shared Data Segments?
+
+1.Determine the granularity of shared graph data. Distributed memory systems use caching to improve data access efficiency. Ideally, the shared graph partition should be able to fit entirely into the Last Level Cache (LLC), thereby avoiding the frequent swapping in and out of block parts. However, the granularity of graph partition should not be too small, as it would increase the synchronization overhead of task processing. The following demonstrates how to determine an appropriate block size by considering both block-level graph structure data and task-specific data.
+
+We use CS to represent the size of the fine-grained data block to be determined for sharing, and GS to represent the size of the graph structure data on each graph partition. $a$ represents the proportion of the shared block part in the partition image. We use $|V|$ to represent the total number of vertices on the partition. $a*|V|$ represents an approximate value of the number of vertices owned by the shared block. We use VS to represent the average space required to store the status information of a vertex. $a*|V|*V_S$ represents the maximum space required for storing task-specific data on the shared block for query tasks. Considering that multiple cores in multi-core processors execute concurrently, task-specific information for multiple queries needs to be retained in the cache. We use N to represent the number of threads executing parallel computations, and $T_S$ represents the space required to store task-specific data of associated tasks for the current block in the cache. RS is the size of reserved redundant space. LLCS is the size of LLC cache space. Under the premise of satisfying the following inequalities, the maximum value of $C_S$ is the size of the graph block.
+
+2. Logical Partitioning. Distributed systems commonly employ partitioning techniques to divide a large-scale graph into graph partitions that can fit into the memory of a single machine. Building upon the memory-level graph partitioning, GraphCPP further divides the graph into fine-grained graph blocks. Unlike previous physical partitioning, the block partitioning here is based on logical divisions. Pseudocode for partitioning graph blocks in GraphCPP is presented in Listing X:
+
+\begin{algorithm}
+\caption{Logical Partition Algorithm}
+\begin{algorithmic}[1]
+\Function{Partition}{$P_i, B$} \Comment{B is the set of graph blocks owned by graph partition $P_i$.}
+    \State $block\_table \gets$ null
+    \For{each $e \in P_i$}  \Comment{$e$ is an edge in partition $P_i$}
+        \If{$e.src$ in $block\_table$}
+            \State $block\_table[e.src] \mathrel{+{+}}$
+        \Else
+            \State $block\_table[e.src] \gets 1$
+        \EndIf
+        \If{$\text{block\_table.size()} \geq SC$}
+            \State $B.\text{push}(block\_table)$
+            \State $block\_table.\text{clear()}$
+        \EndIf
+    \EndFor
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+Logical Partitioning Function takes two parameters: one is the graph partition structure data Pi recorded in edge table format, and the other is the set of logically divided blocks called $block_set$. Then, define the variable $block_edge_num$ to record the current partition's number of edges. Define the variable block, which is a dictionary with keys representing source vertex IDs, and values representing the number of outgoing edges for each vertex. Iterate through each edge in the partition. If the edge has already been loaded into the current partition, increment the corresponding count of outgoing edges for that partition. If the vertex is added to the block dictionary for the first time, set the count of outgoing edges for the partition to 1. After processing each edge, check if the current block is full. If so, add the current block to $block_set$. This way, after traversing all the data in the partition, every edge in the partition is assigned to a specific graph block, resulting in a set of logically partitioned graph blocks.
+
+3. Associate Query Tasks with Respective Blocks. In the previous step, we achieved fine-grained block partitioning using a logical approach. Since this partitioning is purely logical and the data remains contiguous on the physical storage medium, it becomes straightforward to determine the block a vertex belongs to based on its ID. Specifically, each query task maintains a record of the active vertex set during the traversal process. Initially, we infer the block in which a vertex resides by examining its ID. Subsequently, we employ a specially designed array to store the partitions traversed by each task. Due to the pruning-based traversal strategy employed in point-to-point queries, the number of active vertices in each round of execution is relatively low. This allows us to establish the association between query tasks and their respective blocks at a low cost.
+
+4. Determining Priority for Partition Scheduling. After establishing the association between query tasks and their corresponding blocks, we can tally the number of tasks associated with each block. A higher task count implies that more tasks share this block, indicating a greater benefit derived from scheduling this block. Consequently, such blocks are given priority during scheduling.
+
+Through the aforementioned steps, we generate partitions for task sharing. By employing an economical priority scheduling sequence, we load these graph partitions into the LLC cache. Subsequently, a fine-grained processing mechanism is required to effectively utilize this shared data.
+
+  
+
+
+  
+
 \section{Where to get the IEEEtran Templates}
 \noindent The {\bf{IEEE Template Selector}} will always have the most up-to-date versions of the \LaTeX\ and MSWord templates. Please see: \url{https://template-selector.ieee.org/} and follow the steps to find the correct template for your intended publication. Many publications use the IEEETran LaTeX templates, however, some publications have their own special templates. Many of these are  based on IEEEtran, but may have special instructions that vary slightly from those in this document.
 
@@ -791,7 +884,7 @@ For {\bf{multiline numbered display equations}}, please use the following delimi
 \noindent Immediately after your documenttype declaration at the top of your \LaTeX\ file is the place where you should declare any packages that are being used. The following packages were used in the production of this document.
 \begin{verbatim}
 \usepackage{amsmath,amsfonts}
-\usepackage{algorithmic}
+% \usepackage{algorithmic}
 \usepackage{array}
 \usepackage[caption=false,font=normalsize,
    labelfont=sf,textfont=sf]{subfig}
