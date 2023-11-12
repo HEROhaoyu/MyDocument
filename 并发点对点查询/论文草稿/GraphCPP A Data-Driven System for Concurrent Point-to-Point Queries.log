@@ -1,12 +1,12 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.11.3)  6 NOV 2023 09:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.11.3)  9 NOV 2023 11:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex"
-(e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex
+**"c:/Users/huao/Desktop/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex"
+(c:/Users/huao/Desktop/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex
 LaTeX2e <2021-11-15> patch level 1
-L3 programming layer <2022-02-24> (d:/latex/texlive/2021/texmf-dist/tex/latex/ieeetran/IEEEtran.cls
+L3 programming layer <2022-02-24> (d:/texlive/2022/texmf-dist/tex/latex/ieeetran/IEEEtran.cls
 Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
 -- See the "IEEEtran_HOWTO" manual for usage information.
 -- http://www.michaelshell.org/tex/ieeetran/
@@ -18,7 +18,7 @@ Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
 \@IEEEtrantmpcountC=\count187
 \@IEEEtrantmptoksA=\toks16
 LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 503.
-(d:/latex/texlive/2021/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+(d:/texlive/2022/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 -- Using 8.5in x 11in (letter) paper.
@@ -102,21 +102,21 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
 \IEEEPARstartletwidth=\dimen161
 \c@IEEEbiography=\count199
 \@IEEEtranrubishbin=\box51
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2021/10/15 v2.17l AMS math features
 \@mathmargin=\skip50
 
 For additional information on amsmath, use the `?' option.
-(d:/latex/texlive/2021/texmf-dist/tex/latex/amsmath/amstext.sty
+(d:/texlive/2022/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
- (d:/latex/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+ (d:/texlive/2022/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks17
 \ex@=\dimen162
-)) (d:/latex/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
+)) (d:/texlive/2022/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen163
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2021/08/26 v2.02 operator names
 )
 \inf@bad=\count266
@@ -156,30 +156,30 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
 \mathdisplay@stack=\toks21
 LaTeX Info: Redefining \[ on input line 2938.
 LaTeX Info: Redefining \] on input line 2939.
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/algorithms/algorithm.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/algorithms/algorithm.sty
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
- (d:/latex/texlive/2021/texmf-dist/tex/latex/float/float.sty
+ (d:/texlive/2022/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count278
 \float@exts=\toks22
 \float@box=\box54
 \@float@everytoks=\toks23
 \@floatcapt=\box55
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/base/ifthen.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \@float@every@algorithm=\toks24
 \c@algorithm=\count279
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
 Package: algpseudocode 
- (d:/latex/texlive/2021/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+ (d:/texlive/2022/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
@@ -195,7 +195,7 @@ Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
 \ALG@tmplength=\skip55
 )
 Document Style - pseudocode environments for use with the `algorithmicx' style
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/tools/array.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/tools/array.sty
 Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
 \col@sep=\dimen171
 \ar@mcellbox=\box56
@@ -204,12 +204,12 @@ Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
 \extratabsurround=\skip56
 \backup@length=\skip57
 \ar@cellbox=\box57
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/subfig/subfig.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/subfig/subfig.sty
 Package: subfig 2005/06/28 ver: 1.3 subfig package
- (d:/latex/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
+ (d:/texlive/2022/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks26
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/caption/caption3.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2022/03/17 v2.3b caption3 kernel (AR)
 \caption@tempdima=\dimen173
 \captionmargin=\dimen174
@@ -236,39 +236,39 @@ Package caption Info: \@makecaption = \long macro:#1#2->\ifx \@captype \@IEEEtab
 \c@lotdepth=\count293
 \sf@top=\skip61
 \sf@bottom=\skip62
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/base/textcomp.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/sttools/stfloats.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/sttools/stfloats.sty
 Package: stfloats 2017/03/27 v3.3 Improve float mechanism and baselineskip settings
 \@dblbotnum=\count294
 \c@dblbotnumber=\count295
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/url/url.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/tools/verbatim.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/tools/verbatim.sty
 Package: verbatim 2020-07-07 v1.5u LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks27
 \verbatim@line=\toks28
 \verbatim@in@stream=\read2
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
- (d:/latex/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+ (d:/texlive/2022/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
- (d:/latex/texlive/2021/texmf-dist/tex/latex/graphics/trig.sty
+ (d:/texlive/2022/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+) (d:/texlive/2022/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 107.
- (d:/latex/texlive/2021/texmf-dist/tex/latex/graphics-def/pdftex.def
+ (d:/texlive/2022/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen182
 \Gin@req@width=\dimen183
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/preprint/balance.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/preprint/balance.sty
 Package: balance 1999/02/23 4.3 (PWD)
 \oldvsize=\dimen184
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+) (d:/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-02-07 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count296
 \l__pdf_internal_box=\box58
@@ -299,7 +299,7 @@ LaTeX Font Info:    ... okay on input line 20.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
-(d:/latex/texlive/2021/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+(d:/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count297
 \scratchdimen=\dimen185
@@ -312,18 +312,18 @@ Package caption Info: End \AtBeginDocument code.
 \MPnumerator=\count301
 \makeMPintoPDFobject=\count302
 \everyMPtoPDFconversion=\toks30
-) (d:/latex/texlive/2021/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+) (d:/texlive/2022/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
- (d:/latex/texlive/2021/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+ (d:/texlive/2022/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 LaTeX Font Info:    Trying to load font information for U+msa on input line 28.
- (d:/latex/texlive/2021/texmf-dist/tex/latex/amsfonts/umsa.fd
+ (d:/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Trying to load font information for U+msb on input line 28.
- (d:/latex/texlive/2021/texmf-dist/tex/latex/amsfonts/umsb.fd
+ (d:/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 Package textcomp Info: Symbol \textrightarrow not provided by
@@ -335,197 +335,70 @@ Package textcomp Info: Symbol \textrightarrow not provided by
 Package textcomp Info: Symbol \textrightarrow not provided by
 (textcomp)             font family ptm in TS1 encoding.
 (textcomp)             Default family used instead on input line 50.
- [1{d:/latex/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+ [1{d:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ] [2] [3]
-<viso插图.png, id=24, 216.81pt x 225.09094pt>
-File: viso插图.png Graphic file (type png)
-<use viso插图.png>
-Package pdftex.def Info: viso插图.png  used on input line 96.
-(pdftex.def)             Requested size: 180.67499pt x 187.58447pt.
+<系统架构.png, id=24, 993.7125pt x 680.5425pt>
+File: 系统架构.png Graphic file (type png)
+<use 系统架构.png>
+Package pdftex.def Info: 系统架构.png  used on input line 99.
+(pdftex.def)             Requested size: 252.94499pt x 173.2297pt.
+
+Overfull \hbox (0.94499pt too wide) in paragraph at lines 99--100
+ [][] 
+ []
+
 Package textcomp Info: Symbol \textrightarrow not provided by
 (textcomp)             font family ptm in TS1 encoding.
-(textcomp)             Default family used instead on input line 128.
+(textcomp)             Default family used instead on input line 131.
 Package textcomp Info: Symbol \textrightarrow not provided by
 (textcomp)             font family ptm in TS1 encoding.
-(textcomp)             Default family used instead on input line 128.
- [4 <./viso插图.png>] [5]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 186.
- (d:/latex/texlive/2021/texmf-dist/tex/latex/psnfss/ot1pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-Underfull \hbox (badness 10000) in paragraph at lines 186--187
-
+(textcomp)             Default family used instead on input line 131.
+[4 <./系统架构.png>] [5]
+Underfull \hbox (badness 10000) in paragraph at lines 193--194
+[]$\OML/cmm/m/it/10 core[]subgraph[]index \OMS/cmsy/m/n/10  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 188--189
-
+Underfull \hbox (badness 10000) in paragraph at lines 196--197
+[] \OT1/ptm/m/sc/10 Ini-tial-ize-Bounds-From-Glob-alIn-
  []
 
 
-Overfull \hbox (31.00002pt too wide) in paragraph at lines 190--191
-[]$\OMS/cmsy/m/n/10 n$\OT1/pcr/m/n/10 documentclass[10pt,journal,compsoc]IEEEtran 
+Underfull \hbox (badness 10000) in paragraph at lines 200--201
+[] \OT1/ptm/m/sc/10 Up-date-Bounds-By-Core-Ver-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 190--191
-
+Underfull \hbox (badness 10000) in paragraph at lines 202--203
+[] \OT1/ptm/b/n/10 for $\OML/cmm/m/it/10 nbr$ \OT1/ptm/m/n/10 in \OT1/ptm/m/sc/10 GetOut-go-ingNeigh-
  []
 
-
-Overfull \hbox (19.00002pt too wide) in paragraph at lines 192--193
-[]$\OMS/cmsy/m/n/10 n$\OT1/pcr/m/n/10 documentclass[conference,compsoc]IEEEtran 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 192--193
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 194--195
-
- []
-
-
-Overfull \hbox (6.0pt too wide) in paragraph at lines 216--216
-[]\OT1/pcr/m/n/10 \IEEEmembership{Fellow, IEEE}, Masaki Owari[] 
- []
-
-
-Underfull \hbox (badness 4467) in paragraph at lines 225--227
-\OT1/ptm/m/n/10 tify IEEE mem-ber-ship sta-tus. Please see the ``IEEE-
- []
-
-
-Underfull \hbox (badness 1715) in paragraph at lines 242--243
-\OT1/ptm/m/n/10 The ab-stract is the first el-e-ment of a pa-per af-ter the
- []
-
-
-Overfull \hbox (12.0pt too wide) in paragraph at lines 263--263
-[]\OT1/pcr/m/n/10 \IEEEPARstart{T}{his} is the first paragraph[] 
- []
-
-[6]
-Underfull \hbox (badness 10000) in paragraph at lines 283--284
-
- []
-
-<fig1.png, id=35, 188.20313pt x 173.89969pt>
+[6] [7]
+<fig1.png, id=38, 188.20313pt x 173.89969pt>
 File: fig1.png Graphic file (type png)
 <use fig1.png>
-Package pdftex.def Info: fig1.png  used on input line 318.
-(pdftex.def)             Requested size: 180.67499pt x 166.95505pt.
-
-Underfull \hbox (badness 3281) in paragraph at lines 379--380
-\OT1/ptm/m/n/10 un-num-bered, num-bered and bul-leted. There have been
- []
-
-
-Underfull \hbox (badness 2213) in paragraph at lines 379--380
-\OT1/ptm/m/n/10 be-low, please re-fer to the ``IEEE-tran[]HOWTO.pdf'' for
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 379--380
-
- []
-
-[7 <./fig1.png>]
-Underfull \hbox (badness 5388) in paragraph at lines 461--462
-\OT1/ptm/b/n/10 References Sim-pli-fied: \OT1/ptm/m/n/10 A sim-ple way of com-pos-ing
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 461--462
-
- []
-
-
-Overfull \hbox (6.0pt too wide) in paragraph at lines 495--495
-[]\OT1/pcr/m/n/10 \textit{International Journal of Modelling,[] 
- []
-
-
-Overfull \hbox (6.0pt too wide) in paragraph at lines 507--507
-[]\OT1/pcr/m/n/10 systems using a port-controlled Hamiltonian[] 
- []
-
-
-Overfull \hbox (12.0pt too wide) in paragraph at lines 508--508
-[]\OT1/pcr/m/n/10 description,'' in \textit{Proceedings of the[] 
- []
-
-[8]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 550.
- (d:/latex/texlive/2021/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)
-Underfull \hbox (badness 10000) in paragraph at lines 564--565
-[]\OT1/ptm/m/n/10 Further ex-am-ples can be seen at $http : / / journals .
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 564--565
-\OT1/ptm/m/n/10 ieeeauthorcenter . ieee . org / wp-[]content / uploads / sites / 7 /
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 588--590
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 591--593
-
- []
-
-[9] [10]
-LaTeX Font Info:    Trying to load font information for OMS+pcr on input line 845.
- (d:/latex/texlive/2021/texmf-dist/tex/latex/psnfss/omspcr.fd
-File: omspcr.fd 
-)
-LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 845.
-
-Underfull \hbox (badness 10000) in paragraph at lines 861--862
-
- []
-
-[11]
-Underfull \hbox (badness 10000) in paragraph at lines 866--867
-
- []
-
-File: fig1.png Graphic file (type png)
-<use fig1.png>
-Package pdftex.def Info: fig1.png  used on input line 975.
+Package pdftex.def Info: fig1.png  used on input line 274.
 (pdftex.def)             Requested size: 72.27031pt x 66.77777pt.
 File: fig1.png Graphic file (type png)
 <use fig1.png>
-Package pdftex.def Info: fig1.png  used on input line 975.
+Package pdftex.def Info: fig1.png  used on input line 274.
 (pdftex.def)             Requested size: 72.27031pt x 66.77777pt.
-
-Package balance Warning: You have called \balance in second column
-(balance)                Columns might not be balanced.
-
-[12] (./GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.aux) ) 
+ [8 <./fig1.png>] (./GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.aux) ) 
 Here is how much of TeX's memory you used:
- 5083 strings out of 478268
- 89354 string characters out of 5847351
- 393812 words of memory out of 5000000
- 23206 multiletter control sequences out of 15000+600000
- 523578 words of font info for 126 fonts, out of 8000000 for 9000
+ 4978 strings out of 478268
+ 87433 string characters out of 5850345
+ 395747 words of memory out of 5000000
+ 23120 multiletter control sequences out of 15000+600000
+ 514680 words of font info for 109 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
- 55i,12n,63p,2635b,362s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{d:/latex/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc}{d:/latex/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<d:/latex/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><d:/latex/texlive/2021/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.pdf" (12 pages, 309824 bytes).
+ 55i,10n,63p,3334b,332s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{d:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}{d:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on "GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.pdf" (8 pages, 1293116 bytes).
 PDF statistics:
- 145 PDF objects out of 1000 (max. 8388607)
- 88 compressed objects within 1 object stream
+ 98 PDF objects out of 1000 (max. 8388607)
+ 59 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  23 words of extra memory for PDF output out of 10000 (max. 10000000)
 
