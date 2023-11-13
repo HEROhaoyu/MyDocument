@@ -2,22 +2,31 @@
 \@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {II}BACKGROUND AND MOTIVATION}{2}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Preliminaries}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Redundant Computational Costs in Concurrent Tasks}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Performance Bottlenecks in Concurrent Point-to-Point Query Tasks}{3}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Our Motivation}{3}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {III}GraphCPP Overview}{3}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}System Architecture}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}GraphCPP Overview}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}System Architecture}{4}{}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces System Architecture}}{4}{}\protected@file@percent }
 \newlabel{系统架构}{{1}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Overall Execution Workflow}{4}{}\protected@file@percent }
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Concurrent Point-to-Point Queries on a Set of Graph Blocks Owned by a Graph Partition}}{4}{}\protected@file@percent }
-\newlabel{algorithm:concurrent-queries}{{1}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Data Access Sharing Mechanism}{4}{}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Concurrent Point-to-Point Queries}}{5}{}\protected@file@percent }
+\newlabel{alg:concurrent_queries}{{1}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Data Access Sharing Mechanism}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-C}1}Determine Shared Data Segments}{5}{}\protected@file@percent }
 \@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Logical Partition Algorithm}}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-C}2}Share Similar Data Among Multiple Tasks}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-C}3}Batch Execute Similar Tasks}{6}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Computation Sharing Mechanism}{6}{}\protected@file@percent }
-\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Core Subgraph Query Algorithm}}{6}{}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Core Subgraph Query Algorithm}}{7}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}Update Mechanism}{7}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {IV}EXPERIMENTAL EVALUATION}{7}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {V}RELATED WORK}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}EXPERIMENTAL EVALUATION}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Experimental Setup}{8}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Dataset Information}}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Preprocessing Cost}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Overall Performance Comparison}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Efficiency of Core Subgraph}{9}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Scalability of GraphCPP}{9}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}RELATED WORK}{9}{}\protected@file@percent }
 \bibcite{ams}{1}
 \bibcite{oxford}{2}
 \bibcite{lacomp}{3}
@@ -27,10 +36,10 @@
 \bibcite{Levant}{7}
 \bibcite{Cedric}{8}
 \bibcite{Ortega}{9}
-\@writefile{toc}{\contentsline {section}{\numberline {VI}CONCLUSION}{8}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {VII}ACKNOWLEDGMENTS}{8}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{References}{8}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Biographies}{8}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Jane Doe}{8}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{IEEE Publications Technology Team}{8}{}\protected@file@percent }
-\gdef \@abspage@last{8}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}CONCLUSION}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VII}ACKNOWLEDGMENTS}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Biographies}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Jane Doe}{10}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{IEEE Publications Technology Team}{10}{}\protected@file@percent }
+\gdef \@abspage@last{10}
