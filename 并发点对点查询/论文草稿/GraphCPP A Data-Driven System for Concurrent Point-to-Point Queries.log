@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.11.3)  13 NOV 2023 23:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.11.3)  16 NOV 2023 09:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -265,12 +265,48 @@ File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen182
 \Gin@req@width=\dimen183
+) (d:/texlive/2022/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
+\multirow@colwidth=\skip63
+\multirow@cntb=\count296
+\multirow@dima=\skip64
+\bigstrutjot=\dimen184
+) (d:/texlive/2022/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2022/01/07 v1.5 Sub-captions (AR)
+ (d:/texlive/2022/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2022/03/01 v3.6b Customizing captions (AR)
+
+
+Package caption Warning: Unknown document class (or package),
+(caption)                standard defaults will be used.
+See the caption package documentation for explanation.
+
+\c@caption@flags=\count297
+\c@continuedfloat=\count298
+Package caption Info: float package is loaded.
+)
+
+d:/texlive/2022/texmf-dist/tex/latex/caption/subcaption.sty:66: Package subcaption Error: This package can't be used in cooperation
+(subcaption)                with the subfig package.
+
+See the subcaption package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.66 \subcaption@CheckCompatibility
+                                   
+If you do not understand this error, please take a closer look
+at the documentation of the `subcaption' package, especially the
+section about errors.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 ) (d:/texlive/2022/texmf-dist/tex/latex/preprint/balance.sty
 Package: balance 1999/02/23 4.3 (PWD)
-\oldvsize=\dimen184
+\oldvsize=\dimen185
 ) (d:/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-02-07 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count296
+\l__color_backend_stack_int=\count299
 \l__pdf_internal_box=\box58
 )
 
@@ -280,20 +316,20 @@ LaTeX Warning: Unused global option(s):
 (./GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.aux)
 \openout1 = `"GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.aux"'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
 
 -- Lines per column: 58 (exact).
 Package caption Info: Begin \AtBeginDocument code.
@@ -301,16 +337,16 @@ Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
 (d:/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count297
-\scratchdimen=\dimen185
+\scratchcounter=\count300
+\scratchdimen=\dimen186
 \scratchbox=\box59
-\nofMPsegments=\count298
-\nofMParguments=\count299
+\nofMPsegments=\count301
+\nofMParguments=\count302
 \everyMPshowfont=\toks29
-\MPscratchCnt=\count300
-\MPscratchDim=\dimen186
-\MPnumerator=\count301
-\makeMPintoPDFobject=\count302
+\MPscratchCnt=\count303
+\MPscratchDim=\dimen187
+\MPnumerator=\count304
+\makeMPintoPDFobject=\count305
 \everyMPtoPDFconversion=\toks30
 ) (d:/texlive/2022/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -318,111 +354,789 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (d:/texlive/2022/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-LaTeX Font Info:    Trying to load font information for U+msa on input line 28.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 30.
  (d:/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 28.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 30.
  (d:/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:42: LaTeX Error: Environment subfigure undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.42     \begin{subfigure}
+                          {.3\textwidth}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:42: Missing number, treated as zero.
+<to be read again> 
+                   }
+l.42     \begin{subfigure}{.3\textwidth}
+                                        
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:42: Illegal unit of measure (pt inserted).
+<to be read again> 
+                   }
+l.42     \begin{subfigure}{.3\textwidth}
+                                        
+Dimensions can be in units of em, ex, in, pt, pc,
+cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
+I'll assume that you meant to say pt, for printer's points.
+To recover gracefully from this error, it's best to
+delete the erroneous units; e.g., type `2' to delete
+two letters. (See Chapter 27 of The TeXbook.)
+
+
+LaTeX Warning: File `image1.png' not found on input line 43.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:43: Package pdftex.def Error: File `image1.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.43 ...ludegraphics[width=\linewidth]{image1.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 43.
+(d:/texlive/2022/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:46: LaTeX Error: \begin{figure*} on input line 40 ended by \end{subfigure}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.46     \end{subfigure}
+                        %
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:47: LaTeX Error: Environment subfigure undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.47     \begin{subfigure}
+                          {.3\textwidth}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:47: Missing number, treated as zero.
+<to be read again> 
+                   }
+l.47     \begin{subfigure}{.3\textwidth}
+                                        
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:47: Illegal unit of measure (pt inserted).
+<to be read again> 
+                   }
+l.47     \begin{subfigure}{.3\textwidth}
+                                        
+Dimensions can be in units of em, ex, in, pt, pc,
+cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
+I'll assume that you meant to say pt, for printer's points.
+To recover gracefully from this error, it's best to
+delete the erroneous units; e.g., type `2' to delete
+two letters. (See Chapter 27 of The TeXbook.)
+
+
+LaTeX Warning: File `image2.png' not found on input line 48.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:48: Package pdftex.def Error: File `image2.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.48 ...ludegraphics[width=\linewidth]{image2.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:51: LaTeX Error: \begin{figure*} on input line 40 ended by \end{subfigure}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.51     \end{subfigure}
+                        %
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:52: LaTeX Error: Environment subfigure undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.52     \begin{subfigure}
+                          {.3\textwidth}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:52: Missing number, treated as zero.
+<to be read again> 
+                   }
+l.52     \begin{subfigure}{.3\textwidth}
+                                        
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:52: Illegal unit of measure (pt inserted).
+<to be read again> 
+                   }
+l.52     \begin{subfigure}{.3\textwidth}
+                                        
+Dimensions can be in units of em, ex, in, pt, pc,
+cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
+I'll assume that you meant to say pt, for printer's points.
+To recover gracefully from this error, it's best to
+delete the erroneous units; e.g., type `2' to delete
+two letters. (See Chapter 27 of The TeXbook.)
+
+
+LaTeX Warning: File `image3.png' not found on input line 53.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:53: Package pdftex.def Error: File `image3.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.53 ...ludegraphics[width=\linewidth]{image3.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:56: LaTeX Error: \begin{figure*} on input line 40 ended by \end{subfigure}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.56     \end{subfigure}
+                        \\
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:56: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.56     \end{subfigure}\\
+                          
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:57: LaTeX Error: Environment subfigure undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.57     \begin{subfigure}
+                          {.3\textwidth}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:57: Missing number, treated as zero.
+<to be read again> 
+                   }
+l.57     \begin{subfigure}{.3\textwidth}
+                                        
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:57: Illegal unit of measure (pt inserted).
+<to be read again> 
+                   }
+l.57     \begin{subfigure}{.3\textwidth}
+                                        
+Dimensions can be in units of em, ex, in, pt, pc,
+cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
+I'll assume that you meant to say pt, for printer's points.
+To recover gracefully from this error, it's best to
+delete the erroneous units; e.g., type `2' to delete
+two letters. (See Chapter 27 of The TeXbook.)
+
+
+LaTeX Warning: File `image4.png' not found on input line 58.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:58: Package pdftex.def Error: File `image4.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.58 ...ludegraphics[width=\linewidth]{image4.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:61: LaTeX Error: \begin{figure*} on input line 40 ended by \end{subfigure}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.61     \end{subfigure}
+                        %
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:62: LaTeX Error: Environment subfigure undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.62     \begin{subfigure}
+                          {.3\textwidth}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:62: Missing number, treated as zero.
+<to be read again> 
+                   }
+l.62     \begin{subfigure}{.3\textwidth}
+                                        
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:62: Illegal unit of measure (pt inserted).
+<to be read again> 
+                   }
+l.62     \begin{subfigure}{.3\textwidth}
+                                        
+Dimensions can be in units of em, ex, in, pt, pc,
+cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
+I'll assume that you meant to say pt, for printer's points.
+To recover gracefully from this error, it's best to
+delete the erroneous units; e.g., type `2' to delete
+two letters. (See Chapter 27 of The TeXbook.)
+
+
+LaTeX Warning: File `image5.png' not found on input line 63.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:63: Package pdftex.def Error: File `image5.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.63 ...ludegraphics[width=\linewidth]{image5.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:66: LaTeX Error: \begin{figure*} on input line 40 ended by \end{subfigure}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.66     \end{subfigure}
+                        %
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:67: LaTeX Error: Environment subfigure undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67     \begin{subfigure}
+                          {.3\textwidth}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:67: Missing number, treated as zero.
+<to be read again> 
+                   }
+l.67     \begin{subfigure}{.3\textwidth}
+                                        
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:67: Illegal unit of measure (pt inserted).
+<to be read again> 
+                   }
+l.67     \begin{subfigure}{.3\textwidth}
+                                        
+Dimensions can be in units of em, ex, in, pt, pc,
+cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
+I'll assume that you meant to say pt, for printer's points.
+To recover gracefully from this error, it's best to
+delete the erroneous units; e.g., type `2' to delete
+two letters. (See Chapter 27 of The TeXbook.)
+
+
+LaTeX Warning: File `image6.png' not found on input line 68.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:68: Package pdftex.def Error: File `image6.png' not found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.68 ...ludegraphics[width=\linewidth]{image6.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:71: LaTeX Error: \begin{figure*} on input line 40 ended by \end{subfigure}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.71     \end{subfigure}
+                        %
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Float too large for page by 2580.11237pt on input line 74.
+
+
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 92.
+
 Package textcomp Info: Symbol \textrightarrow not provided by
 (textcomp)             font family ptm in TS1 encoding.
-(textcomp)             Default family used instead on input line 52.
+(textcomp)             Default family used instead on input line 92.
+
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 92.
+
+
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 92.
+
+
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 92.
+
 Package textcomp Info: Symbol \textrightarrow not provided by
 (textcomp)             font family ptm in TS1 encoding.
-(textcomp)             Default family used instead on input line 52.
+(textcomp)             Default family used instead on input line 92.
+
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 92.
+
+
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 92.
+
+
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 92.
+
 Package textcomp Info: Symbol \textrightarrow not provided by
 (textcomp)             font family ptm in TS1 encoding.
-(textcomp)             Default family used instead on input line 52.
- [1{d:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+(textcomp)             Default family used instead on input line 92.
+
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 92.
+
+
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 92.
+
+[1{d:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-Underfull \hbox (badness 4072) in paragraph at lines 77--78
+<E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//system_compare.png, id=11, 426.84468pt x 161.85469pt>
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//system_compare.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//system_compare.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//system_compare.png  used on input line 111.
+(pdftex.def)             Requested size: 516.0pt x 195.67435pt.
+
+Underfull \hbox (badness 4072) in paragraph at lines 125--126
 []\OT1/ptm/m/n/10 Definition 5: ($\OML/cmm/m/it/10 Core []Subgraph$\OT1/ptm/m/n/10 ) We use $\OML/cmm/m/it/10 G[] \OT1/cmr/m/n/10 =
  []
 
 [2]
-Underfull \hbox (badness 2426) in paragraph at lines 81--81
+Underfull \hbox (badness 2426) in paragraph at lines 129--129
  \OT1/ptm/m/it/10 B. Per-for-mance Bot-tle-necks in Con-cur-rent Point-to-Point
  []
 
 [3]
-<系统架构.png, id=24, 993.7125pt x 680.5425pt>
-File: 系统架构.png Graphic file (type png)
-<use 系统架构.png>
-Package pdftex.def Info: 系统架构.png  used on input line 109.
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 华 (U+534E)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 科 (U+79D1)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 实 (U+5B9E)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 验 (U+9A8C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 室 (U+5BA4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 论 (U+8BBA)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 文 (U+6587)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 并 (U+5E76)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 发 (U+53D1)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 点 (U+70B9)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 对 (U+5BF9)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 点 (U+70B9)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 查 (U+67E5)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 询 (U+8BE2)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 论 (U+8BBA)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 文 (U+6587)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 草 (U+8349)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.tex:158: LaTeX Error: Unicode character 稿 (U+7A3F)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 \includegraphics[width=3.5in]{系统架构}
+                                                 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+Missing character: There is no � in font ptmr7t!
+Missing character: There is no � in font ptmr7t!
+Missing character: There is no � in font ptmr7t!
+Missing character: There is no � in font ptmr7t!
+Missing character: There is no � in font ptmr7t!
+Missing character: There is no � in font ptmr7t!
+Missing character: There is no � in font ptmr7t!
+Missing character: There is no � in font ptmr7t!
+Missing character: There is no � in font ptmr7t!
+Missing character: There is no � in font ptmr7t!
+Missing character: There is no � in font ptmr7t!
+Missing character: There is no � in font ptmr7t!
+<E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png, id=24, 993.7125pt x 680.5425pt>
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png  used on input line 158.
 (pdftex.def)             Requested size: 252.94499pt x 173.2297pt.
 
-Overfull \hbox (0.94499pt too wide) in paragraph at lines 109--110
- [][] 
+Overfull \hbox (0.94499pt too wide) in paragraph at lines 158--159
+ [] 
  []
 
-[4 <./系统架构.png>]
+[4]
 
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 144.
-
-Package textcomp Info: Symbol \textrightarrow not provided by
-(textcomp)             font family ptm in TS1 encoding.
-(textcomp)             Default family used instead on input line 144.
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 144.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 144.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 144.
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 193.
 
 Package textcomp Info: Symbol \textrightarrow not provided by
 (textcomp)             font family ptm in TS1 encoding.
-(textcomp)             Default family used instead on input line 144.
+(textcomp)             Default family used instead on input line 193.
 
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 144.
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 193.
 
 
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 144.
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 193.
+
+
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 193.
+
+Package textcomp Info: Symbol \textrightarrow not provided by
+(textcomp)             font family ptm in TS1 encoding.
+(textcomp)             Default family used instead on input line 193.
+
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 193.
+
+
+LaTeX Warning: Command \textrightarrow invalid in math mode on input line 193.
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 200--201
+Underfull \hbox (badness 10000) in paragraph at lines 249--250
 []$\OML/cmm/m/it/10 core[]subgraph[]index \OMS/cmsy/m/n/10  
  []
 
 
-Overfull \hbox (82.9598pt too wide) in paragraph at lines 208--209
+Overfull \hbox (82.9598pt too wide) in paragraph at lines 257--258
 [] $[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 vertex; core[]subgraph[]index\OT1/cmr/m/n/10 )$ 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 210--211
+Underfull \hbox (badness 10000) in paragraph at lines 259--260
 [] \OT1/ptm/b/n/10 for \OT1/ptm/m/n/10 each $\OML/cmm/m/it/10 nbr$ \OT1/ptm/m/n/10 in
  []
 
 [6] [7] [8] [9]
-<fig1.png, id=44, 188.20313pt x 173.89969pt>
-File: fig1.png Graphic file (type png)
-<use fig1.png>
-Package pdftex.def Info: fig1.png  used on input line 325.
+<E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png, id=44, 188.20313pt x 173.89969pt>
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 374.
 (pdftex.def)             Requested size: 72.27031pt x 66.77777pt.
-File: fig1.png Graphic file (type png)
-<use fig1.png>
-Package pdftex.def Info: fig1.png  used on input line 325.
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 374.
 (pdftex.def)             Requested size: 72.27031pt x 66.77777pt.
- [10 <./fig1.png>] (./GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.aux) ) 
+ [10 <e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>] [11] [12 <e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//system_compare.png>] [13
+
+
+ <e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png>] (./GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 4982 strings out of 478268
- 87486 string characters out of 5850345
- 395749 words of memory out of 5000000
- 23123 multiletter control sequences out of 15000+600000
- 516404 words of font info for 111 fonts, out of 8000000 for 9000
+ 5817 strings out of 478268
+ 104191 string characters out of 5850345
+ 413125 words of memory out of 5000000
+ 23924 multiletter control sequences out of 15000+600000
+ 515195 words of font info for 111 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
- 55i,10n,63p,2553b,332s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{d:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}{d:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.pdf" (10 pages, 4356234 bytes).
+ 55i,10n,63p,2553b,386s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{d:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on "GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.pdf" (13 pages, 4370375 bytes).
 PDF statistics:
- 104 PDF objects out of 1000 (max. 8388607)
- 63 compressed objects within 1 object stream
+ 114 PDF objects out of 1000 (max. 8388607)
+ 69 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 23 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 28 words of extra memory for PDF output out of 10000 (max. 10000000)
 
