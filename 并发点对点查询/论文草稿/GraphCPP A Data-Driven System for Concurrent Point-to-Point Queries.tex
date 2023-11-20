@@ -4,12 +4,14 @@
 \usepackage{algpseudocode}
 % \usepackage{algorithmic} %这个包是算法的宏包
 \usepackage{array} %这个包是表格和数组的宏包
-\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig} %这个包是子图的宏包,它可以让你在一个图形环境中放置多个图形，可以对子图进行编号，可以对子图进行交叉引用，可以对子图进行标题设置
+% \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig} %这个包是子图的宏包,它可以让你在一个图形环境中放置多个图形，可以对子图进行编号，可以对子图进行交叉引用，可以对子图进行标题设置
 \usepackage{textcomp} %这个包是对文本模式下的符号进行扩展的宏包
 \usepackage{stfloats} %这个包是控制双栏浮动图形和表格的宏包
 \usepackage{url} %这个包是对网址进行扩展的宏包
 \usepackage{verbatim} %这个包是对抄录环境进行扩展的宏包
 \usepackage{graphicx} %这个包是对图形进行扩展的宏包
+\usepackage{subcaption}
+\usepackage{multirow}
 \hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore} %这一行的作用是设置英文连字符，可以防止英文单词在换行时过长
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}} %这一行的作用是定义BibTeX的标志,这个标志在参考文献中会用到
@@ -70,14 +72,13 @@ This paper makes the following contributions:
 \section{BACKGROUND AND MOTIVATION}
 Most existing solutions [xxx] are primarily focused on accelerating the speed of individual queries. However, in practical scenarios, there is a significant number of graph query tasks concurrently running on the same underlying graph. For instance, statistics from CAGIS[xx] indicate that location service open platforms constructed by companies such as Baidu Maps[xx], Gaode Maps[xx], Tencent Maps[xx], and Huawei Maps[xx] receive a daily average of up to 160 billion location service requests. The substantial demand for concurrent point-to-point queries poses a high requirement for the throughput of graph traversal systems. Yet, as illustrated in table 1 (showing the parallel query execution time for different systems, highlighting poor parallel execution efficiency), we demonstrate that existing systems exhibit low throughput when handling large-scale concurrent queries. The root cause of this undesirable outcome is the significant redundancy in data access and computation among concurrent tasks. To qualitatively analyze the aforementioned issues, we conducted performance evaluations on parallel point-to-point queries using XXXXX (machine configuration), selecting XXXXX (the current best solution) on XXXXX (graph dataset).
 
-
-
-\begin{figure*}[t]
+\begin{figure}[!t]
     \centering
-    \includegraphics[width=\textwidth]{system_compare.png}
-    \caption{Your Figure Caption}
-    \label{fig:your_label}
-  \end{figure*}
+    \includegraphics[width=\columnwidth]{system_compare.png}
+    \caption{Your caption here}
+    \label{fig:system_compare}
+  \end{figure}
+
 
 \subsection{Preliminaries}
 Definition 1: ($Graph$) We use $G=(V,E)$ to denote a directed graph, where $V$ is the set of vertices, and $E$ is the set of directed edges formed by vertices in $V$ (for undirected graphs, edges can be split into two directed edges with different directions). We use $|V|$ and $|E|$ to represent the number of vertices and edges, respectively.
@@ -91,6 +92,53 @@ Definition 4: ($Bounds$) In mainstream point-to-point query systems, a pruning-b
 Definition 5: ($Core~Subgraph$) We use $G_{core}=(V_{hot},E_{hot},Index_{hot})$ to represent the $core~subgraph$, where $V_{hot}$ is the set of $hot~vertices$ , $E_{hot}$ abstracts the $hot~paths$ between vertices in $V_{hot}$ as edges, and $Index_{hot}$ represents the path values corresponding to $E_{hot}$. A $hot vertex$ refers to a vertex in a graph with a significant number of edges. A $hot~path$ is defined as the optimal path between two $hot~vertices$. A $hot~index$ denotes the path value of a $hot~path$.
 
 Definition 6: ($Index$) The $index$ records the optimal query path values between vertex pairs. GraphCPP sorts vertices by degree, selecting $k+m$ vertices with the highest degrees (values for $k$ and $m$ are generally user-determined, with $k$ usually set to 16, and $m$ typically one order of magnitude larger than $k$). The first $k$ vertices serve as $global~index$ vertices, while the remaining vertices function as $core~subgraph~ndex$ vertices. The $global~index$ records optimal query path values to all vertices in the graph. The $core~subgraph$ index only records query path values between hot vertices in the subgraph.
+
+\begin{figure}[!t]
+    \centering
+  
+    \begin{subfigure}{0.3\columnwidth}
+      \includegraphics[width=\linewidth]{fig1.png}
+      \caption{Caption for Subfigure 1}
+      \label{fig:subfig1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.3\columnwidth}
+      \includegraphics[width=\linewidth]{fig1.png}
+      \caption{Caption for Subfigure 2}
+      \label{fig:subfig2}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.3\columnwidth}
+      \includegraphics[width=\linewidth]{fig1.png}
+      \caption{Caption for Subfigure 3}
+      \label{fig:subfig3}
+    \end{subfigure}
+  
+    \medskip
+  
+    \begin{subfigure}{0.3\columnwidth}
+      \includegraphics[width=\linewidth]{fig1.png}
+      \caption{Caption for Subfigure 4}
+      \label{fig:subfig4}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.3\columnwidth}
+      \includegraphics[width=\linewidth]{fig1.png}
+      \caption{Caption for Subfigure 5}
+      \label{fig:subfig5}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.3\columnwidth}
+      \includegraphics[width=\linewidth]{fig1.png}
+      \caption{Caption for Subfigure 6}
+      \label{fig:subfig6}
+    \end{subfigure}
+  
+    \caption{Overall caption for the figure}
+    \label{fig:overall}
+  \end{figure}
+  
+  
 
 \subsection{Performance Bottlenecks in Concurrent Point-to-Point Query Tasks}
 In this section, we have developed the concurrent version SGraph-C based on the Gemini system, which is currently at the forefront of pairwise query systems. We evaluated the performance of SGraph-C in executing concurrent pairwise queries through Twitter, aiming to quantitatively illustrate the performance bottlenecks of existing concurrent pairwise query solutions.
@@ -115,6 +163,14 @@ Inspired by the observations mentioned above, we derive the following insights:
 
 \subsection{System Architecture}
 In order to enhance the execution efficiency of concurrent point-to-point queries, we propose a data-driven and efficient concurrent point-to-point query system, GraphCPP, after a meticulous examination of the computational intricacies of concurrent point-to-point queries. The fundamental concept of our system is to achieve data and computation sharing among concurrent point-to-point query tasks. As depicted in the figure below, GraphCPP incorporates an efficient data-driven caching execution mechanism. It exploits data similarity among concurrent tasks to facilitate shared access to overlapping data. Additionally, it introduces a dual-level computation sharing mechanism based on the core subgraph, enabling the sharing of computations for the same hot paths across different query tasks. Moreover, it employs path prediction for different queries, driving the bulk execution of similar queries with overlapping paths and further leveraging data similarity.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{系统架构.png}
+    \caption{Your caption here}
+    \label{fig:系统架构}
+  \end{figure}
+  
 
 {\bf{Data Access Sharing Mechanism}}.Responsible for fine-grained sharing of graph structure data utilizing the data access similarity among concurrent tasks. Initially, it partitions the original graph data into coarse-grained graph partitions, distributed for parallel processing across different machines, similar to other distributed graph computing systems [xx]. Subsequently, a fine-grained chunk manager is employed to further divide coarse-grained graph partitions into fine-grained graph chunks. The association mechanism between graph chunks and tasks is then executed: if a query task qi has active vertices in a graph chunk bi, a relationship between qi and bi is established. The chunk priority scheduling mechanism prioritizes graph chunks with more associated tasks to be loaded into the Last Level Cache (LLC). The associated task trigger, based on active graph chunk information in LLC and chunk-task association information, selects all tasks with an association to execute in batch on shared graph chunks.
 
