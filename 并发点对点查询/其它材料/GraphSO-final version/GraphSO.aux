@@ -1,0 +1,262 @@
+\relax 
+\citation{Giraph}
+\citation{Pregel}
+\citation{GraphJet}
+\citation{Knightking,Gemini}
+\citation{facebook}
+\citation{Google}
+\citation{twitter_web}
+\citation{tencent}
+\citation{PageRank}
+\citation{SCC}
+\citation{k-means}
+\citation{X-stream}
+\citation{GridGraph}
+\citation{Vora}
+\citation{seraph,CGraph,GraphM,seraph1,CGraph2019}
+\citation{seraph,seraph1,CGraph,CGraph2019,GraphM}
+\citation{PowerGraph}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}\protected@file@percent }
+\newlabel{sec:introduction}{{1}{1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Number of jobs traced on a social network}}{1}\protected@file@percent }
+\newlabel{number_jobs}{{1}{1}}
+\citation{GridGraph}
+\citation{GraphChi}
+\citation{X-stream}
+\citation{Vora}
+\citation{LUMOS}
+\citation{Graphene}
+\citation{Wonderland}
+\citation{CGraph,GraphM}
+\citation{SSSP}
+\citation{PageRank}
+\citation{GridGraph}
+\citation{GraphM}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Example to divide a graph into four static partitions ($P^0$, $P^1$, $P^2$, and $P^3$) that reside on disk}}{2}\protected@file@percent }
+\newlabel{graph}{{2}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Background and Motivation}{2}\protected@file@percent }
+\newlabel{sec:2}{{2}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Out-of-Core Concurrent Graph Processing}{2}\protected@file@percent }
+\citation{PowerGraph}
+\citation{GridGraph}
+\citation{GraphChi}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The execution statistics of concurrent jobs: (a) Breakdown the total execution time into graph accessing and graph processing times, (b) Percentage of inactive edges to total loaded edges during the execution.}}{3}\protected@file@percent }
+\newlabel{IO_inefficient}{{3}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces (a) average proportion of the number of active vertices to that of vertices in each active static partition for jobs over CW dataset, (b) distribution of the number of vertex state updates for jobs in CW dataset, where the vertices are sorted by the number of their updates.}}{3}\protected@file@percent }
+\newlabel{active_ratio_times}{{4}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Inefficiency of I/O Performance}{3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Design of GraphSO}{3}\protected@file@percent }
+\newlabel{sec:3}{{3}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Overview of GraphSO}{3}\protected@file@percent }
+\citation{PowerGraph}
+\citation{Vora,ReGraph}
+\citation{Vora,ReGraph}
+\citation{Vora,ReGraph}
+\citation{GraphM}
+\citation{GraphChi,GridGraph,Graphene}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces The architecture of GraphSO}}{4}\protected@file@percent }
+\newlabel{Architectural}{{5}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Repartition-centric Execution of Concurrent Jobs}{4}\protected@file@percent }
+\newlabel{section:Repartitioning}{{3.2}{4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Fine-grained Graph Representation}{4}\protected@file@percent }
+\newlabel{section:3.2}{{3.2.1}{4}}
+\citation{GraphM}
+\citation{G-store}
+\citation{GridGraph,GraphChi,X-stream,LUMOS}
+\citation{X-stream}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Pseudo Code of Fine-grained Dividing}}{5}\protected@file@percent }
+\newlabel{Initial}{{2}{5}}
+\newlabel{collect1}{{5}{5}}
+\newlabel{ADD_N}{{6}{5}}
+\newlabel{Inert}{{8}{5}}
+\newlabel{collect2}{{9}{5}}
+\newlabel{a1_11}{{11}{5}}
+\newlabel{location1}{{12}{5}}
+\newlabel{location2}{{16}{5}}
+\newlabel{Nextchunk}{{17}{5}}
+\newlabel{code1}{{1}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Illustration of the fine-grained graph dividing, where the example graph partitions are divided into eight chunks and the suitable size of each chunk is assumed to be the total size of two edges}}{5}\protected@file@percent }
+\newlabel{divide}{{6}{5}}
+\newlabel{eq:chunksize}{{1}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Adaptive Graph Repartitioning for Concurrent Jobs}{5}\protected@file@percent }
+\citation{Maiter,HotGraph,Wonderland}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Pseudo Code of Repartition-centric Execution}}{6}\protected@file@percent }
+\newlabel{getpartition}{{2}{6}}
+\newlabel{getjobs}{{3}{6}}
+\newlabel{resume}{{4}{6}}
+\newlabel{suspend1}{{5}{6}}
+\newlabel{suspend2}{{7}{6}}
+\newlabel{Remove}{{8}{6}}
+\newlabel{return}{{9}{6}}
+\newlabel{SortAID}{{12}{6}}
+\newlabel{SortID}{{13}{6}}
+\newlabel{not}{{14}{6}}
+\newlabel{create}{{15}{6}}
+\newlabel{load1}{{16}{6}}
+\newlabel{load2}{{18}{6}}
+\newlabel{attach}{{20}{6}}
+\newlabel{returnLP}{{22}{6}}
+\newlabel{code3}{{2}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Illustration of adaptive graph repartitioning, where \textit  {chunk 0} and \textit  {chunk 1} of $P^0$, \textit  {chunk 3} of $P^1$, and \textit  {chunk 5} of $P^2$ are active for concurrent jobs and the remaining chunks are inactive}}{6}\protected@file@percent }
+\newlabel{repartition}{{7}{6}}
+\newlabel{eq:priority}{{2}{6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Efficient Processing of Logical Partitions}{6}\protected@file@percent }
+\newlabel{section:Scheduling}{{3.2.3}{6}}
+\citation{G-store,FlashGraph,TurboGraph,Wonderland}
+\citation{G-store,FlashGraph,TurboGraph,Wonderland}
+\citation{G-store,FlashGraph,TurboGraph,Wonderland}
+\citation{LAW}
+\citation{SNAP}
+\citation{LAW}
+\citation{LAW}
+\citation{LAW}
+\citation{PageRank}
+\citation{BFS}
+\citation{SSSP}
+\citation{SCC}
+\citation{GridGraph}
+\citation{GraphChi}
+\citation{X-stream}
+\citation{Vora}
+\citation{LUMOS}
+\citation{Graphene}
+\citation{Wonderland}
+\citation{LUMOS,Wonderland}
+\citation{GraphM}
+\citation{CGraph}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Proprieties of Graph Datasets}}{7}\protected@file@percent }
+\newlabel{T2}{{1}{7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Structure-aware Buffering for Concurrent Jobs}{7}\protected@file@percent }
+\newlabel{section:Caching}{{3.3}{7}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Evaluation}{7}\protected@file@percent }
+\newlabel{section:Evaluation}{{4}{7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Experiment Setup}{7}\protected@file@percent }
+\newlabel{section:4.1}{{4.1}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Execution time for the four jobs without/with our structure-aware buffering strategy}}{8}\protected@file@percent }
+\newlabel{schedule}{{8}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Comparison of execution time for running the four jobs on various schemes}}{8}\protected@file@percent }
+\newlabel{exe_time}{{9}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Execution time breakdown of the four jobs on various schemes}}{8}\protected@file@percent }
+\newlabel{breakdown}{{10}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Preprocessing Cost}{8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Performance of Structure-aware Buffering Strategy}{8}\protected@file@percent }
+\newlabel{section:4.3}{{4.3}{8}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Preprocessing time (in seconds)}}{8}\protected@file@percent }
+\newlabel{Preprocessing-table}{{2}{8}}
+\newlabel{T3}{{2}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Overall Performance}{8}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Normalized I/O traffic for the four jobs on various schemes}}{9}\protected@file@percent }
+\newlabel{IO}{{11}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Proportion of the number of active edges to that of the total loaded edges}}{9}\protected@file@percent }
+\newlabel{ratio_active}{{12}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Volume of the graph data steamed into the LLC for the four jobs with various schemes}}{9}\protected@file@percent }
+\newlabel{cache_swap}{{13}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Deconstruction of the execution time of the jobs}}{9}\protected@file@percent }
+\newlabel{deconstruction}{{14}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Total execution time for different number of CPU cores}}{9}\protected@file@percent }
+\newlabel{Scal_workers}{{15}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Execution time for adopting different size of physical memory}}{9}\protected@file@percent }
+\newlabel{Scal_mem}{{16}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Total execution time when submitting the jobs with different $\lambda $}}{9}\protected@file@percent }
+\newlabel{Scal_lambda}{{17}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Total execution time of GridGraph-O with different fine-grained partitioning sizes}}{9}\protected@file@percent }
+\newlabel{Partitioning-size}{{18}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Performance of GraphSO against GraphM when processing different workloads}}{9}\protected@file@percent }
+\newlabel{Diff-workloads}{{19}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Execution time of using various ratios of the main memory to buffer the graph data}}{9}\protected@file@percent }
+\newlabel{memory_size}{{20}{9}}
+\citation{X-stream}
+\citation{GraphChi}
+\citation{Vora}
+\citation{LUMOS}
+\citation{Graphene}
+\citation{Wonderland}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Workloads of Concurrent Graph Processing Jobs}}{10}\protected@file@percent }
+\newlabel{Workloads}{{3}{10}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Scalability of GraphSO}{10}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Execution time (in seconds) of GraphSO integrating with the other systems (i.e., X-Stream\nobreakspace  {}\cite  {X-stream}, GraphChi\nobreakspace  {}\cite  {GraphChi}, DynamicShards\nobreakspace  {}\cite  {Vora}, LUMOS\nobreakspace  {}\cite  {LUMOS}, Graphene\nobreakspace  {}\cite  {Graphene}, and Wonderland\nobreakspace  {}\cite  {Wonderland})}}{10}\protected@file@percent }
+\newlabel{T4}{{4}{10}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Impact of Ratio of Memory Used to Buffer Graph}{10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Integrated with other Systems}{10}\protected@file@percent }
+\newlabel{section:Others}{{4.7}{10}}
+\citation{GraphChi}
+\citation{X-stream}
+\citation{GridGraph}
+\citation{NXgraph}
+\citation{HUS-Graph}
+\citation{CLIP}
+\citation{Wonderland}
+\citation{LUMOS}
+\citation{seraph,seraph1}
+\citation{CGraph,CGraph2019}
+\citation{GraphM}
+\citation{Wukong}
+\citation{Congra,CongraPlus}
+\citation{GraphOne}
+\citation{TurboGraph}
+\citation{Alexander}
+\citation{FlashGraph}
+\citation{Graphene}
+\citation{G-store}
+\citation{GraphChi}
+\citation{VENUS}
+\citation{X-stream}
+\citation{NXgraph}
+\citation{dynamic-graph}
+\citation{Vora}
+\bibstyle{IEEEtran}
+\bibdata{GraphSO}
+\bibcite{Giraph}{1}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Related Work}{11}\protected@file@percent }
+\newlabel{sec:5}{{5}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Disk-Based Graph Processing Systems}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Concurrent Graph processing Systems}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Graph Storage Schemes}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Graph Partitioning Strategies}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{11}\protected@file@percent }
+\newlabel{sec:6}{{6}{11}}
+\bibcite{Pregel}{2}
+\bibcite{GraphJet}{3}
+\bibcite{Knightking}{4}
+\bibcite{Gemini}{5}
+\bibcite{facebook}{6}
+\bibcite{Google}{7}
+\bibcite{twitter_web}{8}
+\bibcite{tencent}{9}
+\bibcite{PageRank}{10}
+\bibcite{SCC}{11}
+\bibcite{k-means}{12}
+\bibcite{X-stream}{13}
+\bibcite{GraphChi}{14}
+\bibcite{GridGraph}{15}
+\bibcite{Vora}{16}
+\bibcite{LUMOS}{17}
+\bibcite{seraph}{18}
+\bibcite{CGraph}{19}
+\bibcite{GraphM}{20}
+\bibcite{seraph1}{21}
+\bibcite{CGraph2019}{22}
+\bibcite{PowerGraph}{23}
+\bibcite{Graphene}{24}
+\bibcite{Wonderland}{25}
+\bibcite{SSSP}{26}
+\bibcite{ReGraph}{27}
+\bibcite{G-store}{28}
+\bibcite{Maiter}{29}
+\bibcite{HotGraph}{30}
+\bibcite{FlashGraph}{31}
+\bibcite{TurboGraph}{32}
+\bibcite{LAW}{33}
+\bibcite{SNAP}{34}
+\bibcite{BFS}{35}
+\bibcite{NXgraph}{36}
+\bibcite{HUS-Graph}{37}
+\bibcite{CLIP}{38}
+\bibcite{Wukong}{39}
+\bibcite{Congra}{40}
+\bibcite{CongraPlus}{41}
+\bibcite{GraphOne}{42}
+\bibcite{Alexander}{43}
+\bibcite{VENUS}{44}
+\bibcite{dynamic-graph}{45}
+\@writefile{toc}{\contentsline {section}{References}{12}\protected@file@percent }

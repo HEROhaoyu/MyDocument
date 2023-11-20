@@ -1,0 +1,56 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/W32TeX)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: GraphSO.aux
+The style file: IEEEtran.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: GraphSO.bib
+-- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+
+Done.
+You've used 45 entries,
+            4087 wiz_defined-function locations,
+            1085 strings with 16766 characters,
+and the built_in function-call counts, 38795 in all, are:
+= -- 2947
+> -- 1039
+< -- 350
++ -- 573
+- -- 175
+* -- 1808
+:= -- 5281
+add.period$ -- 90
+call.type$ -- 45
+change.case$ -- 45
+chr.to.int$ -- 888
+cite$ -- 45
+duplicate$ -- 2683
+empty$ -- 3284
+format.name$ -- 212
+if$ -- 9239
+int.to.chr$ -- 0
+int.to.str$ -- 45
+missing$ -- 485
+newline$ -- 158
+num.names$ -- 39
+pop$ -- 1243
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 2
+skip$ -- 3022
+stack$ -- 0
+substring$ -- 2116
+swap$ -- 2211
+text.length$ -- 54
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 45
+warning$ -- 0
+while$ -- 187
+width$ -- 47
+write$ -- 431
