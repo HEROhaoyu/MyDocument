@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.11.3)  21 NOV 2023 01:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.11.3)  21 NOV 2023 18:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -283,7 +283,47 @@ File: l3backend-pdftex.def 2022-02-07 L3 backend support: PDF output (pdfTeX)
 LaTeX Warning: Unused global option(s):
     [lettersize].
 
-(./GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.aux)
+(./GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.aux
+
+LaTeX Warning: Label `fig:subfig1' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:subfig1' multiply defined.
+
+
+LaTeX Warning: Label `fig:subfig2' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:subfig2' multiply defined.
+
+
+LaTeX Warning: Label `fig:subfig3' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:subfig3' multiply defined.
+
+
+LaTeX Warning: Label `fig:subfig4' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:subfig4' multiply defined.
+
+
+LaTeX Warning: Label `fig:subfig5' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:subfig5' multiply defined.
+
+
+LaTeX Warning: Label `fig:subfig6' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:subfig6' multiply defined.
+
+
+LaTeX Warning: Label `fig:overall' multiply defined.
+
+)
 \openout1 = `"GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.aux"'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
@@ -330,44 +370,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 LaTeX Font Info:    Trying to load font information for U+msb on input line 30.
  (d:/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 59.
-
-Package textcomp Info: Symbol \textrightarrow not provided by
-(textcomp)             font family ptm in TS1 encoding.
-(textcomp)             Default family used instead on input line 59.
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 59.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 59.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 59.
-
-Package textcomp Info: Symbol \textrightarrow not provided by
-(textcomp)             font family ptm in TS1 encoding.
-(textcomp)             Default family used instead on input line 59.
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 59.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 59.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 59.
-
-Package textcomp Info: Symbol \textrightarrow not provided by
-(textcomp)             font family ptm in TS1 encoding.
-(textcomp)             Default family used instead on input line 59.
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 59.
-
-
-LaTeX Warning: Command \textrightarrow invalid in math mode on input line 59.
-
-[1{d:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+) [1{d:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
@@ -412,7 +415,7 @@ Underfull \hbox (badness 2426) in paragraph at lines 143--143
  []
 
 [3 <e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>]
-<E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png, id=27, 993.7125pt x 680.5425pt>
+<E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png, id=25, 993.7125pt x 680.5425pt>
 File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png Graphic file (type png)
 <use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png>
 Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png  used on input line 169.
@@ -425,12 +428,6 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 
 LaTeX Warning: Reference `section:xx' on page 5 undefined on input line 181.
 
-Package textcomp Info: Symbol \textrightarrow not provided by
-(textcomp)             font family ptm in TS1 encoding.
-(textcomp)             Default family used instead on input line 210.
-Package textcomp Info: Symbol \textrightarrow not provided by
-(textcomp)             font family ptm in TS1 encoding.
-(textcomp)             Default family used instead on input line 210.
 [5] [6]
 Underfull \hbox (badness 10000) in paragraph at lines 266--267
 [] $\OML/cmm/m/it/10 global[]vertices; core[]subgraph[]vertices \OMS/cmsy/m/n/10  
@@ -449,38 +446,281 @@ Underfull \hbox (badness 10000) in paragraph at lines 271--272
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [7] [8] [9]
-Underfull \hbox (badness 2368) in paragraph at lines 355--356
+ [7] [8]
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 344.
+(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 350.
+(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 356.
+(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 364.
+(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 370.
+(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 376.
+(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
+ [9]
+Underfull \hbox (badness 2368) in paragraph at lines 417--418
 []\OT1/ptm/m/n/10 Moreover, Ta-ble x dis-plays the to-tal ex-e-cu-tion time
  []
 
 [10]
+Underfull \hbox (badness 3189) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 Tripo-line: gen-er-al-ized in-cre-men-tal graph pro-cess-ing via
+ []
+
+
+Underfull \hbox (badness 1769) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 point-to-point it-er-a-tive graph an-a-lyt-ics[C]//Proceedings of
+ []
+
+
+Underfull \hbox (badness 1371) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 2019: 587-600. - https://www.alibabagroup.com/document-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 1595215205757878272 - www.google.com/maps
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 - www.facebook.com - www.alipay.com -
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 http://www.cagis.org.cn/ - www.baike.baidu.com -
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 www.ditu.amap.com - www.http://map.qq.com/ -
+ []
+
+
+Underfull \hbox (badness 8038) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 www.petalmaps.com - Gem-ini: A Computation-Centric
+ []
+
+
+Underfull \hbox (badness 1681) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 arXiv preprint arXiv:1408.2041, 2014. - Gon-za-lez J E,
+ []
+
+
+Underfull \hbox (badness 1968) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 Low Y, Gu H, et al. Pow-er-Graph: Dis-tributed Graph-
+ []
+
+
+Underfull \hbox (badness 7256) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 Frame-work[C]//11th USENIX sym-po-sium on op-er-at-ing
+ []
+
+
+Underfull \hbox (badness 3977) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 sys-tems de-sign and im-ple-men-ta-tion (OSDI 14). 2014:
+ []
+
+
+Underfull \hbox (badness 3343) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 1-39. - 2019.SNAP.http://snap.stanford.edu/data/index.html.
+ []
+
+
+Underfull \hbox (badness 3240) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 - Paolo Boldi, An-drea Marino, Mas-simo San-tini, and
+ []
+
+
+Underfull \hbox (badness 1688) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 26 pages. https://doi.org/10.1145/3160017 - Paolo Boldi,
+ []
+
+
+Underfull \hbox (badness 1577) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 Mas-simo San-tini, and Se-bas-tiano Vi-gna. 2008. A large
+ []
+
+
+Underfull \hbox (badness 1565) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 time-aware web graph. SI-GIR Fo-rum 42, 2 (De-cem-ber
+ []
+
+
+Underfull \hbox (badness 7486) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 twenty-second in-ter-na-tional con-fer-ence on ar-chi-tec-tural
+ []
+
+
+Underfull \hbox (badness 5161) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 2017: 237-251. - Mari-ap-pan M, Vora K. Graph-bolt:
+ []
+
+
+Underfull \hbox (badness 2970) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 Dependency-driven syn-chronous pro-cess-ing of stream-ing
+ []
+
+
+Underfull \hbox (badness 2393) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 It-er-a-tive Graph Pro-cess-ing[C]// 2021 IEEE In-ter-na-tional
+ []
+
+
+Underfull \hbox (badness 1824) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 Sym-po-sium on High-Performance Com-puter Ar-chi-tec-ture
+ []
+
+
+Underfull \hbox (badness 3039) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 stream-ing graph pro-cess-ing[C]//Proceedings of the 49th
+ []
+
+
+Underfull \hbox (badness 3068) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 2022: 116-129. - Ky-rola A, Blel-loch G, Guestrin C.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 GraphChi:Large-Scale Graph Com-pu-ta-tion on Just a
+ []
+
+
+Underfull \hbox (badness 3965) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 of the Twenty-Fourth ACM Sym-po-sium on Op-er-at-ing
+ []
+
+
+Underfull \hbox (badness 4132) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 Con-fer-ence (USENIX ATC 15). 2015: 375-386. - Y.
+ []
+
+
+Underfull \hbox (badness 2080) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 and Dis-tributed Sys-tems, vol. 29, no. 4, pp. 830-842,
+ []
+
+
+Underfull \hbox (badness 3547) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 1 April 2018, doi: 10.1109/TPDS.2017.2776115. - Jin
+ []
+
+
+Underfull \hbox (badness 2158) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 Zhao, Yu Zhang, Xi-aofei Liao, Lig-ang He, Bing-sheng
+ []
+
+
+Underfull \hbox (badness 4132) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 He, Hai Jin, Haikun Liu, and Yicheng Chen. 2019.
+ []
+
+
+Underfull \hbox (badness 2469) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 of con-cur-rent graph pro-cess-ing. In Pro-ceed-ings of the
+ []
+
+
+Underfull \hbox (badness 3260) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 Pow-er-Graph: Dis-tributed Graph-Parallel Com-pu-ta-tion on
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 Centric Dis-tributed Graph Pro-cess-ing Sys-tem[C]//12th
+ []
+
+
+Underfull \hbox (badness 4060) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 (ICCD), Boston, MA, USA, 2017, pp. 217-224, doi:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 10.1109/ICCD.2017.40. - Hongzheng Chen, Minghua
+ []
+
+
+Underfull \hbox (badness 5985) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 and run-time sys-tem for con-cur-rent graph pro-cess-ing.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 In Pro-ceed-ings of the In-ter-na-tional Con-fer-ence for
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 High Per-for-mance Com-put-ing, Net-work-ing, Stor-age
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 and Anal-y-sis (SC '21). As-so-ci-a-tion for Com-put-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 Ma-chin-ery, New York, NY, USA, Ar-ti-cle 51, 116.
+ []
+
+
+Underfull \hbox (badness 2384) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 https://doi.org/10.1145/3458817.3476159 - Lu S, Sun S,
+ []
+
+
+Underfull \hbox (badness 4819) in paragraph at lines 440--496
+\OT1/ptm/m/n/10 USA, 227238. https://doi.org/10.1145/2600212.2600222 -
+ []
+
+[11] [12]
 File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
 <use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 411.
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 529.
 (pdftex.def)             Requested size: 72.27031pt x 66.77777pt.
 File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
 <use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 411.
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 529.
 (pdftex.def)             Requested size: 72.27031pt x 66.77777pt.
- [11] (./GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.aux)
+ [13] (./GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.aux)
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 5526 strings out of 478268
- 98922 string characters out of 5850345
- 403693 words of memory out of 5000000
- 23654 multiletter control sequences out of 15000+600000
- 516273 words of font info for 112 fonts, out of 8000000 for 9000
+ 5524 strings out of 478268
+ 98895 string characters out of 5850345
+ 408703 words of memory out of 5000000
+ 23653 multiletter control sequences out of 15000+600000
+ 515938 words of font info for 111 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
- 67i,10n,77p,2564b,452s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{d:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}{d:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.pdf" (11 pages, 1470042 bytes).
+ 67i,10n,77p,2564b,454s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{d:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on "GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.pdf" (13 pages, 1466875 bytes).
 PDF statistics:
- 115 PDF objects out of 1000 (max. 8388607)
- 69 compressed objects within 1 object stream
+ 111 PDF objects out of 1000 (max. 8388607)
+ 67 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  28 words of extra memory for PDF output out of 10000 (max. 10000000)
 
