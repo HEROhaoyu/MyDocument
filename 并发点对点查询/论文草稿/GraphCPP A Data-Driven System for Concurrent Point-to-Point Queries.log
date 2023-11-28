@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.11.3)  27 NOV 2023 17:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.11.3)  28 NOV 2023 18:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -271,12 +271,45 @@ Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
 \multirow@cntb=\count293
 \multirow@dima=\skip59
 \bigstrutjot=\dimen183
+) (d:/texlive/2022/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
+\TX@col@width=\dimen184
+\TX@old@table=\dimen185
+\TX@old@col=\dimen186
+\TX@target=\dimen187
+\TX@delta=\dimen188
+\TX@cols=\count294
+\TX@ftn=\toks29
+) (d:/texlive/2022/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen189
+\lightrulewidth=\dimen190
+\cmidrulewidth=\dimen191
+\belowrulesep=\dimen192
+\belowbottomsep=\dimen193
+\aboverulesep=\dimen194
+\abovetopsep=\dimen195
+\cmidrulesep=\dimen196
+\cmidrulekern=\dimen197
+\defaultaddspace=\dimen198
+\@cmidla=\count295
+\@cmidlb=\count296
+\@aboverulesep=\dimen199
+\@belowrulesep=\dimen256
+\@thisruleclass=\count297
+\@lastruleclass=\count298
+\@thisrulewidth=\dimen257
+) (d:/texlive/2022/texmf-dist/tex/latex/makecell/makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen258
+\c@nlinenum=\count299
+\TeXr@lab=\toks30
 ) (d:/texlive/2022/texmf-dist/tex/latex/preprint/balance.sty
 Package: balance 1999/02/23 4.3 (PWD)
-\oldvsize=\dimen184
+\oldvsize=\dimen259
 ) (d:/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-02-07 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count294
+\l__color_backend_stack_int=\count300
 \l__pdf_internal_box=\box58
 )
 
@@ -326,35 +359,35 @@ LaTeX Warning: Label `fig:overall' multiply defined.
 )
 \openout1 = `"GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.aux"'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
 
 -- Lines per column: 58 (exact).
 (d:/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count295
-\scratchdimen=\dimen185
+\scratchcounter=\count301
+\scratchdimen=\dimen260
 \scratchbox=\box59
-\nofMPsegments=\count296
-\nofMParguments=\count297
-\everyMPshowfont=\toks29
-\MPscratchCnt=\count298
-\MPscratchDim=\dimen186
-\MPnumerator=\count299
-\makeMPintoPDFobject=\count300
-\everyMPtoPDFconversion=\toks30
+\nofMPsegments=\count302
+\nofMParguments=\count303
+\everyMPshowfont=\toks31
+\MPscratchCnt=\count304
+\MPscratchDim=\dimen261
+\MPnumerator=\count305
+\makeMPintoPDFobject=\count306
+\everyMPtoPDFconversion=\toks32
 ) (d:/texlive/2022/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -363,137 +396,268 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 30.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 33.
  (d:/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 30.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 33.
  (d:/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1{d:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-<E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//system_compare.png, id=11, 426.84468pt x 129.48375pt>
-File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//system_compare.png Graphic file (type png)
-<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//system_compare.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//system_compare.png  used on input line 77.
-(pdftex.def)             Requested size: 252.0pt x 76.4461pt.
- [2 <e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//system_compare.png>]
-Underfull \hbox (badness 4072) in paragraph at lines 92--93
+Underfull \hbox (badness 1953) in paragraph at lines 72--73
+[]\OT1/ptm/m/n/10 we com-pare GraphCPP with state-of-the-art point-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 72--73
+\OT1/ptm/m/n/10 to-point query sys-tems and con-cur-rent graph
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 72--73
+\OT1/ptm/m/n/10 six real-world graphs[[]][[]][[]][[]] and six
+ []
+
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 93.
+(d:/texlive/2022/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+)
+Overfull \hbox (6.5512pt too wide) in paragraph at lines 84--105
+ [][] 
+ []
+
+[2]
+Underfull \hbox (badness 4072) in paragraph at lines 120--121
 []\OT1/ptm/m/n/10 Definition 5: ($\OML/cmm/m/it/10 Core []Subgraph$\OT1/ptm/m/n/10 ) We use $\OML/cmm/m/it/10 G[] \OT1/cmr/m/n/10 =
  []
 
-<E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png, id=21, 188.20313pt x 173.89969pt>
+<E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//figure_1.png, id=19, 774.7344pt x 593.0958pt>
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//figure_1.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//figure_1.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//figure_1.png  used on input line 128.
+(pdftex.def)             Requested size: 75.60077pt x 57.87411pt.
+<E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png, id=20, 188.20313pt x 173.89969pt>
 File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
 <use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 100.
-(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
-File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
-<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 106.
-(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
-File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
-<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 112.
-(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
-File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
-<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 120.
-(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
-File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
-<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 126.
-(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
-File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
-<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 132.
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 134.
 (pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
 
-Underfull \hbox (badness 2426) in paragraph at lines 143--143
+Underfull \hbox (badness 1603) in paragraph at lines 135--135
+[]\OT1/ptm/m/n/9 (b) |The pro-por-tion
+ []
+
+<E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//figure_3.png, id=21, 774.7344pt x 593.0958pt>
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//figure_3.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//figure_3.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//figure_3.png  used on input line 140.
+(pdftex.def)             Requested size: 75.60077pt x 57.87411pt.
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 148.
+(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 149--149
+[]\OT1/ptm/m/n/9 (d) |Com-pu-ta-tion
+ []
+
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 154.
+(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
+
+Underfull \hbox (badness 1577) in paragraph at lines 155--155
+[]\OT1/ptm/m/n/9 (e) |The im-pact of
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 155--155
+\OT1/ptm/m/n/9 graph up-dates on
+ []
+
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 160.
+(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 161--161
+[]\OT1/ptm/m/n/9 (f) |The in-her-ent
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 161--161
+\OT1/ptm/m/n/9 over-head and
+ []
+
+
+Underfull \hbox (badness 7540) in paragraph at lines 161--161
+\OT1/ptm/m/n/9 ef-fec-tive-ness of a
+ []
+
+
+Underfull \hbox (badness 2426) in paragraph at lines 171--171
  \OT1/ptm/m/it/10 B. Per-for-mance Bot-tle-necks in Con-cur-rent Point-to-Point
  []
 
-[3 <e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>]
-<E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png, id=25, 993.7125pt x 680.5425pt>
+[3 <e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//figure_1.png> <e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png> <e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//figure_3.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 179--180
+[]\OT1/ptm/m/n/10 Some ex-ist-ing so-lu-tions uti-lize a global in-dex-ing
+ []
+
+
+Underfull \hbox (badness 1533) in paragraph at lines 179--180
+\OT1/ptm/m/n/10 has in-her-ent flaws. \OT1/ptm/b/n/10 Flaw 1\OT1/ptm/m/n/10 : The global in-dex re-quires
+ []
+
+
+Underfull \hbox (badness 1694) in paragraph at lines 179--180
+\OT1/ptm/m/n/10 record-ing path val-ues be-tween hot ver-tices and reg-u-lar
+ []
+
+
+Underfull \hbox (badness 1460) in paragraph at lines 179--180
+\OT1/ptm/m/n/10 with the num-ber of global in-dex ver-tices. \OT1/ptm/b/n/10 Flaw 2\OT1/ptm/m/n/10 : In
+ []
+
+
+LaTeX Warning: Citation `SGraph' on page 4 undefined on input line 187.
+
+<E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png, id=27, 993.7125pt x 680.5425pt>
 File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png Graphic file (type png)
 <use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png  used on input line 168.
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png  used on input line 196.
 (pdftex.def)             Requested size: 252.0pt x 172.5755pt.
- [4 <e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png>]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 180.
+[4 <e:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//系统架构.png>]
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 208.
  (d:/texlive/2022/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) [5] [6] [7]
+) [5] [6]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+ [7]
+Underfull \hbox (badness 1466) in paragraph at lines 340--341
+\OT1/ptm/m/n/10 al-go-rithms. 1) Weighted graph al-go-rithms: Point-to-point
+ []
 
 [8]
 File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
 <use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 342.
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 370.
+(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 371--371
+\OT1/ptm/m/n/9 time for 512
+ []
+
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 376.
+(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
+
+Underfull \hbox (badness 5133) in paragraph at lines 377--377
+[]\OT1/ptm/m/n/9 (b) |Break-down of
+ []
+
+File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
+<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 382.
 (pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
 File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
 <use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 348.
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 390.
 (pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 391--391
+\OT1/ptm/m/n/9 swapped into the
+ []
+
 File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
 <use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 354.
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 396.
 (pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 397--397
+\OT1/ptm/m/n/9 time for dif-fer-ent
+ []
+
 File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
 <use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 362.
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 402.
 (pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
-File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
-<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 368.
-(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
-File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
-<use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 374.
-(pdftex.def)             Requested size: 75.60077pt x 69.85582pt.
- [9]
-Underfull \hbox (badness 2368) in paragraph at lines 415--416
+
+Underfull \hbox (badness 10000) in paragraph at lines 403--403
+[]\OT1/ptm/m/n/9 (f) |The To-tal
+ []
+
+
+Underfull \hbox (badness 2680) in paragraph at lines 403--403
+\OT1/ptm/m/n/9 time for ex-e-cut-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 403--403
+\OT1/ptm/m/n/9 schemes varies
+ []
+
+[9]
+Underfull \hbox (badness 2368) in paragraph at lines 443--444
 []\OT1/ptm/m/n/10 Moreover, Ta-ble x dis-plays the to-tal ex-e-cu-tion time
  []
 
 [10]
-Underfull \hbox (badness 10000) in paragraph at lines 451--452
-[]\OT1/ptm/m/n/8 ``Alibaba Group,'' https://www.alibabagroup.com/document-
+Underfull \hbox (badness 1394) in paragraph at lines 454--455
+\OT1/ptm/m/n/10 nence of graph com-put-ing as a re-search fo-cus, an in-
  []
 
 [11]
-Underfull \hbox (badness 10000) in paragraph at lines 500--501
+Underfull \hbox (badness 10000) in paragraph at lines 483--484
+[]\OT1/ptm/m/n/8 ``Alibaba Group,'' https://www.alibabagroup.com/document-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 511--512
 []\OT1/ptm/m/n/8 ``Stanford large net-work dataset col-lec-tion,''
  []
 
+
+Underfull \hbox (badness 1454) in paragraph at lines 552--553
+[]\OT1/ptm/m/n/8 L. Dhuli-pala, C. Hong, J. Shun, ``A frame-work for static and
+ []
+
+[12]
 File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
 <use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 586.
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 653.
 (pdftex.def)             Requested size: 72.27031pt x 66.77777pt.
 File: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png Graphic file (type png)
 <use E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png>
-Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 586.
+Package pdftex.def Info: E:/华科实验室论文/MyDocument/并发点对点查询/论文草稿/picture//fig1.png  used on input line 653.
 (pdftex.def)             Requested size: 72.27031pt x 66.77777pt.
-[12] (./GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.aux)
+ [13
+
+] (./GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.aux)
+
+LaTeX Warning: There were undefined references.
+
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 5557 strings out of 478268
- 99182 string characters out of 5850345
- 403709 words of memory out of 5000000
- 23687 multiletter control sequences out of 15000+600000
- 514254 words of font info for 109 fonts, out of 8000000 for 9000
+ 5900 strings out of 478268
+ 104578 string characters out of 5850345
+ 413987 words of memory out of 5000000
+ 24014 multiletter control sequences out of 15000+600000
+ 514568 words of font info for 110 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
- 67i,10n,77p,2602b,454s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{d:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.pdf" (12 pages, 1465467 bytes).
+ 67i,17n,77p,2784b,454s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{d:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><d:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><d:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on "GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.pdf" (13 pages, 1618144 bytes).
 PDF statistics:
- 107 PDF objects out of 1000 (max. 8388607)
- 64 compressed objects within 1 object stream
+ 117 PDF objects out of 1000 (max. 8388607)
+ 69 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 28 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 33 words of extra memory for PDF output out of 10000 (max. 10000000)
 

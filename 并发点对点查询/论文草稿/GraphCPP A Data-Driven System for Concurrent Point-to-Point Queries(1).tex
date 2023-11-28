@@ -73,40 +73,38 @@ This paper makes the following contributions:
 \end{enumerate}
 
 \section{BACKGROUND AND MOTIVATION}
-Most existing solutions\cite{pnp}\cite{tripoline}\cite{sgraph} are primarily focused on accelerating the speed of individual queries. However, in practical scenarios, there is a significant number of graph query tasks concurrently running on the same underlying graph. For instance, statistics from CAGIS\cite{cagis} indicate that location service open platforms constructed by companies such as Baidu Maps\cite{baidu}, Amap\cite{amap}, Tencent Maps\cite{qq}, and Huawei Maps\cite{petalmaps} receive a daily average of up to 160 billion location service requests. The substantial demand for concurrent point-to-point queries poses a high requirement for the throughput of graph traversal systems. However, as illustrated in table 1, we demonstrate that existing systems exhibit low throughput when handling large-scale concurrent queries(Details are given in Section x). The root cause of this undesirable outcome is the significant redundancy in data access and computation among concurrent tasks. To qualitatively analyze the aforementioned issues, we conducted performance evaluations on parallel point-to-point queries using XXXXX (machine configuration), selecting XXXXX (the current best solution) on XXXXX (graph dataset).
+Most existing solutions\cite{pnp}\cite{tripoline}\cite{sgraph} are primarily focused on accelerating the speed of individual queries. However, in practical scenarios, there is a significant number of graph query tasks concurrently running on the same underlying graph. For instance, statistics from CAGIS\cite{cagis} indicate that location service open platforms constructed by companies such as Baidu Maps\cite{baidu}, Amap\cite{amap}, Tencent Maps\cite{qq}, and Huawei Maps\cite{petalmaps} receive a daily average of up to 160 billion location service requests. The substantial demand for concurrent point-to-point queries poses a high requirement for the throughput of graph traversal systems. However, as illustrated in table 1, we demonstrate that existing systems exhibit low throughput when handling large-scale concurrent queries. The root cause of this undesirable outcome is the significant redundancy in data access and computation among concurrent tasks. To qualitatively analyze the aforementioned issues, we conducted performance evaluations on parallel point-to-point queries using XXXXX (machine configuration), selecting XXXXX (the current best solution) on XXXXX (graph dataset).
 
-\begin{table}
-  \centering
-  \renewcommand\arraystretch{1.5}
-  \tabcolsep=0.02cm
-  \tiny
-  
-  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-    \hline
-    \rule{0pt}{8pt} 
-    \multirow{1}{*}{System} & \multicolumn{4}{c|}{Pnp} & \multicolumn{4}{c|}{Tripoline} & \multicolumn{4}{c|}{SGraph} & \multicolumn{4}{c|}{Glign} \\
-    \hline
-    \rule{0pt}{11pt} 
-    \makecell{Number of \\ concurrent \\ query tasks} & 1 & 4 & 8 & 16  & 1 & 4 & 8 & 16 & 1 & 4 & 8 & 16 & 1 & 4 & 8 & 16 \\
-    \hline
-    \rule{0pt}{9pt} 
-    \makecell{Instructions \\ (×$10^{14}$)} & 7.28 & 7.41 & 7.32 & 7.4 & 5.9 & 5.68 & 6.1 & 5.57 & 3.69 & 3.54 & 3.28 & 3.73 & 1.55 & 1.76 & 1.49 & 1.61 \\
-    \hline
-    \rule{0pt}{9pt} 
-    \makecell{LLC loads \\ (×$10^{12}$)} & 28.3 & 27.6 & 28.5 & 27.9 & 15.7 & 16.2 & 15.6 & 15.9 & 8.2 & 8.6 & 8.5 & 8.4 & 5.7 & 5.5 & 5.8 & 5.4 \\
-    \hline
-    \rule{0pt}{9pt} 
-    \makecell{LLC miss \\ ratio} & 45.8\% & 52.6\% & 60.3\% & 70.2\% & 40.3\% & 52.4\% & 64.8\% & 72.4\% & 42.5\% & 57.1\% & 63.8\% & 69.5\% & 32.4\% & 47.2\% & 55.4\% & 67.3\% \\
-    \hline
-    \rule{0pt}{9pt} 
-    \makecell{Runtime \\ (hour)} & 72.96 & 30.29 & 27.65 & 20.11 & 53.42 & 19.76 & 12.31 & 8.84 & 27.24 & 11.96 & 7.28 & 5.36 & 15.47 & 6.18 & 4.32 & 2.19 \\
-    \hline
-  \end{tabular}
-  \caption{Performance comparison of existing systems for processing concurrent point-to-point queries}
-  \label{System_comparison}
-\end{table}
-
-
+  \begin{table}
+  	\centering
+  	\renewcommand\arraystretch{1.5}
+  	\tabcolsep=0.02cm
+  	\tiny
+  	
+  	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+  		\hline
+  		\rule{0pt}{8pt} 
+  		\multirow{1}{*}{System} & \multicolumn{4}{c|}{Pnp} & \multicolumn{4}{c|}{Tripoline} & \multicolumn{4}{c|}{SGraph} & \multicolumn{4}{c|}{Glign} \\
+  		\hline
+  		\rule{0pt}{11pt} 
+  		\makecell{Number of \\ concurrent \\ query tasks} & 1 & 4 & 8 & 16  & 1 & 4 & 8 & 16 & 1 & 4 & 8 & 16 & 1 & 4 & 8 & 16 \\
+  		\hline
+  		\rule{0pt}{9pt} 
+  		\makecell{Instructions \\ (×$10^{14}$)} & 7.28 & 7.41 & 7.32 & 7.4 & 5.9 & 5.68 & 6.1 & 5.57 & 3.69 & 3.54 & 3.28 & 3.73 & 1.55 & 1.76 & 1.49 & 1.61 \\
+  		\hline
+  		\rule{0pt}{9pt} 
+  		\makecell{LLC loads \\ (×$10^{12}$)} & 28.3 & 27.6 & 28.5 & 27.9 & 15.7 & 16.2 & 15.6 & 15.9 & 8.2 & 8.6 & 8.5 & 8.4 & 5.7 & 5.5 & 5.8 & 5.4 \\
+  		\hline
+  		\rule{0pt}{9pt} 
+  		\makecell{LLC miss \\ ratio} & 45.8\% & 52.6\% & 60.3\% & 70.2\% & 40.3\% & 52.4\% & 64.8\% & 72.4\% & 42.5\% & 57.1\% & 63.8\% & 69.5\% & 32.4\% & 47.2\% & 55.4\% & 67.3\% \\
+  		\hline
+  		\rule{0pt}{9pt} 
+  		\makecell{Runtime \\ (hour)} & 72.96 & 30.29 & 27.65 & 20.11 & 53.42 & 19.76 & 12.31 & 8.84 & 27.24 & 11.96 & 7.28 & 5.36 & 15.47 & 6.18 & 4.32 & 2.19 \\
+  		\hline
+  	\end{tabular}
+  	\caption{A Table Demo}
+  	\label{tab_demo}
+  \end{table}
 
 \subsection{Preliminaries}
 Definition 1: ($Graph$) We use $G=(V,E)$ to denote a directed graph, where $V$ is the set of vertices, and $E$ is the set of directed edges formed by vertices in $V$ (for undirected graphs, edges can be split into two directed edges with different directions). We use $|V|$ and $|E|$ to represent the number of vertices and edges, respectively.
@@ -356,10 +354,10 @@ The above mechanism implements incremental maintenance of graph structure data, 
     \caption{Dataset Information}
     \end{table}
 
-{\bf{System Comparison}}: We conducted a comparative analysis between GraphCPP and existing point-to-point query solutions, including PnP\cite{pnp}, Tripoline\cite{tripoline}, and SGraph\cite{sgraph}. In Section x, as SGraph represents the state-of-the-art in point-to-point query systems, the performance of PnP-S, PnP-C, Tripoline-S, and Tripoline-C consistently falls behind SGraph. Therefore, in the subsequent comparative analysis, we did not present the performance results of PnP and Tripoline. Since these systems are not open source, we re-implemented their mechanisms based on the Gemini distributed graph processing framework. Given that PnP, Tripoline, and SGraph do not directly support concurrent operations, we made modifications to enable them to handle multiple jobs simultaneously. Systems with the "-S" suffix execute tasks sequentially, while those with the "-C" suffix handle queries concurrently, managed by the operating system.
+{\bf{System Comparison}}: We conducted a comparative analysis of GraphCPP's query performance with that of PnP\cite{pnp}, Tripoline\cite{tripoline}, and SGraph\cite{sgraph}. Since these systems are not open source, we re-implemented their mechanisms using the Gemini distributed graph processing framework. As none of these three systems inherently supports concurrent operations, we made modifications to enable them to handle multiple jobs simultaneously. We compared the performance of these systems in two modes: PnP-S, PnP-C, Tripoline-S, Tripoline-C, SGraph-S, and SGraph-C. In systems with the ``-S" suffix, jobs are sequentially processed, while in those with the ``-C" suffix, jobs are handled concurrently, managed by the operating system.
 
-Additionally, for a more scientifically rigorous experimental comparison, we benchmarked against the state-of-the-art general concurrent graph computing solution, Glign. When evaluating the overall performance of concurrent queries, we employed a mixed submission approach, generating an equal number of queries for algorithms such as PPsP, PPWP, PPNP, BFS, Connectivity, and Reachability. It is noteworthy that a global indexing mechanism needs to maintain a set of indices for different graph algorithms. To ensure fairness, we calculated the average global indexing cost for the six algorithms. Furthermore, random parameters were set for each query task, maintaining consistency with the baseline: the number of global indices (k) was set to 16, and the core subgraph vertices in GraphCPP were set to 128. All benchmarks were executed 10 times, and the reported experimental results represent the average values.
-
+To evaluate performance, we submitted PPsP, PPWP, PPNP, BFS, Connectivity, and Reachability queries sequentially or concurrently until a specific number of jobs were generated. Parameters for each job were set randomly, even if they belonged to the same graph algorithm. For concurrent submissions, the intervals between job submissions were also randomized. Tripoline\cite{tripoline}, SGraph\cite{sgraph}, and GraphCPP employed a similar global index mechanism, with the global index set to 16 in our experiments. The core subgraph vertices in GraphCPP were set to 128. All benchmarks were executed 10 times, and the results are reported as average values.
+    
 
 \subsection{Overall Performance Comparison}
 
@@ -368,19 +366,19 @@ Additionally, for a more scientifically rigorous experimental comparison, we ben
   
     \begin{subfigure}{0.3\columnwidth}
       \includegraphics[width=\linewidth]{fig1.png}
-      \caption{Total execution time for 512 concurrent point-to-point queries using different schemes}
+      \caption{Caption for Subfigure 1}
       \label{fig:subfig1}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.3\columnwidth}
       \includegraphics[width=\linewidth]{fig1.png}
-      \caption{Breakdown of execution times for queries of different schemes}
+      \caption{Caption for Subfigure 2}
       \label{fig:subfig2}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.3\columnwidth}
       \includegraphics[width=\linewidth]{fig1.png}
-      \caption{LLC miss rate for 512 queries different schemes}
+      \caption{Caption for Subfigure 3}
       \label{fig:subfig3}
     \end{subfigure}
   
@@ -388,19 +386,19 @@ Additionally, for a more scientifically rigorous experimental comparison, we ben
   
     \begin{subfigure}{0.3\columnwidth}
       \includegraphics[width=\linewidth]{fig1.png}
-      \caption{Volume of data swapped into the LLC for 512 queries}
+      \caption{Caption for Subfigure 4}
       \label{fig:subfig4}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.3\columnwidth}
       \includegraphics[width=\linewidth]{fig1.png}
-      \caption{The computation time for different schemes to execute queries varies with processing batches}
+      \caption{Caption for Subfigure 5}
       \label{fig:subfig5}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.3\columnwidth}
       \includegraphics[width=\linewidth]{fig1.png}
-      \caption{The Total time for executing queries in different schemes varies with the number of concurrent queries}
+      \caption{Caption for Subfigure 6}
       \label{fig:subfig6}
     \end{subfigure}
   
