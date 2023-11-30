@@ -5,7 +5,7 @@
 并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.fls
 并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.log
 并发点对点查询/论文草稿/GraphCPP A Data-Driven System for Concurrent Point-to-Point Queries.synctex.gz
-**/*.aux
-**/*.fdb_latexmk
-**/*.log
-**/*.fls
+*.aux
+*.fdb_latexmk
+*.log
+*.fls
