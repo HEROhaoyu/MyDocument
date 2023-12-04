@@ -4,3 +4,5 @@
 *.fdb_latexmk
 *.log
 *.fls
+*.synctex(busy)
+*.fdb_latexmk
