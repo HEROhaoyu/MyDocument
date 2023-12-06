@@ -1,0 +1,701 @@
+\documentclass[lettersize,journal]{IEEEtran} %这一行的作用是设置论文的格式，letterpaper表示纸张大小为美国信纸，journal表示论文类型为期刊论文,IEEEtran表示论文的格式为IEEEtran
+\usepackage{amsmath,amsfonts} %这两个包分别是数学公式和数学字体的宏包
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+% \usepackage{algorithmic} %这个包是算法的宏包
+\usepackage{array} %这个包是表格和数组的宏包
+% \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig} %这个包是子图的宏包,它可以让你在一个图形环境中放置多个图形，可以对子图进行编号，可以对子图进行交叉引用，可以对子图进行标题设置
+\usepackage{textcomp} %这个包是对文本模式下的符号进行扩展的宏包
+\usepackage{stfloats} %这个包是控制双栏浮动图形和表格的宏包
+\usepackage{url} %这个包是对网址进行扩展的宏包
+\usepackage{verbatim} %这个包是对抄录环境进行扩展的宏包
+\usepackage{graphicx} %这个包是对图形进行扩展的宏包
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{makecell}
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore} %这一行的作用是设置英文连字符，可以防止英文单词在换行时过长
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}} %这一行的作用是定义BibTeX的标志,这个标志在参考文献中会用到
+\usepackage{balance} %这个包是平衡双栏文档最后一页的双栏高度的宏包
+
+
+
+\begin{document} %这一行的作用是开始论文的正文部分
+\title{GraphCPP: A Data-Driven Graph Processing System for Concurrent Point-to-Point Queries} %这一行的作用是设置论文的标题
+\author{IEEE Publication Technology Department %这一行的作用是设置论文的作者
+\thanks{xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx}} %这一行的作用是设置论文的作者的单位和邮箱,这里的\thanks是设置脚注的命令
+
+\markboth{xxxxx}%这一行的作用是设置论文的页眉
+{How to Use the IEEEtran \LaTeX \ Templates} 
+
+\maketitle %它和title的区别是,title只是设置论文的标题,而maketitle是使论文的标题和作者的信息生效
+
+\graphicspath{{./picture/}}
+
+
+\begin{abstract} %这一行的作用是设置论文的摘要
+With the widespread adoption of graph processing technology in fields such as map navigation and network analysis, a significant number of point-to-point queries concurrently run on the same underlying graph, imposing a high demand on the throughput of graph query systems. However, existing graph processing systems either focus on optimizing the speed of individual point-to-point queries, neglecting the throughput of concurrent queries, or follow the concurrent execution schema of point-to-all algorithms, overlooking the optimization potential of point-to-point algorithms. Due to redundant data access overhead and computational expenses, existing solutions exhibit poor overall throughput when executing concurrent point-to-point queries.
+
+This paper introduces GraphCPP, the first graph processing system designed for concurrent execution of point-to-point queries. It enhances the throughput of concurrent queries through data access sharing and computation sharing. GraphCPP introduces two novel features. Firstly, it incorporates a data-driven caching execution mechanism that leverages the significant overlap in traversal paths for various queries. This facilitates data sharing among concurrent tasks, ultimately enhancing data access efficiency. Secondly, GraphCPP addresses the recurrent computation of identical hot vertices and paths by distinct tasks through a dual-level computation sharing mechanism. This accelerates the convergence of new queries by efficiently sharing computed values of hot vertices and paths. In our evaluation on datasets such as xx, we compare GraphCPP with state-of-the-art point-to-point query systems and concurrent graph processing systems. The results demonstrate that GraphCPP incurs only xx preprocessing overhead and xx storage overhead, achieving a throughput improvement of xx-xx times compared to Pnp, Tripoline, SGraph, and Glign.
+  
+\end{abstract}
+
+
+
+\begin{IEEEkeywords}
+graph process, point-to-point queries, concurrent queries, data access similarity, computational similarity.
+\end{IEEEkeywords}
+
+
+\section{Introduction}
+
+\IEEEPARstart{I}{n} various applications, the demand for high throughput in concurrent point-to-point queries on the same underlying graph is prevalent. Examples include Google Maps\cite{google} for optimizing logistics routes, Facebook\cite{facebook} for suggesting potential friends through exploring relationship chains in social network analysis, and Alipay\cite{alipay} for analyzing risk propagation between entities in financial risk assessment. These scenarios underscore the need to achieve high throughput in concurrent queries on the same underlying graph. Unlike traditional point-to-all queries, point-to-point queries specifically analyze associated vertices between two specified points, eliminating the need for extensive graph traversal. This emphasizes the optimization potential of point-to-point query algorithms. However, existing specialized solutions for point-to-point queries\cite{pnp}\cite{tripoline}\cite{sgraph} primarily focus on improving the speed of individual queries, neglecting the optimization of throughput for concurrent queries. Conversely, widely adopted general-purpose concurrent graph computing systems\cite{glign} only support the traditional point-to-all query approach, failing to exploit the inherent optimization potential of point-to-point algorithms. To achieve efficient processing of concurrent point-to-point queries, two challenges must be addressed.
+
+Firstly, in the domain of concurrent point-to-point queries, existing solutions demonstrate suboptimal throughput due to the repetitive access of similar graph data without leveraging data access similarities. Notably, queries originating from diverse starting points take distinct paths to reach their endpoints. Given the power-law distribution of graphs, these paths often intersect on popular paths (see Section x). However, the overlapping data segments accessed by different queries vary, and they typically access shared graph data in different sequences. Consequently, prevailing query systems adopt a conservative approach, assigning each query the task of independently accessing its required data. This independence in data access processes leads to redundant loading of similar data into the cache, exacerbating cache conflicts and contributing to a diminished system throughput.
+
+Secondly, beyond redundant access, different queries also redundantly compute distance values for similar popular paths. Due to the power-law distribution of graph data, a few popular vertices frequently appear in optimal paths for various queries (see Section x). Since different queries do not share computations, they redundantly calculate distances for frequently accessed paths. Additionally, popular vertices often have numerous neighboring vertices, and the repetitive traversal of these vertices results in a substantial increase in computational expenses. While some existing systems aim to implement computation sharing through a global index \cite{tripoline}\cite{sgraph}, the effectiveness and accuracy of such sharing are constrained by high computational, storage, and update costs.
+In response to the challenges mentioned above, this paper introduces a data-driven concurrent point-to-point query system called GraphCPP. As illustrated in Figure x, GraphCPP enhances the throughput of concurrent point-to-point query systems through data access sharing and computation sharing.
+
+Within GraphCPP, we incorporate a data-driven caching execution mechanism to achieve data access sharing. This mechanism divides the data of the query system into task-specific data (such as source vertices, destination vertices, and active vertex sets) and graph structure information. While the former is managed by the queries themselves, the latter is uniformly handled by the data-sharing mechanism. In contrast to the traditional $task \rightarrow data$ scheduling approach where tasks independently access required data based on algorithmic demands with no inter-task data communication, our data access sharing mechanism adopts a $data \rightarrow task$ scheduling method. In this approach, the system schedules graph chunks and triggers the bulk execution of all tasks associated with the chunk until all vertices in the current chunk converge. By relinquishing task execution control to the system, different tasks can share the same graph structure data, distributing the data access overhead and consequently enhancing the throughput of concurrent queries. While this scheduling mechanism does not improve query latency, we further propose a computation sharing mechanism to accelerate internal query execution speed.
+
+Furthermore, GraphCPP introduces a dual-level computation sharing mechanism comprising a global index and a core subgraph index. It identifies vertices with a significant number of connecting edges as hot vertices and defines the optimal path between hot vertices as hot paths, with the query value of these paths referred to as the index. Although hot vertices and hot paths are relatively few in number, they frequently appear in the traversal paths of different queries. Reusing results from hot vertices and hot paths enables computation sharing. Specifically, the mechanism consists of two major components: 1) Global Index Mechanism: Maintaining a limited set of hot vertices to index information for all vertices in the graph, these hot vertices act as intermediary nodes for different query paths. Through the global index, the first layer of computation sharing is achieved by providing prunable path values for the majority of queries. 2) Core Subgraph Mechanism: Managing the index information of hot paths, this mechanism efficiently constructs a core subgraph by extracting hot paths from the convergence results of each query, without a separate computation of the hot path index. During the query process, the core subgraph acts as a high-speed network, allowing traversal from one hot vertex to other hot vertices. This is akin to entering a highway from a hot vertex and using the fast lanes (hot paths) on the highway network to quickly reach other high-speed stations (hot vertices). Note that the number of hot vertices in the core subgraph is an order of magnitude larger than that in the global index, enabling a broader coverage. However, due to its focus on maintaining values between hot vertices and hot paths, the overall scale is much smaller than the graph, and the additional overhead is minimal since the values of hot paths are obtained without computation.
+
+
+This paper makes the following contributions:
+\begin{enumerate}
+  \item{We analyze the performance bottlenecks of existing graph processing systems when handling concurrent point-to-point queries and propose leveraging the similarities in data access and computation among concurrent tasks to enhance throughput.}
+  \item{We develop GraphCPP, a dynamic data-driven concurrent processing system for point-to-point queries. It achieves data sharing and computation sharing among concurrent tasks and introduces a strategy for batch execution of similar tasks.}
+  \item{we compare GraphCPP with state-of-the-art point-to-point query systems and concurrent graph processing systems, using a workload that includes six real-world graphs\cite{snap}\cite{twitter}\cite{bubing}\cite{timeaware} and six applications\cite{ppsp_1}\cite{ppwp}\cite{ppnp}\cite{bfs}\cite{reachability_1}\cite{connectivity}. Our experiments demonstrate that, GraphCPP improves their performance by xxx\~xxxx times.}
+\end{enumerate}
+
+\section{BACKGROUND AND MOTIVATION}
+In practical scenarios, there is a substantial demand for high throughput due to the simultaneous execution of numerous graph queries on the same underlying graph. For example, statistics from CAGIS\cite{cagis} reveal that location service open platforms, such as Baidu Maps\cite{baidu}, Amap\cite{amap}, Tencent Maps\cite{qq}, and Huawei Maps\cite{petalmaps}, encounter a daily average of up to 160 billion location service requests. As presented in Table 1 (details in Section x), existing systems demonstrate low throughput in handling large-scale concurrent queries. This undesirable outcome stems from significant redundancy in data access and computation among concurrent tasks. To quantitatively analyze these issues, we conducted performance evaluations on parallel point-to-point queries using XXXXX (machine configuration), opting for XXXXX (the current best solution) on XXXXX (graph dataset).
+
+The remaining sections of this chapter are divided into three parts. First, we introduce relevant concepts. Next, we analyze the performance bottlenecks of current concurrent point-to-point query solutions. Finally, we present insights derived from our observational analysis.
+
+\begin{table}
+  \centering
+  \renewcommand\arraystretch{1.5}
+  \tabcolsep=0.02cm
+  \tiny
+  
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    \rule{0pt}{8pt} 
+    \multirow{1}{*}{System} & \multicolumn{4}{c|}{Pnp} & \multicolumn{4}{c|}{Tripoline} & \multicolumn{4}{c|}{SGraph} & \multicolumn{4}{c|}{Glign} \\
+    \hline
+    \rule{0pt}{11pt} 
+    \makecell{Number of \\ concurrent \\ queries} & 1 & 4 & 8 & 16  & 1 & 4 & 8 & 16 & 1 & 4 & 8 & 16 & 1 & 4 & 8 & 16 \\
+    \hline
+    \rule{0pt}{9pt} 
+    \makecell{Instructions \\ (×$10^{14}$)} & 7.28 & 7.41 & 7.32 & 7.4 & 5.9 & 5.68 & 6.1 & 5.57 & 3.69 & 3.54 & 3.28 & 3.73 & 1.55 & 1.76 & 1.49 & 1.61 \\
+    \hline
+    \rule{0pt}{9pt} 
+    \makecell{LLC loads \\ (×$10^{12}$)} & 28.3 & 27.6 & 28.5 & 27.9 & 15.7 & 16.2 & 15.6 & 15.9 & 8.2 & 8.6 & 8.5 & 8.4 & 5.7 & 5.5 & 5.8 & 5.4 \\
+    \hline
+    \rule{0pt}{9pt} 
+    \makecell{LLC miss \\ ratio} & 45.8\% & 52.6\% & 60.3\% & 70.2\% & 40.3\% & 52.4\% & 64.8\% & 72.4\% & 42.5\% & 57.1\% & 63.8\% & 69.5\% & 32.4\% & 47.2\% & 55.4\% & 67.3\% \\
+    \hline
+    \rule{0pt}{9pt} 
+    \makecell{Runtime \\ (hour)} & 72.96 & 30.29 & 27.65 & 20.11 & 53.42 & 19.76 & 12.31 & 8.84 & 27.24 & 11.96 & 7.28 & 5.36 & 15.47 & 6.18 & 4.32 & 2.19 \\
+    \hline
+  \end{tabular}
+  \caption{Performance comparison of existing systems for processing concurrent point-to-point queries}
+  \label{System_comparison}
+\end{table}
+
+
+
+\subsection{Preliminaries}
+Definition 1: ($Graph$) We represent a directed graph using $G=(V, E)$ (edges in an undirected graph are considered as bidirectional edges), where $V$ is the set of vertices, and $E$ is the set of directed edges formed by vertices in $V$. We use $|V|$ and $|E|$ to denote the number of vertices and edges, respectively. In distributed environments, the graph partitioning problem also exists. We use $P_i=(V_{P_i}, E_{P_i})$ to represent the $i_{th}$ partition of the directed graph, where $V_{P_i}$ denotes the set of vertices in the partition, and $E_{P_i}$ is the set of directed edges formed by vertices in $V_{P_i}$.
+
+Definition 2: ($Point \text{-} to \text{-} Point~Quer$y) We use $q_i=(s_i,d_i)$ to denote the query corresponding to task $i$, where $s_i$ and $d_i$ represent the source and destination vertices of $q_i$, respectively. If the execution of the point-to-point query algorithm on the graph yields a convergent path for $q_i$, this path is referred to as the optimal path between $s_i$ and $d_i$. The distinction between point-to-point queries and regular queries lies in the former's ability to reduce unnecessary traversals through pruning. Pruning involves using the value of the path between two points as a threshold, referred to as the bound. Iteratively traversing new paths updates the bound, and when the bound converges, it signifies the discovery of an optimal path.
+
+Definition 3: ($Core~Subgraph$) We denote the core subgraph as $G_{core}=(V_{hot},E_{hot},Index_{hot})$, where $V_{hot}$ represents the set of hot vertices, $E_{hot}$ represents the set of edges abstracted from hot paths, and $Index_{hot}$ represents the set of values associated with the hot paths. In this context, hot vertices refer to high-degree vertices, and hot paths are optimal paths connecting pairs of hot vertices.
+
+
+
+%\vspace{-0.4cm} %图与上下文的距离
+\begin{figure}[htbp]
+	\begin{minipage}[t]{0.50\linewidth} %调节两个子图左右间距
+		\centering
+		\includegraphics[width=1.8in, height=1.2in]{figure_1.png} %调节单个子图大小
+		\setlength{\abovecaptionskip}{-0.55cm} %控制标题与子图距离
+    \captionsetup{labelsep=period}
+		\caption{\centering{Data access similarities between concurrent tasks}} %子图下标题
+		\label{fig1} %引用标签
+	\end{minipage}%
+	\begin{minipage}[t]{0.50\linewidth}
+		\centering
+		\includegraphics[width=1.8in, height=1.2in]{figure_2.png}
+		\setlength{\abovecaptionskip}{-0.55cm} 
+    \captionsetup{labelsep=period}
+		\caption{\centering{The proportion of high-degree vertices in the overlapping data}}
+		\label{fig2}
+	\end{minipage}%
+	\\
+	\begin{minipage}[t]{0.50\linewidth} %调节两个子图左右间距
+		\centering
+		\includegraphics[width=1.8in, height=1.2in]{figure_3.png} %调节单个子图大小
+		\setlength{\abovecaptionskip}{-0.55cm} 
+    \captionsetup{labelsep=period}
+		\caption{\centering{Storage overhead for global indexes}} %子图下标题
+		\label{fig3} %引用标签
+	\end{minipage}%
+	\begin{minipage}[t]{0.50\linewidth}
+		\centering
+		\includegraphics[width=1.8in, height=1.2in]{figure_4.png}
+		\setlength{\abovecaptionskip}{-0.55cm} 
+    \captionsetup{labelsep=period}
+		\caption{\centering{Computation overhead for global indexes}}
+		\label{fig4}
+	\end{minipage}%
+	\\
+	\begin{minipage}[t]{0.50\linewidth} %调节两个子图左右间距
+		\centering
+		\includegraphics[width=1.8in, height=1.2in]{figure_5.png} %调节单个子图大小
+		\setlength{\abovecaptionskip}{-0.55cm} 
+    \captionsetup{labelsep=period}
+		\caption{\centering{The impact of graph updates on global indexes}} %子图下标题
+		\label{fig5} %引用标签
+	\end{minipage}%
+	\begin{minipage}[t]{0.50\linewidth}
+		\centering
+		\includegraphics[width=1.8in, height=1.2in]{figure_6.png}
+		\setlength{\abovecaptionskip}{-0.55cm} 
+    \captionsetup{labelsep=period}
+		\caption{\centering{The inherent overhead and effectiveness of a global index varies with k}}
+		\label{fig6}
+	\end{minipage}%
+\end{figure}
+%\vspace{-0.7cm}
+
+\begin{table}
+  \centering
+  \renewcommand\arraystretch{1.5}
+  \tabcolsep=0.02cm
+  \tiny
+  
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    \rule{0pt}{8pt} 
+    \multirow{1}{*}{Dataset} & \multicolumn{4}{c|}{twitter-2010} & \multicolumn{4}{c|}{gsh-2015-host} & \multicolumn{4}{c|}{uk-2007-05} & \multicolumn{4}{c|}{LiveJournal} \\
+    \hline
+    \rule{0pt}{11pt} 
+    \makecell{Number of\\global index} & 4 & 8 & 12 &16  & 4 & 8 & 12 &16 & 4 & 8 & 12 &16 & 4 & 8 & 12 &16 \\
+    \hline
+    \rule{0pt}{9pt} 
+    \makecell{Storage cost} & 7.28 & 7.41 & 7.32 & 7.4 & 5.9 & 5.68 & 6.1 & 5.57 & 3.69 & 3.54 & 3.28 & 3.73 & 1.55 & 1.76 & 1.49 & 1.61 \\
+    \hline
+    \rule{0pt}{9pt} 
+    \makecell{Computation cost} & 28.3 & 27.6 & 28.5 & 27.9 & 15.7 & 16.2 & 15.6 & 15.9 & 8.2 & 8.6 & 8.5 & 8.4 & 5.7 & 5.5 & 5.8 & 5.4 \\
+    \hline
+    \rule{0pt}{9pt} 
+    \makecell{Coverage range} & 45.8\% & 52.6\% & 60.3\% & 70.2\% & 40.3\% & 52.4\% & 64.8\% & 72.4\% & 42.5\% & 57.1\% & 63.8\% & 69.5\% & 32.4\% & 47.2\% & 55.4\% & 67.3\% \\
+    \hline
+  \end{tabular}
+  \caption{Performance comparison of existing systems for processing concurrent point-to-point queries}
+  \label{System_comparison}
+\end{table}
+
+
+\subsection{Performance Bottlenecks in Concurrent Point-to-Point Queries}
+In this section, we have implemented the concurrent version of the existing linear pairwise query system\cite{pnp}\cite{tripoline}\cite{sgraph} and the pairwise version of the existing concurrent graph computing system\cite{glign}. Our objective is to quantitatively elucidate the performance bottlenecks of current concurrent pairwise query solutions.
+
+{\bf{Redundant data access overhead}} We observe that when concurrent pairwise queries execute graph traversal on the same underlying graph, a significant portion of their traversal paths exhibits clear data access similarities. As shown in Figure 3x, our data indicates that there is a substantial overlap in data access among concurrent tasks, with a higher overlap ratio for similar tasks (more details are provided in Section xx). However, in the traditional $task \rightarrow data$ scheduling mode, different tasks independently execute queries, leading to competition for limited cache space to store their respective graph data chunks, even if these data chunks are identical. This results in severe cache thrashing and a reduction in the performance of processing concurrent pairwise queries. Table 1 illustrates that, with an increase in the number of concurrent tasks, the cache miss rate for queries sharply rises. Although the overall performance of concurrent execution surpasses linear execution, the average query time per task significantly increases with the growing number of queries due to the mentioned redundant data access overhead. It is essential to note that the total execution time in the concurrent mode is the maximum among the execution times of these tasks, while in the sequential mode, it is the sum of all task execution times.
+
+
+
+{\bf{Redundant Computational Overhead}} Owing to the power-law distribution inherent in graph data, the traversal paths of queries involve a significant number of hot vertices. As depicted in Figure 2, despite hot vertices constituting only a small fraction of the total vertices (approximately XX\%), they frequently appear in the traversal paths of multiple tasks (about XX\%). Furthermore, the degree of sharing among hot vertices in graph data is positively correlated with their proportion in paths. Consequently, different queries may redundantly calculate paths between hot vertices, highlighting computational similarities between concurrent tasks. During a graph snapshot period, the calculation results for paths between identical vertex pairs remain consistent, indicating significant redundancy in computations among concurrent tasks. Moreover, due to the typically higher number of outbound and inbound edges associated with hot vertices, their computational overhead is considerably larger compared to regular vertices.
+
+Certain existing solutions attempt to leverage computational similarity through a global indexing mechanism\cite{tripoline}\cite{sgraph}. However, this mechanism inherently suffers from three key drawbacks: 1) The computational and storage costs of establishing a global index, recording path values between highly connected vertices and all others, escalate sharply with the graph's increasing scale, as depicted in Figures 3 and 4. This escalation is directly proportional to the number of vertices in the global index. 2) In dynamic graph processing, incremental updates refresh the global index following each round of graph updates. However, if affected vertices lie on an optimal path, the global index values for all vertices along the path from the directly impacted vertex to the endpoint must be recalculated. The impact of graph updates is further amplified if the shared data segment undergoes modifications, as shown in Figure 5. The percentage of the global index requiring recalculation continues to rise with an increasing proportion of graph updates. 3) Diverse data distribution patterns across different datasets make it challenging to select an optimal number of index vertices to balance index coverage and associated overhead. Figure 6 illustrates significant variations in inherent costs and the effectiveness of shared computations, even when the same number of index vertices is selected across different datasets.
+
+In conclusion, the global indexing mechanism itself incurs substantial costs, and these costs fluctuate significantly across different datasets. Existing systems often conservatively opt for a limited number of global index vertices (e.g., 16 vertices in Tripoline\cite{tripoline} and SGraph\cite{sgraph}) to avoid introducing expensive overhead. However, this choice also restricts the coverage of the global index, hindering efficient computation sharing.
+
+\subsection{Our Motivation}
+Inspired by the observations mentioned above, we derive the following insights:
+
+{\bf{Data access similarity}}: A significant portion of traversal paths in different queries displays substantial overlap, indicating a similarity in data access patterns(As shown in Figure 1). However, existing solutions fall short in concurrently supporting point-to-point queries and facilitating data sharing among tasks, resulting in redundant data access. This observation motivates the development of an efficient, fine-grained data-sharing mechanism. By allowing various tasks to share access to the same data at different times, this mechanism aims to reduce data access costs and enhance the throughput of concurrent queries.
+
+{\bf{Computational similarity}}: The core subgraph, consisting of hot vertices and paths in the original graph, is frequently traversed by various tasks, highlighting computational similarity among different queries(As shown in Figure 2). Existing graph traversal systems either neglect computational similarity\cite{pnp} or employ a costly global indexing mechanism\cite{tripoline}\cite{sgraph}, limiting the effectiveness of computational sharing. This observation inspires the creation of a lightweight, dual-layered indexing mechanism to share computational results of overlapping hot paths across different queries. 
+
+\section{Overview Of GraphCPP}
+
+\subsection{System Architecture}
+To enhance the efficiency of concurrent point-to-point queries, we introduce GraphCPP, a meticulously designed, data-driven system tailored for concurrent queries. Developed after a thorough examination of the computational intricacies inherent in such queries, GraphCPP aims to achieve data and computation sharing among concurrent point-to-point tasks. As depicted in the figure above, GraphCPP incorporates an efficient data-driven caching execution mechanism, leveraging data similarity among concurrent tasks to facilitate shared access to overlapping data. Additionally, it introduces a dual-level computation sharing mechanism, enabling computations for identical hot vertices and paths to be shared across different queries. Furthermore, GraphCPP employs path prediction for various queries, promoting the bulk execution of similar queries with overlapping paths and maximizing the utilization of data similarity. 
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{系统架构.png}
+    \captionsetup{labelsep=period}
+    \caption{System architecture diagram}
+    \label{fig7}
+  \end{figure}
+  
+
+{\bf{Data Access Sharing Mechanism}}. This mechanism aims to achieve precise sharing of graph structure data by leveraging data access similarities among concurrent tasks. The process unfolds as follows: initially, similar to other distributed graph computing systems\cite{cgraph}\cite{multilyra}, it partitions the original graph data into coarse-grained segments, distributing them for parallel processing across different machines. Subsequently, a fine-grained chunk manager further divides these coarse-grained segments into fine-grained graph chunks. The next step involves establishing connections between queries and graph data chunks. Specifically, if a query $q_i$ has active vertices in a graph chunk $b_i$, a relationship between $q_i$ and $b_i$ is established. Following this, a graph chunk priority scheduling mechanism prioritizes graph chunks with a higher number of associated tasks for loading into the Last Level Cache (LLC). Consequently, the system filters out all queries linked to graph chunks present in the LLC, allowing them to be executed in batches on the shared graph chunks.
+
+{\bf{Computation Sharing Mechanism}}. GraphCPP optimizes shared path computation by leveraging dual-level index information (global index and core subgraph index) for concurrent queries. The process consists of three phases: 1) Preprocessing Phase: Gather degree information for all vertices in the original graph data. Sort vertices in descending order based on degrees. Select vertices ranked from 1 to $k$ as global vertices and vertices ranked from $k+1$ to $k+m$ as core subgraph vertices. 2) Index Building Phase: Execute a point-to-all query algorithm before queries start. Compute the best path values from global vertices to all vertices in the graph (e.g., SSSP algorithm for PPSP tasks). For directed graphs, calculate outbound and inbound path values for global vertices; for undirected graphs, only one calculation is needed. Dynamically maintain the core subgraph through a runtime method. The core subgraph doesn't need precomputation for hot paths but explores them dynamically after each query, adding them to the core subgraph structure. 3) Computation Sharing Phase: Global vertices, acting as intermediaries for numerous paths, are used at the beginning of a query to compute the path value for a reachable path. This path may not be the best path but serves as a reference for pruning queries. In pruning traversal based on upper and lower bounds, the global index estimates path values for query paths earlier, enabling earlier pruning of unsuitable paths. This constitutes the first level of computation sharing. The core subgraph, maintaining best path values between hot vertices, acts as a highway network between queries. When a query traverses hot vertices in the core subgraph, it connects to the highway, allowing quick traversal from entrance to exit vertices without recalculating path values. This constitutes the second level of computation sharing.
+
+
+\subsection{Overall Execution Workflow}
+Algorithm 1 outlines the comprehensive execution process of GraphCPP in handling concurrent queries. We obtain the set \(block_{table}\), consisting of all graph blocks, and the set \(Q\), representing all queries, both specific to the current computing node. Each of these sets is allocated dedicated memory space(line 2). In the third line, we enter a loop processing phase, and queries iterate until convergence is achieved. GraphCPP invokes \texttt{ChooseNextSharingBlock} to update the association between queries and graph blocks and selects the graph block \(b_i\) with the highest priority (line 4). By tallying the associated blocks for each task (i.e., tasks with active vertices in the current block), we can determine all queries related to the current graph block \(b_i\) (line 5). Next, we load \(b_i\) into the cache and simultaneously process all associated query operations \(q_i\) (line 6). This step embodies the idea of data sharing, i.e., multiple queries sharing the result of a single data access. Subsequently, we invoke \texttt{GraphCPPCompute} to perform point-to-point query operations \(q_i\) on the current block (details are provided in Section (section:xx) . Iterative query execution follows the Bulk Synchronous Parallel (BSP) model, where each iteration generates a new set of active vertices and updates to form a new query (line 7). If the new query remains associated with the current graph block \(b_i\), we add \(q_i\) to \(Q_{b_i}\) and return to the sixth line to continue querying on the graph block \(b_i\)(line 9). Otherwise, it signifies that the new task is not associated with the current graph block, and it needs to be saved in the query set(line 11), at this point, the task is suspended.
+
+\begin{algorithm}
+\caption{Concurrent Point-to-Point Queries}
+\label{alg:concurrent_queries}
+\begin{algorithmic}[1]
+
+\Function{OverallWorkflow}{}
+    \State \Call{MallocBuffers}{$block_{table}, Q$}
+    \While{\Call{has\_active}{$block_{table}$}}
+        \State $b_i \gets$ \Call{ChooseNextSharingBlock}{}
+        \State $Q_{b_i} \gets$ \Call{ChooseAssociatedQueries}{$b_i$}
+        \For{\textbf{each} $q_i \in Q_{b_i}$} 
+            \State $new\_query \gets$ \Call{GraphCPPCompute}{$q_i, b_i$}
+            \If{\Call{has\_Associated}{$(b_i, new\_query)$}}
+                \State $Q_{b_i}.\text{Push}(new\_query)$
+            \Else
+                \State $Q.\text{Push}(new\_query)$
+            \EndIf
+        \EndFor
+    \EndWhile
+\EndFunction
+
+\end{algorithmic}
+\end{algorithm}
+  
+The presented algorithm illustrates the overall workflow of GraphCPP. In the subsequent sections, we will delve into the detailed explanations of two optimization mechanisms: data access sharing and compute sharing.
+
+\subsection{Data Access Sharing Mechanism}
+In Section 2.2, we observed a significant overlap in graph structure data access among concurrent tasks. Under the existing processing mechanism, this overlapping data cannot be shared and utilized. However, for point-to-point queries on the graph, the order of data access does not affect the correctness of the results. The core idea of our data sharing mechanism is to transform the original $task \rightarrow data$ linear task scheduling order into a $data \rightarrow task$ fine-grained concurrent task scheduling order. This allows us to leverage data similarity among concurrent queries, amortize data access overhead, enhance cache utilization efficiency, and consequently, improve system throughput. We will address two key challenges in the following sections: 1) How to determine the shared data segments? 2) How to implement data sharing among multiple tasks? Finally, we will describe additional measures to further exploit data access similarity.
+
+a) Determine Shared Data Segments
+
+{\bf{Determine the granularity of shared graph partitions.}} Distributed memory graph computing systems need to load data into the cache to improve data access efficiency. Ideally, the data of shared graph partitions should fully fit into the Last-Level Cache (LLC) to avoid frequent eviction and reloading of different parts of partitions. However, the granularity of graph partitions should not be too small, as it would increase synchronization overhead in task processing. We use the formula x to determine an appropriate size for shared graph partitions. Here, $B_S$ repressents the size of the graph structure data for the shared partition, $G_S$ represents the size of the graph structure data for the partition it belongs to, $|V|$ is the total number of vertices on the partitioned graph, $V_S$ represents the average space required to store state information for a vertex, $N$ is the number of concurrent queries, $LLC_S$ is the size of the LLC cache, and $R_S$ is the size of reserved redundant space,  which can be used to store data such as indexes. The two terms on the right side of the formula represent graph structure data and task-specific data, respectively (their sizes are proportional to the scale of the graph partition and the number of concurrent queries). The right side of the formula represents the size of the available space per task after deducting the reserved cache space. Using this formula, we determine the maximum granularity for each shared graph partition under the premise of adapting to LLC capacity.
+
+\begin{equation}
+    B_S + \frac{B_S}{G_S} \cdot \lvert V \rvert \cdot V_S \cdot N \leq LLC_S - R_S
+    \end{equation}
+
+{\bf{Logical Partitioning.}} Once the granularity of shared graph blocks is established, GraphCPP can proceed with the logical partitioning during the graph preprocessing phase. This process involves subdividing coarse-grained graph partitions on the distributed system into finer-grained shared graph blocks. Pseudocode for partitioning graph blocks in GraphCPP is presented in algorithm 2:
+
+\begin{algorithm}
+\caption{Logical Partition Algorithm}
+\begin{algorithmic}[1]
+\Function{Partition}{$P_i, block_{table}$}
+    \State $block\_map \gets$ null
+    \For{each $e \in P_i$}
+        \If{$e.src$ in $block\_map$}
+            \State $block\_map[e.src] \mathrel{+{+}}$
+        \Else
+            \State $block\_map[e.src] \gets 1$
+        \EndIf
+        \If{$\text{block\_map.size()} \geq B_S$}
+            \State $block_table.\text{push}(block\_map)$
+            \State $block\_map.\text{clear()}$
+        \EndIf
+    \EndFor
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+The logical partition function takes two parameters: one is the graph partition structure data $P_i$ recorded in edge table format, and the other is the set of graph blocks $block_{table}$ owned by the partition (Line 1). In Line 2, we utilize a dictionary structure called $block_{map}$ to collect information about graph blocks. Its key records the source vertex ID of an edge, and its value records the number of outgoing edges corresponding to that vertex. In Line 4, GraphCPP iterates through each edge in the partition. If the edge has already been loaded into the current partition, the count of outgoing edges for that partition is incremented (Line 6). If the vertex is added to the dictionary for the first time, the count of outgoing edges for the partition is set to 1 (Line 8). After processing each edge, there is a check to determine if the current block is full (Line 11). If the block is full, the current block is added to the $block_{set}$ (Line 12), and the recorded block information is cleared (Line 13). This way, when all the data in the partition has been traversed, and each edge in the partition is assigned to a specific graph block, we obtain the collection of logically partitioned graph blocks.
+
+b) Share Similar Data Among Multiple Tasks
+
+{\bf{Establishing the Association between Shared Blocks and Queries}}. Through the previous steps, we have achieved fine-grained graph partitioning in a logical manner. Since this partitioning is only logical, the data remains contiguous on the physical storage medium. Therefore, it is easy to determine the partition in which a vertex is located based on its ID. During query execution, each task $q_i$ maintains an active vertex set $Set_{act,i}$ throughout the iterative computation process. It follows the updating strategy: 1) Initially, $Set_{act,i}$ only contains the source vertex Si of the query. 2) Process the active vertices in $Set_{act,i}$ according to the flow of the point-to-point query algorithm, removing the processed vertices from the active set. 3) If a vertex's state changes in this round and it is not pruned, add the vertex to $Set_{act,i}$ for processing in the next round. We first deduce the graph block to which a vertex belongs by reverse inference of its ID and then utilize a specially designed array to store the traversed partitions for each task. Since point-to-point queries adopt a pruning-based traversal strategy, the number of active vertices in each execution round is not high. Therefore, establishing the association between queries and their respective blocks can be done with relatively low overhead.
+
+{\bf{Determining the Priority of Partition Scheduling}}. After establishing the association between queries and their corresponding blocks, we can tally the number of tasks associated with each block. The higher the task count, the more tasks share the block, indicating greater benefits from processing this block. Consequently, blocks with a higher task count are prioritized for placement into the Last-Level Cache (LLC).
+
+{\bf{Triggering Concurrent Execution of Associated Tasks}}. Having obtained the shared graph data blocks, based on the association between shared blocks and queries, we can infer the active queries. These tasks share the graph structure data in the LLC, and we execute these queries using a batch computing approach. As shown in Algorithm X, active tasks generate new active vertices after one round of execution. If these new active vertices remain associated with the current shared block, the queries continue execution. Shared blocks always remain in the LLC until all queries associated with them are processed, at which point they are evicted.
+
+c) Batch Execute Similar Tasks
+
+Concurrently, within the task pool, various random queries coexist, each following distinct query paths. Some tasks demonstrate substantial overlap in their query paths, effectively utilizing data sharing, while others exhibit lower overlap, leading to reduced data sharing efficiency. We observe a direct correlation between the similarity of queries and the ratio of path overlap. This correlation suggests that tasks with higher similarity achieve superior data access efficiency and undergo fewer redundant synchronous iterations. Note: we assess task similarity by calculating the distances between the starting points of different tasks and then adding the distances between the destination vertices of those tasks. Based on this assessment, we propose a batch execution strategy that considers task similarity. In each iteration, GraphCPP randomly selects a query from the task pool, acquiring its starting and destination vertices. Subsequently, using the BFS algorithm, it retrieves neighbor vertex sets, $Set_S$ and $Set_D$, for the starting and destination vertices, respectively. Recognizing that certain central nodes have numerous neighbor nodes, we set a limit of 500 for the number of neighbors and constrain the BFS algorithm to a 2-hop limit. GraphCPP then scans the task pool, filtering tasks where the starting point is in $Set_S$ and the destination is in $Set_D$. These tasks are treated as similar and processed concurrently. Notably, if a query's starting point or destination belongs to a high-degree vertex, it can leverage an index for accelerated querying, bypassing conventional steps. After excluding high-degree vertices, the cost of K-hop SSSP is minimal, allowing concurrent execution with normal queries and incurring negligible additional overhead.
+
+
+
+\subsection{Computation Sharing Mechanism}
+
+GraphCPP achieves computation sharing through two mechanisms: the global index and the core subgraph index. The inherent overhead of the global index is substantial and directly proportional to the number of global indices. In practice, the number of global vertices is typically kept low (e.g., 16) due to this overhead. Because of the power-law distribution, these few hot vertices act as hub nodes for various queries. As a result, for most point-to-point queries $q_i$, a path can be traced from the source vertex $s_i$ through at least one global vertex to the destination vertex $d_i$ While this path may not always be the optimal route for $q_i$, it serves as a valuable pruning boundary. GraphCPP utilizes the global index to rapidly identify these intermediary paths, constituting the first level of computation sharing. Additionally, the core subgraph mechanism, without preprocessing, reveals optimal paths based on existing query results, facilitating computation sharing for distinct yet overlapping hot paths. Compared to the global index, the core subgraph is lighter, allowing for a broader coverage range by increasing the number of hot vertices. Consequently, more precise pruning bounds are provided, accelerating the convergence speed of pruning queries. Algorithm 3 outlines the pseudocode for the computation sharing mechanism.
+
+\begin{algorithm}
+  \caption{Shared Computation Algorithm}
+  \begin{algorithmic}[1]
+  
+  \Function{IndexPreprocess}{$V, k, m$} 
+      \State $Set_{\text{global}}, Set_{\text{core\_subgraph}} \gets \text{SortByDegree}(V, k, m)$
+      \State $Set_{\text{global\_index}} \gets \text{BuildGlobalIndex}(k)$
+      \State $\text{InitCoreSubgraph}(m, Set_{\text{core\_subgraph\_index}})$
+  \EndFunction
+
+  \Function{SharedComputation}{}
+      \State $bound \gets \text{FirstLevelSharing}(Set_{\text{global\_index}}, Set_{\text{query}})$
+      \While{$\text{activeVerticesCount} \neq 0$}
+          \State $activeVertex \gets \text{GetNextActiveVertex}()$
+          \If{$activeVertex \in \text{coreSubgraph}$}
+              \State $\text{UpdateBounds}(bound, $\\
+              $\text{SecondLevelSharing}(Set_{\text{core\_subgraph\_index}}, Set_{\text{query}}))$
+          \EndIf
+          \For{each $neighbor$ of $activeVertex$}
+              \State $\text{UpdateBoundsByNeighbors}(neighbor)$
+          \EndFor
+          \State $\text{activeVerticesCount} \gets \text{UpdateActiveVertices}()$
+      \EndWhile
+  \EndFunction
+  
+  \Function{MaintainCoreSubgraph}{$Set_{\text{query\_path}}$}
+      \State $Set_{\text{hot\_path}} \gets \text{ExtractHotPath}(Set_{\text{query\_path}})$
+      \State $\text{AddToCoreSubgraph}(Set_{\text{hot\_path}})$
+  \EndFunction
+
+\end{algorithmic}
+\end{algorithm}
+
+The steps for implementing computation sharing are as follows:
+1) Index Preprocessing (Lines 2): After sorting the degrees of vertices, the system selects the top $k+m$ hot vertices with the highest degrees. The first $k$ vertices serve as $global~vertices$ (where $k$ is user-defined), and the remaining vertices become $core~subgraph~vertices$. The computation of the global index is completed during preprocessing phrase. GraphCPP executes the SSSP algorithm to calculate the optimal paths (including index values and parent nodes) for $k$ high-degree vertices to all vertices in the graph. The results are stored in an array indexed by the high-degree vertices' IDs. The core subgraph omits the precomputation process, directly reusing the computation results of each query, requiring only initialization during preprocessing.
+2) Computation Sharing (Lines 6-19): $Global~vertices$ act as pivotal nodes for query paths. Most queries have at least one path passing through global index vertices. Although this path may not be the optimal path, it provides a reliable reference for query pruning. Therefore, before executing point-to-point queries, an approximate boundary is determined using the $global~index$, representing the first level of computation sharing. Subsequently, an iterative query algorithm is executed, continuously processing new active vertices until all vertices converge. For each active vertex, it is determined whether it belongs to the core subgraph. Initially, the core subgraph is empty and does not participate in sharing. As queries execute, the core subgraph gradually accumulates more hot paths. When an active vertex belongs to the core subgraph, the hot path value for the corresponding starting vertex can be directly obtained through the core subgraph, avoiding redundant computation. Additionally, the core subgraph allows the query boundary to jump directly from one hot vertex to another through the hot path, accelerating the speed of point-to-point queries.
+3) Maintain the Core Subgraph (Lines 20-23): To ensure the lightweight nature of the core subgraph, hot paths are not precomputed. Instead, a subset of hot paths is explored from existing optimal paths, reusing previous computation results. Clearly, any path between any two vertices on an optimal path is also an optimal path. Therefore, with minimal overhead, identifying hot vertices from existing results and calculating results between hot vertices using a prefix sum method is sufficient. To achieve this, traversal paths and path values from the source vertex to each intermediate point need to be retained during the query process. Since point-to-point queries inherently require calculating this information, the extra overhead is minimal. Through these steps, we achieve efficient data sharing using a lightweight $core~subgraph~index$.
+
+\subsection{Update Mechanism}
+In practical applications, the underlying graph traversed by queries often undergoes dynamic changes, involving edge additions ($e_{\text{add}}$) and edge deletions ($e_{\text{delete}}$). Changes in the graph structure data can lead to errors in index values. Therefore, when dynamic updates occur in the dynamic graph, we not only need to update the graph structure information but also dynamically update the indexes. 1) Graph structure information update: GraphCPP stores the out-neighbor of each vertex using an adjacency list. Therefore, we only need to modify the adjacency list of the corresponding out-neighbors based on the source vertex information when an edge is added (or deleted). 2) Index update: We adopt an incremental updating approach, sequentially updating the global index and core subgraph index, minimizing redundant computation costs during index updates.
+
+The number of global index vertices is relatively small ($k$ global index vertices), but it records a substantial number of index values ($k \times |V|$ global index values). Storing these index values in a dedicated array might result in excessive bulkiness, but dispersing the index information across individual vertices is a more suitable approach. Each vertex maintains two tables: $table1$ records the parent nodes on the optimal paths to $k$ global vertices, and $table2$ records the index values of the optimal paths from this vertex to $k$ global vertices. Incremental updates are performed on these two tables based on the type of edge update. Specifically, when an edge addition update ($e_{\text{add}}$) occurs, we first obtain the source vertex $src$, destination vertex $dst$, and the weight between the two points. We then sequentially check each global index vertex. If $Index_{\text{src}} + weight > Index_{\text{dst}}$, we update $parent_{\text{dst}}$ in $table1$ to $src$ and $Index_{\text{dst}}$ in $table2$ to $Index_{\text{src}} + weight$. Otherwise, there is no need to update the index for that global vertex. In the case of an edge deletion update, we check each global index vertex and determine if $parent_{\text{dst}}$ equals $src$. If true, it indicates that we have deleted the original optimal path to $dst$, and we need to recalculate $Index_{\text{dst}}$. Similar to other incremental computation methods\cite{kickstarter}\cite{graphbolt} updates to $dst$ will gradually propagate outward, requiring updates for all downstream vertices on the optimal paths that pass through $dst$. If $parent_{\text{dst}}$ is not equal to $src$, there is no need to update that global index vertex.
+
+The core subgraph index records indexes between a small number of high-degree vertices, requiring the maintenance of at most $m \times m$ index values (where $m$ is orders of magnitude smaller than the graph's data scale). To store this information, we use an independent two-dimensional array for the core subgraph. Specifically, edge additions can introduce new shortcuts, leading to the degradation of original optimal paths into non-optimal ones. In the context of our pruning queries, although non-optimal path indexes can cause early overestimation of boundary values, the iterative process ensures that point-to-point queries still converge towards more optimal paths, ultimately reaching the correct optimal paths. Extracting the latest hot path values from these converged paths completes the update to hot paths. For edge deletion updates, GraphCPP checks if both vertices of the deleted edge appear on some hot path. If yes, the original hot paths are interrupted, rendering all affected hot paths invalid. If only one vertex or no vertices appear on some hot path, the deleted edge does not affect hot paths, and there is no need for an update. Since the core subgraph index reuses the optimal path results from each query, no separate calculation is needed, resulting in overall low overhead.
+
+The above mechanism implements incremental maintenance of graph structure data, global indexes, and core subgraph indexes. Considering that subtle graph updates do not significantly impact the overall computation results, we temporarily store subtle graph updates $\Delta G$ until its size exceeds a preset threshold or a certain time interval is reached. Only then do we execute batch graph update operations, further reducing update costs.
+
+\section{EXPERIMENTAL EVALUATION}
+\subsection{Experimental Setup}
+
+{\bf{Hardware Configuration}}: The experiments are conducted on an 8-node cluster, each machine equipped with 2 32-core lntel Xeon platinum 8358 CPUs (each CPU has 48MB L3 cache) and 1TB memory. All nodes are interconnected through an lnfiniband network with a bandwidth of 300Gbps. The programs are compiled using gcc version 9.4.0, openMPl version 4.0.3, and with openMP enabled.
+    
+{\bf{Graph Algorithms}}: To align with prior work\cite{pnp}\cite{tripoline}\cite{sgraph}\cite{glign}, we've selected six benchmark algorithms widely applied in graph clustering, classification, and prediction. These algorithms fall into two categories: weighted graph algorithms and unweighted graph algorithms. 1) Weighted graph algorithms: Point-to-point shortest path (PPSP)\cite{ppsp_1}\cite{ppsp_2}\cite{ppsp_3}, point-to-point widest path (PPWP)\cite{ppwp}, and point-to-point narrowest path (PPNP)\cite{ppnp} are utilized to identify the shortest, widest, or narrowest paths between two vertices. They find extensive applications in social/financial networks, traffic planning, monitoring money laundering activities, and network quality analysis. 2) Unweighted graph algorithms: Breadth-first search (BFS)\cite{bfs}, connectivity\cite{reachability_1}\cite{reachability_2}\cite{reachability_3}, and reachability\cite{connectivity} are the three most common pairwise queries on unweighted graphs. They are employed to determine the shortest path between two vertices, whether two vertices are connected in an undirected graph, and whether two vertices are connected in a directed graph. These algorithms find widespread use in bi-connectivity, higher-order connectivity, and advanced algorithms for graph clustering.
+
+{\bf{Graph Datasets}}: The graph datasets used for the aforementioned algorithms are presented in Table x. LiveJournal and Twitter-2010 belong to social network graphs, while UK-2007-05 and Gsh-2015-host represent web-crawl graphs. These datasets exhibit power-law graphs with small diameters and skewed distributions, capturing real-world graph distribution scenarios. Our experiments are based on dynamic graphs, utilizing a snapshot mechanism where graph updates are performed on an unclosed snapshot, and graph queries are executed on a closed snapshot. Unclosed snapshots are periodically transformed into closed snapshots, replacing the original snapshot.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lccc}
+    \hline
+    Datasets          & Vertices & Edges  & Data sizes \\
+    \hline
+    LiveJournal[1]    & 4.8M     & 69M    & 526MB      \\
+    Twitter-2010[2]   & 41.7M    & 1.5B   & 10.9GB     \\
+    Gsh-2015-host[3]  & 68.7M    & 1.8B   & 13.4GB     \\
+    UK-2007-05[4]     & 106M     & 3.74B  & 27.9GB     \\
+    \hline
+    \end{tabular}
+    \caption{Dataset Information}
+    \end{table}
+
+{\bf{System Comparison}}: We conducted a comparative analysis between GraphCPP and existing point-to-point query solutions, including PnP\cite{pnp}, Tripoline\cite{tripoline}, and SGraph\cite{sgraph}. In Section x, as SGraph represents the state-of-the-art in point-to-point query systems, the performance of PnP-S, PnP-C, Tripoline-S, and Tripoline-C consistently falls behind SGraph. Therefore, in the subsequent comparative analysis, we did not present the performance results of PnP and Tripoline. Since these systems are not open source, we re-implemented their mechanisms based on the Gemini distributed graph processing framework. Given that PnP, Tripoline, and SGraph do not directly support concurrent operations, we made modifications to enable them to handle multiple queries simultaneously. Systems with the "-S" suffix execute tasks sequentially, while those with the "-C" suffix handle queries concurrently, managed by the operating system.
+
+Additionally, for a more scientifically rigorous experimental comparison, we benchmarked against the state-of-the-art general concurrent graph computing solution, Glign. When evaluating the overall performance of concurrent queries, we employed a mixed submission approach, generating an equal number of queries for algorithms such as PPsP, PPWP, PPNP, BFS, Connectivity, and Reachability. It is noteworthy that a global indexing mechanism needs to maintain a set of indices for different graph algorithms. To ensure fairness, we calculated the average global indexing cost for the six algorithms. Furthermore, random parameters were set for each query, maintaining consistency with the baseline: the number of global indices (k) was set to 16, and the core subgraph vertices in GraphCPP were set to 128. All benchmarks were executed 10 times, and the reported experimental results represent the average values.
+ 
+
+\subsection{Overall Performance Comparison}
+
+
+%\vspace{-0.4cm} %图与上下文的距离
+\begin{figure}[htbp]
+	\begin{minipage}[t]{0.50\linewidth} %调节两个子图左右间距
+		\centering
+		\includegraphics[width=1.8in, height=1.2in]{figure_8.png} %调节单个子图大小
+		\setlength{\abovecaptionskip}{-0.55cm} %控制标题与子图距离
+    \captionsetup{labelsep=period}
+		\caption{\centering{Total execution time for 512 concurrent point-to-point queries using different schemes}} %子图下标题
+		\label{fig8} %引用标签
+	\end{minipage}%
+	\begin{minipage}[t]{0.50\linewidth}
+		\centering
+		\includegraphics[width=1.8in, height=1.2in]{figure_9.png}
+		\setlength{\abovecaptionskip}{-0.55cm} 
+    \captionsetup{labelsep=period}
+		\caption{\centering{Breakdown of execution times for queries of different schemes}}
+		\label{fig9}
+	\end{minipage}%
+	\\
+	\begin{minipage}[t]{0.50\linewidth} %调节两个子图左右间距
+		\centering
+		\includegraphics[width=1.8in, height=1.2in]{figure_10.png} %调节单个子图大小
+		\setlength{\abovecaptionskip}{-0.55cm} 
+    \captionsetup{labelsep=period}
+		\caption{\centering{LLC miss rate for 512 queries different schemes}} %子图下标题
+		\label{fig10} %引用标签
+	\end{minipage}%
+	\begin{minipage}[t]{0.50\linewidth}
+		\centering
+		\includegraphics[width=1.8in, height=1.2in]{figure_11.png}
+		\setlength{\abovecaptionskip}{-0.55cm} 
+    \captionsetup{labelsep=period}
+		\caption{\centering{Volume of data swapped into the LLC for 512 queries}}
+		\label{fig11}
+	\end{minipage}%
+	\\
+	\begin{minipage}[t]{0.50\linewidth} %调节两个子图左右间距
+		\centering
+		\includegraphics[width=1.8in, height=1.2in]{figure_12.png} %调节单个子图大小
+		\setlength{\abovecaptionskip}{-0.55cm} 
+    \captionsetup{labelsep=period}
+		\caption{\centering{The computation time for different schemes to execute queries varies with processing batches}} %子图下标题
+		\label{fig12} %引用标签
+	\end{minipage}%
+	\begin{minipage}[t]{0.50\linewidth}
+		\centering
+		\includegraphics[width=1.8in, height=1.2in]{figure_12.png}
+		\setlength{\abovecaptionskip}{-0.55cm} 
+    \captionsetup{labelsep=period}
+		\caption{\centering{The Total time for executing queries in different schemes varies with the number of concurrent queries}}
+		\label{fig13}
+	\end{minipage}%
+\end{figure}
+%\vspace{-0.7cm}
+
+Figure 8 depicts the total execution time of xx concurrent queries using different schemes. Due to significant variations in the execution times of different test cases, we normalize the execution time relative to PnP's performance. It is evident that, for all graphs, GraphCPP achieves shorter execution times (and higher throughput) compared to the other schemes. In comparison to SGraph-S, SGraph-C and Glign, GraphCPP demonstrates an average throughput improvement of approximately xx, xx, and xx times, respectively. This enhancement in throughput is accomplished by reducing data access costs and efficiently pruning the core subgraph in GraphCPP.
+
+To provide a more in-depth analysis of performance, we further divide the total time into data access time and graph processing time. As shown in Figure 9, GraphCPP requires less time for graph data access compared to other systems, and this proportion decreases further as the graph size increases. For example, in the case of Gsh-2015-host, GraphCPP's data access time is reduced by xx times to xx times compared to other systems. Two key factors contribute to GraphCPP's efficiency: 1) identical portions of graph data required by different concurrent queries only need to load and maintain a single copy in memory, reducing memory consumption. 2) graph data blocks are prioritized and periodically loaded into the LLC based on the number of associated tasks, promoting job reuse and effectively lowering LLC miss rates, minimizing unnecessary memory data transfers. Additionally, thanks to the two-level computing sharing mechanism, GraphCPP's computation time is also lower than that of other systems.
+
+\subsection{Efficiency of Data Access Sharing Mechanism}
+GraphCPP employs a data sharing mechanism to reduce redundant data access. To qualitatively illustrate the efficiency of this mechanism, we evaluate the LLC utilization of different systems, and the results are presented in Figure 10. Notably, GraphCPP demonstrates lower LLC miss rates compared to the other six systems. In the case of UK-2007-05, GraphCPP's LLC miss rate is only xx, while SGraph-S, SGraph-C and Glign exhibit LLC miss rates of xx, xx, and xx, respectively. This is primarily attributed to GraphCPP allowing multiple queries to share a single graph data copy in the LLC, enabling more efficient utilization of the LLC and enhancing data locality for queries.
+
+Additionally, we track the total amount of data swapped into the LLC by these 512 queries. Generally, the concurrent execution mode (-C) tends to swap more data into the LLC compared to the sequential execution mode (-S). This is because concurrent queries lack data sharing, leading to frequent swapping of graph data in and out of the LLC and resulting in more redundant memory data transfers. As illustrated in Figure 11, GraphCPP swaps significantly less data compared to SGraph-S (xx in UK-2007-05). This reduction is attributed to GraphCPP maximizing the similarity in data access among concurrent tasks.
+
+\subsection{Efficiency of the Computation Sharing Mechanism}
+Figure 12 illustrates the relationship between system graph processing time and time. To compare the graph processing times of different systems, we normalized the processing time using SGraph-S as a reference. SGraph-C introduces a parallel execution strategy, leading to synchronization overhead, resulting in slightly longer graph processing time for individual tasks compared to the serial version. In contrast, due to the lack of specialized optimization for point-to-point queries, Glign requires a significant amount of redundant computation, making its processing time the longest. GraphCPP employs a dual-level computation sharing mechanism. In the initial phase, the core subgraph cannot participate in sharing, causing it to have a slightly higher graph processing time than SGraph-C, reverting to a regular global index. As the queries progress, new hot path values continuously join the core subgraph, gradually enhancing the computation sharing effect of GraphCPP, thereby reducing the graph processing time over time.
+
+{\bf{Global Index Overhead}}: As the number of global indices increases, the time required for maintaining the indices also grows. In our experiments, PnP did not incur maintenance overhead for global indices as it did not utilize them. However, Tripoline\cite{tripoline}, SGraph\cite{sgraph}, and GraphCPP employed similar global index mechanisms. Thus, GraphCPP's index construction overhead is comparable to other systems due to the adoption of the same number of global indices. Nevertheless, GraphCPP achieves higher throughput, allowing it to handle more queries in the same time frame, thereby distributing the global index overhead.
+
+{\bf{Core Subgraph Index Overhead}}: We also evaluated the impact of core subgraph indexing on GraphCPP performance. With the global index set to 16, GraphCPP-128, GraphCPP-256, and GraphCPP-without represent versions with core subgraph indices selecting 128, 256 vertices, and no core subgraph indexing, respectively. In Table x, we present the memory footprint of these versions, revealing that GraphCPP-128 and GraphCPP-256 exhibit minimal increases in memory usage compared to GraphCPP-without (all maintaining 16 global indices). This is due to the fact that core subgraph vertices store distances only to other core subgraph vertices, requiring minimal additional space compared to global indices stored for all vertices. Additionally, Table x displays the total execution times of GraphCPP-128, GraphCPP-256, and GraphCPP-without across 16 tasks. It is observed that both GraphCPP-256 and GraphCPP-128 consistently outperform GraphCPP-without, with GraphCPP-256 demonstrating superior performance to GraphCPP-128. On Friendster, the processing times for GraphCPP-256 and GraphCPP-128 are significantly lower than those for GraphCPP-without, showcasing the enhanced computational efficiency resulting from the additional core subgraph vertices, which effectively improves the computation sharing ratio and reduces redundant computational overhead.
+
+\begin{table}[htbp]
+    \centering
+    \label{tab:mytable}
+    \begin{tabular}{|l|c|c|}
+      \hline
+      & Core subgraph scale  & Total execution time \\
+      \hline
+      GraphCPP-without & 0 & 76.98 \\
+      GraphCPP-128 & 16,384 & 65.46 \\
+      GraphCPP-256 & 65,536 & 123.98 \\
+      \hline
+    \end{tabular}
+    \caption{Core Subgraph Index Overhead}
+  \end{table}
+
+
+{\bf{Update Maintenance Overhead}}: The systems Tripoline, SGraph, and GraphCPP share a commonality in their global indexing mechanisms, as they all set the global index number to 16, resulting in equivalent update overhead for global indices. Simultaneously, GraphCPP introduces an additional layer of sharing through the core subgraph mechanism, incurring supplementary update costs. As described in Section xxx, when edge addition updates occur, there is no need for dedicated updates to the corresponding hot paths of core subgraphs. For edge deletion updates, only the affected hot paths need to be removed. As we do not perform dedicated computations for core subgraphs but extract hot paths from existing results, graph updates affect the accuracy of the core subgraph mechanism without incurring expensive update maintenance overhead. Furthermore, to mitigate update costs, GraphCPP conducts frequent maintenance only in the initial phase, reducing the maintenance frequency once the subgraph establishment reaches 80\%. In the absence of graph mutations, previously recorded hot path values are not redundantly updated for core subgraphs.
+
+
+\subsection{Scalability of GraphCPP}
+Figure 16 illustrates the performance comparison between GraphCPP and six other systems under varying numbers of concurrent PPsP queries. GraphCPP exhibits superior performance improvement as the number of concurrent queries increases. For 2, 4, 8, and 16 concurrent queries, GraphCPP achieves acceleration ratios of xx, xx, xx, and xx, respectively, in comparison to SGraph-S. This improvement stems from GraphCPP's amortization, which saves more data access and storage costs with an increasing number of queries. It's important to note that with only one concurrent job, GraphCPP's fine-grained scheduling operations do not occur, resulting in minimal differences in execution time compared to other schemes. According to our tests, the block scheduling cost of GraphCPP constitutes only xx-xx\% of the total execution time. Furthermore, due to resource contention, the performance of the concurrent version (-C) is considerably worse than both GraphCPP and the sequential version (-S). Therefore, a simple modification of existing graph processing systems to support concurrent tasks might not be an optimal choice.
+
+Next, we assess the horizontal scalability of GraphCPP. To achieve this goal, we evaluate the performance of different schemes on 1, 2, 4, and 8 nodes. As shown in Figure 18, GraphCPP's performance on 8 nodes is xx-xx times that of a single machine, indicating robust scalability. Moreover, GraphCPP's scalability surpasses that of PnP\cite{pnp}, SGraph\cite{sgraph}, and Tripoline\cite{tripoline} due to lower communication costs facilitated by data sharing and core subgraph indexing. Consequently, we believe that GraphCPP can efficiently support practical point-to-point query applications.
+
+\section{RELATED WORK}
+{\bf{Graph Processing Systems}}. With the increasing prominence of graph computing as a research focus, an increasing number of diverse types of graph computing systems are being proposed. 1) Single-node in-memory graph computing systems: Ligra\cite{ligra} accelerates graph computation, especially graph traversal algorithms, by switching between push and pull computation modes. KickStarter\cite{kickstarter} and GraphBolt\cite{graphbolt} implement incremental processing for streaming graphs. DiGraph [x] efficiently facilitates iterative directed graph processing on the GPU. LCCG\cite{lccg}, DepGraph\cite{depgraph}, and TDGraph\cite{tdgraph} utilize topology-aware execution methods, reducing redundant computation and data access costs. 2) Single-node out-of-core graph computing systems: GraphChi\cite{graphchi} and X-Stream\cite{x-stream} achieve efficient out-of-core graph processing through sequential storage access. FlashGraph\cite{flashgraph} employs a semi-external memory graph engine, achieving high IOPS and parallelism. GridGraph\cite{gridgraph} adopts the Streaming-Apply approach to enhance locality and reduce I/O operations. DGraph\cite{efficient} accelerates graph processing through faster state propagation. GraphM\cite{graphm} adopts a data-sharing approach, optimizing throughput for concurrent systems. 3) Distributed graph computing systems: Pregel\cite{pregel} introduces the Bulk Synchronous Parallel (BSP) computation model, addressing the processing needs of graphs with billions of edges in terms of performance, scalability, and fault tolerance. PowerGraph\cite{powergraph} proposes a vertex-cut graph partitioning approach, effectively reducing communication volume and addressing load imbalance caused by high-degree vertices. PowerLyra\cite{powerlyra} employs a hybrid computing model, using different computation strategies for high-degree and low-degree vertices. Gemini\cite{gemini} introduces a dual-mode computation engine, ensuring scalability while maintaining performance. CGraph\cite{cgraph} uses a data-centric Load-Trigger-Pushing (LTP) model, leveraging temporal and spatial similarities between concurrent tasks to reduce distributed system overhead. The mentioned works are intended for general graph algorithms. While the mentioned works focus on general graph algorithms, point-to-point query algorithms, concentrating on specific relationships between vertex pairs in a graph, exhibit notable distinctions. These query algorithms significantly enhance execution efficiency through pruning strategies. However, 
+general graph computing systems have not been specifically optimized for these algorithms.
+
+{\bf{Point-to-Point Queries}}. Numerous studies have been conducted on point-to-point queries. On the hardware front, $hub^2$\cite{hub} proposed a dedicated accelerator with a hub-centric approach, accelerating the PPSP process by constraining the search scope of high-degree vertices and pruning the search process. On the software side, Quegel\cite{quegel} pursued an indexing approach, enhancing query response speed by constructing a distributed static index of the graph during loading. PnP\cite{pnp} took a pruning route, reducing redundant accesses and computations in point-to-point queries through a universal pruning strategy. Tripoline\cite{tripoline} combined both indexing and pruning, achieving incremental evaluation of queries without prior knowledge by leveraging the triangle inequality principle. SGraph\cite{sgraph} further optimized pruning strategies, employing upper and lower bounds to achieve sub-second latency queries on large graphs with dynamically changing data. The aforementioned efforts focus on optimizing the speed of individual point-to-point queries through mechanisms such as pruning and indexing, overlooking the substantial load posed by large-scale concurrent queries.
+
+{\bf{Concurrent Graph Computing}}. Numerous graph computing systems have explored concurrent graph computation, especially in the realm of single-machine memory graph processing systems. For instance, Congra\cite{Congra} dynamically schedules tasks based on an offline analysis of memory bandwidth consumption and the characteristics of atomic operations in queries. This dynamic scheduling aims to enhance system throughput and resource efficiency without blocking queries due to resource contention. Krill\cite{krill} introduces an SAP model that decouples graph structure, algorithms, and attributes. It simplifies attribute data management using attribute buffers and employs graph kernel fusion to reduce memory access by treating all tasks as a cohesive unit. ForkGraph\cite{cache} proposes an efficient buffer execution model for concurrent tasks, facilitating data sharing and accelerating overall execution speed through a yield-based scheduling strategy. In the context of single-machine out-of-core graph computing systems, GraphM\cite{graphm} leverages the temporal and spatial locality of concurrent tasks for data sharing in concurrent graph computation. For distributed graph computing systems, Seraph\cite{seraph} suggests decoupling graph structure data from task-specific data to enable concurrent tasks to share common graph structure data. MultiLyra\cite{multilyra} and BEAD\cite{bead} distribute communication costs among cluster computing nodes through graph and boundary sharing, supporting efficient batch query evaluations. CGraph\cite{cgraph} serves as the distributed version of GraphM\cite{graphm}. These approaches primarily focus on optimizing data access sharing for concurrent tasks, yet they overlook computation optimization between concurrent tasks and lack specialized optimization for point-to-point queries.
+
+
+\section{CONCLUSION}
+Current point-to-point query systems predominantly concentrate on optimizing the speed of individual queries, overlooking the potential for throughput optimization in concurrent scenarios. This paper identifies significant data access and computation similarities among concurrent point-to-point queries. Introducing GraphCPP, a data-driven concurrent point-to-point query system, the paper utilizes a data-driven caching execution mechanism to achieve overlapping data access sharing among concurrent queries. Simultaneously, through a two-level computation sharing mechanism, it effectively realizes computation sharing among multiple tasks. Experimental results demonstrate that GraphCPP outperforms state-of-the-art graph query systems, such as SGraph, Tripoline, and Pnp, by a factor of XXX.
+
+\section{ACKNOWLEDGMENTS}
+
+
+\begin{thebibliography}{100}
+  \bibliographystyle{IEEEtran}
+  
+
+  
+
+  \bibitem{pnp}
+  C. Xu, K. Vora, R. Gupta, ``Pnp: Pruning and prediction for point-to-point iterative graph analytics,'' in \textit{Proc. Int. Conf. Architectural Support Program. Languages Operating Syst.}, Providence, RI, USA, 2019, pp. 587--600.
+  
+  \bibitem{tripoline}
+  X. Jiang, C. Xu, X. Yin, et al., ``Tripoline: generalized incremental graph processing via graph triangle inequality,'' in \textit{Proc. Eur. Conf. Comput. Syst.}, United Kingdom, 2021, pp. 17--32.
+
+ \bibitem{sgraph}
+  H. Chen, M. Zhang, K. Yang, et al., ``Achieving Sub-second Pairwise Query over Evolving Graphs,'' in \textit{Proc. Int. Conf. Architectural Support Program. Languages Operating Syst.}, Vancouver, BC, Canada, 2023, pp. 1--15.
+  
+  \bibitem{glign}
+  X. Yin, Z. Zhao, and R. Gupta, ``Glign: Taming Misaligned Graph Traversals in Concurrent Graph Processing,'' in \textit{Proc. ACM Int. Conf. Architectural Support Program. Languages Operating Syst.}, Vancouver, BC, Canada, 2022, pp. 78--92.
+
+  \bibitem{aligroup}
+  ``Alibaba Group,'' https://www.alibabagroup.com/document-1595215205757878272, 2023.
+  
+  
+  \bibitem{google}
+  ``Google Maps,'' https://www.alibabagroup, 2023.
+  
+  \bibitem{facebook}
+  ``Facebook,'' www.facebook.com, 2023.
+  
+  \bibitem{alipay}
+  ``Alipay,'' www.alipay.com, 2019.
+  
+  \bibitem{cagis}
+  ``Cagis,'' http://www.cagis.org.cn, 2021.
+  
+  \bibitem{baidu}
+  ``Baidu Baike,'' https://baike.baidu.com, 2023.
+  
+  \bibitem{amap}
+  ``A Map,'' https://ditu.amap.com, 2023.
+  
+  \bibitem{qq}
+  ``Tencent Maps,'' https://map.qq.com, 2023.
+  
+  \bibitem{petalmaps}
+  ``Petal Maps,'' https://www.petalmaps.com, 2023.
+  
+  \bibitem{snap}
+  ``Stanford large network dataset collection,'' http://snap.stanford.edu/data/index.html, 2020.
+  
+  \bibitem{twitter}
+  H. Kwak, C. Lee, H. Park, et al., ``What is Twitter, a social network or a news media?'' in \textit{Proc. Int. Conf. World Wide Web}, Raleigh, NC, USA, 2020, pp. 591--600.
+  
+  \bibitem{bubing}
+  P. Boldi, A. Marino and M. Santini, et al.,  ``BUbiNG: Massive Crawling for the Masses,''  \textit{ACM Trans. Web}, vol. 12, no. 2, pp. 1--26, 2018.
+  
+  \bibitem{timeaware}
+  P. Boldi, M. Santini and S. Vigna,  ``A large time-aware web graph,''  \textit{ACM SIGIR Forum}, vol. 42, no. 2, pp. 33--38, 2008.
+  
+  \bibitem{ppsp_1}
+  H. Wang, G. Li, H. Hu, et al., ``R3: a real-time route recommendation system,'' \textit{Proc. VLDB Endowment}, vol. 7,no. 13, pp. 1549--1552, 2014.
+  
+  \bibitem{ppsp_2}
+  Q. Guo, F. Zhuang, C. Qin, et al., ``A Survey on Knowledge Graph-Based Recommender Systems,'' \textit{IEEE Trans. Knowl. Data Eng.}, vol. 34, no. 8, pp. 3549--3568, 2020.
+  
+  \bibitem{ppsp_3}
+  K. Joseph, H. Jiang, ``Content based News Recommendation via Shortest Entity Distance over Knowledge Graphs,'' in \textit{Companion Proc. 2019 World Wide Web Conf.}, San Francisco, CA, USA, 2019, pp. 690--699.
+  
+  \bibitem{ppwp}
+  M. Pollack, ``The maximum capacity through a network,'' \textit{Operations Res.}, Vol. 8, no. 5, pp. 733--736, 1960.
+  
+  \bibitem{ppnp}
+  O. Berman, G. Handler, ``Optimal Minimax Path of a Single Service Unit on a Network to Nonservice Destinations,'' \textit{Transp. Sci.}, Vol. 21, no. 2, pp. 115--122, 1987.
+  
+  \bibitem{bfs}
+  S. Schaeffer, ``Graph clustering,'' \textit{Comput. Sci. Rev.}, Vol. 1, no. 1, pp. 27--64, 2020.
+
+
+
+  \bibitem{reachability_1}
+  E. Cohen, E. Halperin, H. Kaplan, et al., ``Reachability and Distance Queries via 2-Hop Labels,'' \textit{SIAM J. Comput.}, Vol. 32, no. 5, pp. 1338--1355, 2003.
+  
+  \bibitem{reachability_2}
+  L. Roditty, U. Zwick, ``Improved Dynamic Reachability Algorithms for Directed Graphs,'' \textit{SIAM J. Comput.}, Vol. 37, no. 5, pp. 1455--1471, 2008.
+  
+  \bibitem{reachability_3}
+  A. Zhu, W. Lin, S. Wang, et al., ``Reachability Queries on Large Dynamic Graphs: A Total Order Approach,'' in \textit{Proc. ACM SIGMOD Int. Conf. Manage. Data}, Snowbird, UT, USA, 2014, pp.1323--1334.
+  
+  \bibitem{connectivity}
+  L. Dhulipala, C. Hong, J. Shun, ``A framework for static and incremental parallel graph connectivity algorithms,'' \textit{arXiv preprint arXiv:2008.03909}, 2020. 
+
+  \bibitem{ligra}
+  J. Shun, J. Blelloch, ``Ligra: a lightweight graph processing framework for shared memory,'' in \textit{Proc. Symp. Princ. Pract. Parallel Program.}, Shenzhen, China, 2013, pp. 135--146.
+  
+  \bibitem{kickstarter}
+  K. Vora, R. Gupta, G. Xu, ``Kickstarter: Fast and accurate computations on streaming graphs via trimmed approximations,'' in \textit{Proc. Int. Conf. Architectural Support Program. Languages Operating Syst.}, New York, NY, USA, 2017, pp. 237--251.
+  
+  \bibitem{graphbolt}
+  M. Mariappan, K. Vora, ``Graphbolt: Dependency-driven synchronous processing of streaming graphs,'' in \textit{Proc. EuroSys Conf.}, Dresden , Germany, 2019, pp. 1--16.
+  
+  \bibitem{digraph}
+  Y. Zhang, X. Liao, H. Jin, et al., ``DiGraph: An efficient path-based iterative directed graph processing system on multiple GPUs,'' in \textit{Proc. Int. Cinf. Architectural Support Program. Languages and Operating Syst.}, Providence, RI, USA, 2019, pp. 601--614.
+  
+  \bibitem{lccg}
+  J. Zhao, Y. Zhang, X. Liao, et al., ``LCCG: A Locality-Centric Hardware Accelerator for High Throughput of Concurrent Graph Processing,'' in \textit{Int. Conf. High Perform. Comput., Netw., Storage Anal.}, New York, NY, USA, 2021, pp. 1--14.
+  
+  \bibitem{depgraph}
+  Y. Zhang, X. Liao, H. Jin, et al., ``DepGraph: A Dependency-Driven Accelerator for Efficient Iterative Graph Processing,'' in \textit{IEEE Int. Symp. High-Perform. Comput. Architecture }, Seoul, Korea, 2021, pp. 371--384.
+  
+  \bibitem{tdgraph}
+  J. Zhao, Y. Yang, Y. Zhang, et al., ``TDGraph: a topology-driven accelerator for high-performance streaming graph processing,'' in \textit{Proc. Annu. Int. Symp. Comput. Architecture}, New York, NY, USA, 2022, pp. 116--129.
+  
+  \bibitem{graphchi}
+  A. Kyrola, G. Blelloch, C. Guestrin, ``{GraphChi}:{Large-Scale} Graph Computation on Just a {PC},'' in \textit{Proc. USENIX Symp. Operating Syst. Des. Implementation}, Hollywood, CA, USA, 2012, pp. 31--46.
+  
+  \bibitem{x-stream}
+  A. Roy, I. Mihailovic, W. Zwaenepoel,  ``X-stream: Edge-centric graph processing using streaming partitions,'' in \textit{Proc. ACM Symp. Operating Syst. Princ.}, Farminton, Pennsylvania, USA, 2013, pp. 472--488.
+  
+  \bibitem{flashgraph}
+  D. Zheng, M. Mhembere, R. Burns, et al., ``{FlashGraph}: Processing {Billion-Node} Graphs on an Array of Commodity {SSDs},'' in \textit{USENIX Conf. File Storage Technologies}, Santa Clara, CA, USA, 2015, pp. 45--58.
+  
+  \bibitem{gridgraph}
+  X. Zhu, W. Han, W. Chen, ``{GridGraph}:{Large-Scale} Graph Processing on a Single Machine Using 2-Level Hierarchical Partitioning,'' in \textit{USENIX Annu. Tech. Conf.}, Santa Clara, CA, USA, 2015, pp. 375--386.
+  
+  \bibitem{efficient}
+  Y. Zhang, X. Liao, X. Shi, et al., ``Efficient Disk-Based Directed Graph Processing: A Strongly Connected Component Approach,'' \textit{IEEE Trans. Parallel Distrib. Syst.}, vol. 29, no. 4, pp. 830--842, 2018.
+  
+  \bibitem{graphm}
+  J. Zhao, Y. Zhang, X. Liao, et al., ``GraphM: an efficient storage system for high throughput of concurrent graph processing,'' in \textit{Proc. Int. Conf. High Perform. Comput., Netw., Storage and Anal.}, Denver, Colorado, USA, 2019, pp. 1--14.
+  
+  \bibitem{pregel}
+  G. Malewicz, M. Austern, A. Bik, et al., ``Pregel: a system for large-scale graph processing,'' in \textit{Proc. ACM SIGMOD Int. Conf. Manage. Data}, New York, NY, USA, 2010, pp. 135--146.
+  
+  \bibitem{cgraph}
+  Y. Zhang, J. Zhao, X. Liao, et al., ``{CGraph}: A Correlations-aware Approach for Efficient Concurrent Iterative Graph Processing,'' in \textit{USENIX Annu. Tech. Conf.}, Boston, MA, USA, 2018, pp. 441--452.
+
+  \bibitem{gemini}
+  X. Zhu, W. Chen, W. Zheng, et al., ``Gemini: A {Computation-Centric} Distributed Graph Processing System,'' in \textit{USENIX Symp. Operating Syst. Des. Implementation}, Savannah, GA, USA, 2016, pp. 301--316.
+  
+  \bibitem{giraph}
+  C. Avery, ``Giraph: Large-scale graph processing infrastructure on hadoop,'' in \textit{Proc. Hadoop Summit}, pp. 5--9, 2011.
+  
+  \bibitem{graphlab}
+  Y. Low, J. Gonzalez, A. Kyrola, et al., ``Graphlab: A new framework for parallel machine learning,'' \textit{arXiv preprint arXiv:1408.2041}, 2019.
+  
+  \bibitem{powergraph}
+  J. Gonzalez, Y. Low, H. Gu, et al., ``{PowerGraph}: Distributed {Graph-Parallel} Computation on Natural Graphs,'' in \textit{USENIX Symp. Operating Syst. Des. Implementation}, Hollywood, CA, USA, 2012, pp. 17--30.
+  
+  \bibitem{graphx}
+  J. Gonzalez, R. Xin, A. Dave, et al., ``{GraphX}: Graph Processing in a Distributed Dataflow Framework,'' in \textit{USENIX Symp. Operating Syst. Des. Implementation}, Broomfield, CO, USA, 2014, pp. 599--613.
+  
+  \bibitem{soa}
+  C. Xie, R. Chen, H. Guan, et al., ``Sync or async: Time to fuse for distributed graph-parallel computation,'' \textit{ACM SIGPLAN Notices}, vol. 50, no. 8, pp. 194--204, 2015.
+  
+  \bibitem{powerlyra}
+  R. Chen, J. Shi, Y. Chen, et al., ``Powerlyra: Differentiated graph computation and partitioning on skewed graphs,'' \textit{ACM Trans. Parallel Comput.}, vol. 5, no. 3, pp. 1--39, 2019.
+
+  \bibitem{hub}
+  R. Jin, N. Ruan, B. You, et al., ``Hub-accelerator: Fast and exact shortest path computation in large social networks,'' \textit{arXiv preprint arXiv:1305.0507}, 2013.
+  
+  \bibitem{quegel}
+  Q. Zhang, D. Yan and J. Cheng, ``Quegel: A general-purpose system for querying big graphs,'' in \textit{Proc. Int. Conf. Manage. Data}, New York, NY, USA, 2016, pp. 2189--2192.
+  
+  \bibitem{Congra}
+  P. Pan and C. Li, ``Congra: Towards Efficient Processing of Concurrent Graph Queries on Shared-Memory Machines,'' in \textit{IEEE Int. Conf. Comput. Des.}, Boston, MA, USA, 2017, pp. 217--224.
+  
+  \bibitem{krill}
+  H. Chen, M. Shen, N. Xiao, et al., ``Krill: a compiler and runtime system for concurrent graph processing,'' in \textit{Proc. Int. Conf. High Perform. Comput., Netw., Storage and Anal.}, New York, NY, USA, 2021, pp. 1--16.
+  
+  \bibitem{cache}
+  S. Lu, S. Sun, J. Paul, et al., ``Cache-efficient fork-processing patterns on large graphs,'' in \textit{Proc. Int. Conf. Manage. Data}, New York, NY, USA, 2021, pp. 1208--1221.
+  
+  \bibitem{seraph}
+  J. Xue, Z. Yang, Z. Qu, et al., ``Seraph: an efficient, low-cost system for concurrent graph processing,'' in \textit{Proc. Int. Symp. High-perform. Parallel Distrib. Comput.}, Vancouver, BC, Canada, 2014, pp. 227--238.
+  
+  \bibitem{multilyra}
+  A. Mazloumi, X. Jiang, R. Gupta, ``Multilyra: Scalable distributed evaluation of batches of iterative graph queries,'' in \textit{IEEE Int. Conf. Big Data}, Los Angeles, CA, USA, 2019, pp. 349--358.
+  
+  \bibitem{bead}
+  A. Mazloumi, C. Xu, Z. Zhao, et al., ``BEAD: Batched Evaluation of Iterative Graph Queries with Evolving Analytics Demands,'' in \textit{IEEE Int. Conf. Big Data}, 2020, pp. 461--468.
+  
+  
+  \end{thebibliography}
+
+
+
+\end{document}
+
+
