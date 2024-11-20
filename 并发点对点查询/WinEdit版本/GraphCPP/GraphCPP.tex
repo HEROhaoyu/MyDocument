@@ -1,0 +1,1027 @@
+
+%% bare_jrnl_compsoc.tex
+%% V1.4b
+%% 2015/08/26
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.8b or later) with an IEEE
+%% Computer Society journal paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/pkg/ieeetran
+%% and
+%% http://www.ieee.org/
+
+\documentclass[10pt,journal,compsoc]{IEEEtran}
+
+
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[10pt,journal,compsoc]{../sty/IEEEtran}
+
+% *** CITATION PACKAGES ***
+%
+\ifCLASSOPTIONcompsoc
+% IEEE Computer Society needs nocompress option
+% requires cite.sty v4.0 or later (November 2003)
+\usepackage[nocompress]{cite}
+\else
+% normal IEEE
+\usepackage{cite}
+\fi
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+
+
+\usepackage{algorithmicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{balance}
+\usepackage{color}
+\usepackage{soul}
+
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amsmath,amsfonts} %这两个包分别是数学公式和数学字体的宏包
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+% \usepackage{algorithmic} %这个包是算法的宏包
+\usepackage{array} %这个包是表格和数组的宏包
+% \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig} %这个包是子图的宏包,它可以让你在一个图形环境中放置多个图形，可以对子图进行编号，可以对子图进行交叉引用，可以对子图进行标题设置
+\usepackage{textcomp} %这个包是对文本模式下的符号进行扩展的宏包
+\usepackage{stfloats} %这个包是控制双栏浮动图形和表格的宏包
+\usepackage{url} %这个包是对网址进行扩展的宏包
+\usepackage{verbatim} %这个包是对抄录环境进行扩展的宏包
+\usepackage{graphicx} %这个包是对图形进行扩展的宏包
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{makecell}
+%\usepackage{orcidlink} %调包
+
+\floatname{algorithm}{Algorithm}
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+%
+% paper title
+% Titles are generally capitalized except for words such as a, an, and, as,
+% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
+% not capitalized unless they are the first or last word of the title.
+% Linebreaks \\ can be used within to get better formatting as desired.
+% Do not put math or special symbols in the title.
+\title{GraphCPP: A Redundancy-aware Graph Processing System for High-throughput Concurrent Point-to-Point Queries} %这一行的作用是设置论文的标题
+%
+%
+% author names and IEEE memberships
+% note positions of commas and nonbreaking spaces ( ~ ) LaTeX will not break
+% a structure at a ~ so this keeps an author's name from being broken across
+% two lines.
+% use \thanks{} to gain access to the first footnote area
+% a separate \thanks must be used for each paragraph as LaTeX2e's \thanks
+% was not built to handle multiple paragraphs
+%
+%
+%\IEEEcompsocitemizethanks is a special \thanks that produces the bulleted
+% lists the Computer Society journals use for "first footnote" author
+% affiliations. Use \IEEEcompsocthanksitem which works much like \item
+% for each affiliation group. When not in compsoc mode,
+% \IEEEcompsocitemizethanks becomes like \thanks and
+% \IEEEcompsocthanksitem becomes a line break with idention. This
+% facilitates dual compilation, although admittedly the differences in the
+% desired content of \author between the different types of papers makes a
+% one-size-fits-all approach a daunting prospect. For instance, compsoc
+% journal papers have the author affiliations above the "Manuscript
+% received ..."  text while in non-compsoc journals this is reversed. Sigh.
+
+\author{Yu~Zhang,~\IEEEmembership{Member,~IEEE,}
+~Haoyu~Lu,
+~Jianhui~Yue,~\IEEEmembership{Member,~IEEE,}
+~Weihang~Yin,
+~Minzhi~Cai,
+~Kang~Luo,
+~Yutao~Fu,
+~Zirui~He,
+~Xiaoxuan~Xu,
+~Jiapeng~Li,
+~Jin~Zhao,
+~Xiaofei~Liao,~\IEEEmembership{Member,~IEEE,}
+~Hai~Jin,~\IEEEmembership{Fellow,~IEEE}
+\IEEEcompsocitemizethanks{\IEEEcompsocthanksitem Yu Zhang, Haoyu Lu, Weihang Yin, Minzhi Cai, Kang Luo, Yutao Fu, Zirui He, Xiaoxuan Xu, Jiapeng Li, Jin Zhao, Xiaofei Liao, and Hai Jin are with the National Engineering Research Center for Big Data Technology and System, Service Computing Technology and System Lab, Cluster and Grid Computing Lab, School of Computer Science and Technology, Huazhong University of Science and Technology, Wuhan 430074, China. \protect\\
+E-mail: \{zhyu, hylu, hannyin, caimz, luokang2000, fuyutao, hezirui, xuxiaoxuan, goodgap, zjin, xfliao, hjin\}@hust.edu.cn.
+\IEEEcompsocthanksitem Jianhui Yue is with the Department of Computer Science, Michigan Technological University, Houghton, MI 49931 USA. \protect\\ E-mail: jyue@mtu.edu.}
+}
+
+
+% The paper headers
+\markboth{IEEE TRANSACTIONS ON PARALLEL AND DISTRIBUTED SYSTEMS, VOL. X, NO. X, JANUARY xxxx}%
+{Shell \MakeLowercase{\textit{Zhang et al.}}: A Redundancy-aware Graph Processing System for High-throughput Concurrent Point-to-Point Queries}
+
+\IEEEtitleabstractindextext{%
+\begin{abstract}
+With the increasing demand for concurrent point-to-point queries in applications such as map navigation and network analysis, graph processing systems are facing growing challenges in maintaining high throughput. Dedicated point-to-point query systems are optimized for the response speed of individual queries in a serial manner. However, in concurrent scenarios, multiple tasks independently load the necessary data without inter-thread cooperation, leading to severe cache contention and redundant data access overhead.
+While some general-purpose concurrent graph query solutions excel at handling concurrent queries and can be adapted for point-to-point queries, they only allow data sharing within a single iteration. More importantly, point-to-point queries heavily rely on pruning strategies to avoid redundant computation caused by the activation of irrelevant vertices that do not contribute to query convergence—an aspect often overlooked by these concurrent systems.
+To address these challenges, we propose GraphCPP, the first redundancy-aware graph processing system designed to optimize the throughput of concurrent point-to-point queries. It introduces a path-based computation mechanism to minimize redundant overhead. In this context, a path is a linear data structure consisting of vertices and edges, where the set of vertices and edges traversed by each query can be divided into path segments. During traversal, a path segment acts as a shortcut, allowing the rapid propagation of state changes from the starting point of the path to the endpoint within a single iteration.
+During the pruning process, path segments can be used to estimate intermediate query values, thereby terminating unnecessary vertex activations earlier, reducing redundant computations compared to intermediate values that are farther from convergence in previous iterations.
+Additionally, to address severe cache conflicts in high-concurrency scenarios, GraphCPP proposes a cache-efficient data access sharing mechanism. This mechanism prioritizes loading graph blocks shared by multiple queries into the cache and selectively triggers queries that can efficiently utilize these graph blocks during each iteration. By enhancing cache hit rates, this approach reduces redundant data access overhead. Based on our experiments, GraphCPP outperforms the state-of-the-art point-to-point query system, SGraph, by an average factor of 3.2.
+\end{abstract}
+
+
+% Note that keywords are not normally used for peerreview papers.
+\begin{IEEEkeywords}
+	graph process, point-to-point queries, concurrent queries, data access sharing, computation sharing
+\end{IEEEkeywords}}
+
+
+% make the title area
+\maketitle
+
+
+% To allow for easy dual compilation without having to reenter the
+% abstract/keywords data, the \IEEEtitleabstractindextext text will
+% not be used in maketitle, but will appear (i.e., to be "transported")
+% here as \IEEEdisplaynontitleabstractindextext when the compsoc
+% or transmag modes are not selected <OR> if conference mode is selected
+% - because all conference papers position the abstract like regular
+% papers do.
+\IEEEdisplaynontitleabstractindextext
+% \IEEEdisplaynontitleabstractindextext has no effect when using
+% compsoc or transmag under a non-conference mode.
+
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+\IEEEraisesectionheading{\section{Introduction}\label{sec:introduction}}
+
+\IEEEPARstart{C}{ompared} to point-to-all query algorithms, such as Single Source Shortest Path (SSSP), which explore relationships from a single source vertex to all other vertices in the graph, point-to-point queries focus exclusively on the relationship between specific vertex pairs. By avoiding a full graph traversal, point-to-point queries are more computationally efficient and widely used in real-world applications. Examples include optimizing logistics routes on Google Maps \cite{google}, suggesting friends through social network analysis on Facebook \cite{facebook}, and assessing risk propagation in financial systems like Alipay \cite{alipay}. These high-traffic applications demand high throughput, often requiring the concurrent execution of many instances of the same point-to-point query on a shared graph \cite{cache}. Meeting these throughput requirements presents several challenges.
+
+First, although point-to-point queries target specific vertex pairs, they often activate many irrelevant vertices, resulting in \textbf{redundant computation}. For instance, in the point-to-point shortest path algorithm, the shortest known path distance in each iteration is defined as the \textit{bound}. Initially, this bound is infinite and decreases with each iteration. During pruning, paths longer than the current bound are discarded. However, traditional methods struggle to accurately estimate the bound in early iterations, leading to unnecessary traversal of paths that should have been pruned, thus expanding the search unnecessarily. This issue is exacerbated in high-concurrency scenarios, where redundant computations increase proportionally with the number of concurrent queries.
+
+Second, concurrent point-to-point queries compete for limited cache resources, resulting in significant \textbf{redundant data access}. In traditional data access models, each query loads its required graph data into the Last-Level Cache (LLC) based on its active vertices. Our analysis indicates that 72\%-90\% of the vertices in a graph are accessed by multiple queries (Figure \ref{fig3}), which theoretically should enhance cache hit rates. However, since queries originate from different source vertices, they tend to access the same vertices at different times \cite{glign}. This, combined with the varying data needs of different queries, leads to cache thrashing, especially in high-concurrency environments (Table \ref{table2}).
+
+Despite efforts to improve the throughput of concurrent queries, existing systems face significant challenges. Specialized point-to-point query systems like SGraph \cite{sgraph} optimize response times for individual queries using pruning strategies but struggle with redundant data access and computational overhead in concurrent query settings. These systems execute each query independently, without efficient inter-thread coordination. As a result, even if two queries share a large portion of the same data, their computations are repeated, missing opportunities for shared processing. General concurrent graph processing systems like Glign \cite{glign} provide effective scheduling for shared traversal of general iterative graph algorithms. While these systems can reduce redundant data access within a single iteration, they do not address redundant computations across different query iterations. Furthermore, point-to-point queries rely heavily on pruning strategies (see Section \ref{2.1} for details) to reduce redundant work, a feature not fully supported by existing systems.
+
+To address the growing demand for high-throughput concurrent point-to-point queries and to overcome the limitations of current systems, we propose GraphCPP—a redundancy-aware graph processing system optimized for concurrent point-to-point queries. GraphCPP introduces a path-based computation sharing mechanism to minimize redundant computational overhead. Unlike traditional systems that treat edges or vertices as the basic computation unit, GraphCPP treats path segments as the fundamental processing unit. A path segment is a linear substructure of the graph consisting of a series of vertices and edges traversed by a query. By decomposing the paths traversed by each query into smaller segments, GraphCPP enables the sharing of intermediate results across different queries. Specifically, during pruning, the system leverages known path segments to estimate intermediate values for unknown vertex pairs, facilitating earlier convergence with more accurate bound estimates. In the traversal phase, when a vertex \(v_i\) is activated in an iteration, if \(v_2\) is the start of a known path segment, the state of \(v_2\) can be quickly propagated to the end of the segment within a single iteration, effectively creating a shortcut. As different queries execute on the same graph, path segments can be reused across queries and iterations, allowing for shared computations. This path-based sharing mechanism enables compute once, share everywhere.
+
+Additionally, GraphCPP integrates a cache-efficient data access sharing mechanism. Instead of executing all queries simultaneously, GraphCPP selectively schedules queries in each iteration to maximize throughput. The system establishes relationships between queries and graph blocks using active vertices as a bridge. Graph blocks accessed by multiple queries ($b_i$) are prioritized for loading into the LLC, and queries requiring access to $b_i$ are scheduled together within the same iteration. By optimizing the loading sequence of graph blocks and selectively activating queries, GraphCPP improves cache hit rates and enhances the throughput of concurrent queries.
+
+
+\section{Background and Motivation}\label{motivation}
+\subsection{Point-to-Point Query}\label{2.1}
+
+Point-to-point query algorithms are designed to analyze specific traversal paths between source and destination vertices in a graph. These algorithms can be broadly classified into two categories: (1) Weighted graph algorithms, such as point-to-point shortest path (PPSP) \cite{ppsp}, point-to-point widest path (PPWP) \cite{ppwp}, and point-to-point narrowest path (PPNP) \cite{ppnp}, which aim to find the shortest, widest, or narrowest path between two vertices, respectively. These algorithms have extensive applications in fields like social networks, financial networks, traffic planning, anti-money laundering, and network quality analysis. (2) Unweighted graph algorithms, including breadth-first search (BFS) \cite{bfs}, connectivity \cite{connectivity}, and reachability \cite{reachability}, which determine the number of hops (BFS) or the reachability of specific vertex pairs in undirected (connectivity) or directed graphs (reachability). These algorithms are widely used in tasks such as bi-connectivity, higher-order connectivity, and graph clustering. The aforementioned applications often require the concurrent execution of multiple instances of the same point-to-point query algorithm on a shared graph, posing significant challenges to throughput \cite{cache}.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=3in]{picture/Zhang-fig1.png}
+    \captionsetup{labelsep=period}
+    \vspace{-0.4cm}
+    \caption{Point-to-point shortest path query $Q(v_1, v_9)$}
+    \label{fig1}
+    \vspace{-0.5cm}
+\end{figure}
+
+The uniqueness of point-to-point query algorithms lies in their ability to reduce the search space through pruning during traversal. As shown in Figure \ref{fig1}, we use the PPSP algorithm on an undirected graph, although the same principles apply to directed graphs. In Figure \ref{fig2}(a), each edge has a weight representing the distance between two vertices, denoted as $W_{(v_i,v_j)}$. The source and destination vertices, $v_1$ and $v_9$, form the query task $Q(v_1, v_9)$, which aims to find the shortest path between them. While multiple paths may exist, the PPSP algorithm focuses only on the shortest one. In Figure \ref{fig1}(b), for each active vertex $v_i$, $R(v_1,v_i)$ denotes the known shortest path distance from $v_1$ to $v_i$. The key value in each iteration is the bound, which starts at infinity and decreases as the algorithm converges to the shortest path.
+
+Initially, $v_1$ is the only active vertex, with $R(v_1,v_1) = 0$. In subsequent iterations, the algorithm traverses outgoing neighbors $v_j$ of active vertices $v_i$. If $R(v_1,v_i) + W_{(v_i,v_j)} < R(v_1,v_j) < \text{bound}$ or $R(v_1,v_i) + W_{(v_i,v_j)} < R(v_1,v_j) = \text{bound} = \infty$, then $R(v_1,v_j)$ is updated to $R(v_1,v_i) + W_{(v_i,v_j)}$, and $v_j$ becomes an active vertex in the next iteration. Otherwise, the path $v_1 \rightarrow v_i \rightarrow v_j$ is pruned as it is longer than the known shortest path.
+
+In the first iteration, the algorithm traverses the neighbors $v_2$ and $v_6$ of $v_1$, calculating their distances: $R(v_1,v_2)$ and $R(v_1,v_6)$, equal to the edge weights from $v_1$ to $v_2$ and $v_1$ to $v_6$, respectively. These vertices are added to the active vertex set $V_{active}$ for the next iteration.
+
+In the second iteration, the algorithm discovers the first valid path from $v_1$ to $v_9$ via $v_6$: $v_1 \rightarrow v_6 \rightarrow v_9$, represented by the yellow edges. The distance of this path, $R(v_1,v_9)$, becomes the new bound, and all longer paths are pruned. Thus, paths to $v_3$, $v_7$, and $v_{11}$ are discarded. As the iterations continue, the bound is progressively refined.
+
+By the fourth iteration, a shorter path, $v_1 \rightarrow v_2 \rightarrow v_5 \rightarrow v_{10} \rightarrow v_9$, shown by the blue edges, is found, updating the bound value. At this point, all outgoing edges from active vertices are pruned, leading to no further active vertices—a state called \textbf{convergence}. The query terminates early with the bound representing the shortest path from $v_1$ to $v_9$. These pruning steps effectively reduce redundant data access and computation.
+
+The described process applies to other point-to-point query algorithms, with algorithm-specific details. The general process involves three steps:
+1) Obtaining the Initial Bound: As shown in Table \ref{table1}, the bound represents the closest known converged query result $R(v_s,v_d)$, where $v_s$ and $v_d$ are the source and destination vertices. Initially, the bound is set to infinity and updated once the first valid path is found, often through algorithms like bi-BFS \cite{pnp}.
+2) Pruning Unnecessary Query Paths: The bound serves as a reference, and specific rules determine which results are closer to convergence. For PPSP, path distances are compared; for PPWP/PPNP, maximum or minimum edge weights are used; for BFS, the number of hops is checked; and for connectivity or reachability, path connectivity is assessed.
+3) Iterative Pruning: The pruning continues until no active vertices remain, indicating convergence. The final bound value represents the closest result $R(v_s,v_d)$.
+
+This process highlights that the effectiveness of point-to-point queries relies heavily on the pruning mechanism, with the key being the accurate and efficient computation of the bound, particularly in high-concurrency scenarios.
+
+
+
+\begin{table}[t]
+    \centering
+    \renewcommand\arraystretch{1.2}
+    \scriptsize
+    \begin{tabular}{c c c}
+    \hline
+    \rule{0pt}{8pt}
+    Algorithm           & Meaing of Bound         &Criterion for Comparison\\
+    \hline
+    \rule{0pt}{8pt}
+    PPSP                & shortest distance         & disatance     \\
+    PPWP                & weight of widest edge             & weight     \\
+    PPNP                & weight of narrowest edge             &weight      \\
+    BFS                 & shortest hop              & number of hops      \\
+    Reachability        & undirected graph connectivity       & reachability      \\
+    Connectivity        & directed graph connectivity         & reachability     \\
+    \hline
+    \end{tabular}
+    \caption{Details of different query algorithms}
+    \vspace{-0.6cm}
+    \label{table1}
+\end{table}
+
+
+\subsection{The Role of Paths in Querying}\label{2.2}
+Conventional graph computation systems typically represent a graph as a set of vertices and edges. However, a graph can also be viewed as a collection of path segments—linear structures composed of vertices and edges. Path segments can represent routes in traffic networks, relationship chains in social networks, or transaction chains in financial networks. For point-to-point query algorithms, the objective is to identify the optimal path connecting a source vertex to a destination vertex. Unlike vertices and edges, which are indivisible units, path segments can be divided into smaller sub-segments, with the smallest consisting of two vertices and one edge. Additionally, path segments can be concatenated into larger segments if their endpoints and edge directions align.
+It is important to note that multiple paths may exist between \(v_s\) and \(v_d\). However, monotonic algorithms focus only on the path whose value is closest to convergence, such as the shortest path in PPSP or the narrowest path in PPNP.
+
+During the pruning process, path segments can be used to establish accurate bounds in the early iterations. Specifically, for any query \(Q(v_s, v_d)\), the bound can be expressed as:
+\[\text{bound} = R(v_s, v_d) = \min(R(v_s, v_d), R(v_s, v_i) + R(v_i, v_d))\]
+If the results of relevant path segments \(R(v_s, v_i)\) and \(R(v_i, v_d)\) are precomputed, an effective bound can be quickly established, reducing redundant traversal. Previous studies \cite{tripoline} have demonstrated that high-degree vertices connect most of the edges in a graph. Thus, it is intuitive to select high-degree vertices as candidates for \(v_i\). By computing all paths that start or end at high-degree vertices, we can ensure that for most queries \(Q(v_s, v_d)\), there will be a \(v_i\) such that the results of \(R(v_s, v_i)\) and \(R(v_i, v_d)\) are meaningful. This will be further discussed in Section 3.1.
+
+During traversal, path segments can be used to accelerate the propagation of vertex states. In traditional query schemes, the state of the starting vertex propagates through multiple iterations to reach the destination vertex. However, by treating the path as a single unit, we can compute the incremental state change from the start to the end of the path, allowing the state of the starting vertex to propagate to the destination vertex in a single iteration. For example, in Figure \ref{fig1}(a), the shortest path from \(v_1\) to \(v_{10}\) is \(v_1 \rightarrow v_2 \rightarrow v_5 \rightarrow v_{10}\), with a length of 4. Thus, the state propagation increment for this path segment is 4. If the new state value for \(v_1\) is 2, the updated state value for \(v_{10}\) after a single iteration will be 6.
+
+By identifying suitable segments and sharing precomputed results, the traversal scope can be reduced, and state propagation can be accelerated. However, due to the vast number of potential path segments in the graph, computing all possible segments would incur prohibitive overhead. Therefore, a mechanism is needed to efficiently identify and share relevant path segments to balance the computational benefits with the associated costs. Since the computed paths can be reused across multiple queries, the cost can be amortized, making the additional overhead acceptable.
+
+
+\subsection{Performance Bottlenecks of Existing Systems}\label{2.3}
+
+Despite extensive research on optimizing serial point-to-point queries, efficiently handling concurrent queries remains a significant challenge. To systematically evaluate the performance of concurrent point-to-point queries, we implemented concurrent versions of the point-to-point query systems PnP and SGraph, and adapted the general-purpose system Glign to support point-to-point queries. We analyzed the LLC miss ratio and redundant computation ratio across different systems under varying concurrency levels.
+
+Experiments were conducted using 512 PPSP queries with different concurrency levels on the TW dataset. Table \ref{table2} shows that the LLC miss ratio increases with higher concurrency. This occurs because concurrent tasks lack coordination, leading to independent data loading into the LLC. Even when tasks access the same set of vertices, they do so at different times. A query failing to retrieve required data from the LLC triggers data access operations, resulting in cache thrashing under high concurrency. Glign consistently achieved the lowest miss ratio by optimizing concurrent queries through aligned graph traversals, which ensures that the same graph data are accessed simultaneously, improving cache hit rates.
+
+We consider repeated activation of the same vertices by different tasks as redundant computational overhead. The proportion of redundant activated vertices to total activated vertices correlates directly with increased concurrency. When multiple queries require the same activated vertices for state propagation, existing systems fail to share this computation effectively, resulting in higher redundant computation.
+
+Glign exhibits a higher ratio of redundant computation compared to other systems because it employs a full-graph traversal mode, optimized for point-to-all queries, rather than supporting runtime pruning of unnecessary paths. Consequently, the number of activated vertices is significantly higher than in lightweight point-to-point query systems, leading to increased redundancy.
+
+
+\begin{table}[t]
+ 	\centering
+ 	\renewcommand\arraystretch{1.2}
+ 	\scriptsize
+ 	\begin{tabular}{c c c c c c}
+ 		\hline
+ 		\rule{0pt}{13pt}
+ 		\multirow{1}{*}{} & {\makecell[c]{Number of \\ concurrent queries}} & {PnP} & {SGraph} & {Glign} \\
+ 		\hline
+ 		\rule{0pt}{8pt}
+ 		\multirow{4}{*}{\makecell[c]{LLC miss \\ ratio}}
+ 		& 1 & 41.1\% & 35.9\%  & 28.4\% \\
+ 		& 32 & 59.4\% & 54.0\% & 32.2\% \\
+ 		& 64 & 71.4\% & 67.2\% & 38.5\% \\
+ 		& 128 & 80.3\% & 76.7\% & 43.4\% \\
+ 		& 512 & 89.6\% & 84.7\% & 49.4\% \\
+ 		\hline
+ 		\rule{0pt}{8pt}
+ 		\multirow{4}{*}{\makecell[c]{Redundant \\ computation ratio}}
+ 		& 1 & - & - & - \\
+ 		& 32 & 65.6\% & 51.9\% & 72.9\% \\
+            & 64 & 74.4\% & 64.9\% & 84.8\% \\
+            & 128 & 85.6\% & 72.1\% & 92.6\% \\
+            & 512 & 96.8\% & 80.4\% & 97.4\% \\
+ 		\hline
+ 	\end{tabular}
+ 	\caption{Performance analysis of systems with varying concurrency (512 PPSP queries on TW \cite{twitter})}
+ 	\label{table2}
+    \vspace{-0.6cm}
+\end{table}
+
+These results highlight that both specialized point-to-point query systems and general-purpose concurrent graph computation systems struggle to address redundant computation and data access overhead adequately, resulting in a throughput bottleneck for concurrent point-to-point queries.
+
+\subsection{Motivations}\label{2.4}
+
+The challenges discussed earlier limit the effectiveness of current systems in handling concurrent point-to-point queries, but they also present an opportunity for optimization.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=2.5in]{picture/Zhang-fig2.png}
+	%\setlength{\abovecaptionskip}{-0.05cm}
+    \captionsetup{labelsep=period}
+        \vspace{-6pt}
+		\caption{Redundant computation across different levels of concurrency}
+		\label{fig2}
+        \vspace{-0.6cm}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=2.5in]{picture/Zhang-fig3.png} %调节单个子图大小
+	%\setlength{\abovecaptionskip}{-0.05cm} %控制标题与子图距离
+        \captionsetup{labelsep=period}
+        \vspace{-6pt}
+		\caption{Data access redundancy across different levels of concurrency} %子图下标题
+		\label{fig3} %引用标签
+        \vspace{-0.4cm}
+\end{figure}
+
+{\bf{Computation Sharing.}}
+Sharing the computation of commonly traversed paths among concurrent queries aids in both traversal and pruning, accelerates vertex state propagation, and reduces redundant calculations. Thus, it is crucial to identify which path segments are worth sharing. Fortunately, we observed a strong correlation between frequently accessed paths and high-degree vertices. In Figure \ref{fig2}, the top 1\% of vertices by degree are classified as high-degree vertices. We tracked the set of activated vertices for each query and filtered out those with repeated activation exceeding one-third of the total queries. Our analysis indicated that high-degree vertices account for up to 95\% of the highly shared vertices at 512 concurrent queries. This suggests that in scenarios with high concurrency, high-degree vertices are more likely to be activated by multiple queries. As a result, paths associated with these vertices are frequently processed. In Section \ref{3.1}, we propose a method for identifying frequently traversed paths, termed hot paths, based on vertex degree. By limiting the range of high-degree vertices to the top 1\%, the number of hot paths remains small relative to the entire graph, yet these paths can be shared extensively across different queries, significantly reducing redundant computations with minimal overhead.
+
+
+{\bf{Data Access Sharing.}}
+Coordinating the execution of concurrent tasks allows us to selectively execute query tasks with similar data access patterns, thereby enabling effective data access sharing. As shown in Figure \ref{fig3}, we analyzed the proportion of vertices accessed multiple times relative to the total number of vertices accessed during concurrent queries. We conducted tests at various concurrency levels, with six runs per level. When the concurrency level reached 512 (a realistic estimate for real-world applications), over 90\% of the accessed vertices were loaded by more than one query during traversal. This indicates a high degree of similarity in data access patterns among different queries. However, as queries access the same graph data at different times, cache thrashing becomes a significant issue as concurrency increases (see Table \ref{table2}). To achieve high throughput, it is essential to select an optimal subset of queries for each iteration rather than executing all queries simultaneously. By using active vertices as connectors, we establish associations between queries and graph blocks. We then determine the loading order of graph blocks based on demand from different queries. In each iteration, we selectively trigger queries associated with the currently loaded graph blocks. Since these queries access the same blocks, this strategy enhances cache hit rates, particularly in scenarios with high concurrency.
+
+
+
+\section{Overview Of GraphCPP}\label{overview}
+
+To tackle the efficiency bottleneck in concurrent point-to-point queries, we propose GraphCPP, a system that enhances throughput by sharing computation and data access among concurrent queries. It introduces a path-based execution mechanism that enables frequently processed path segments to be shared across query tasks, reducing redundant computations significantly. In addition, GraphCPP employs a cache-efficient data sharing strategy to improve cache hit rates under high concurrency.
+
+\subsection{Path-based Computation Sharing Mechanism}\label{3.1}
+In this section, we first identify the path segments that are likely to be repeatedly processed by different queries. We refer to these segments as hot path segments or simply hot paths. Based on observations from Section \ref{2.4}, hot paths are closely related to high-degree vertices. This relationship arises because natural graphs often exhibit a power-law distribution, where a small number of high-degree vertices account for the majority of edges. Therefore, we propose a heuristic method to determine hot paths based on the degree of vertices.
+It is important to note that monotonic algorithms prioritize the most convergent results. When multiple paths exist between two vertices, only the result of the most converged path is recorded.
+
+Next, we discuss how hot paths are used during query processing and pruning. During the pruning process, hot path segments help to establish accurate bounds early in the iterations.
+For example, for a query \(Q(v_s, v_d)\), we can leverage the hot path mechanism to quickly retrieve the query results of hot path segments. Specifically, we can obtain the result \(R(v_s, v_i)\) for the path segment starting at \(v_s\), and the result \(R(v_i, v_d)\) for the path segment ending at \(v_d\), where \(v_i\) can be any vertex in the graph. The bound for \(Q(v_s, v_d)\) can then be represented as:
+\(\text{bound} = R(v_s, v_d) = \min(R(v_s, v_d), R(v_s, v_i) + R(v_i, v_d)).\)
+This approach allows us to obtain an effective bound without performing redundant traversals, thus reducing unnecessary computations.
+During traversal, a hot path segment between \(v_s\) and \(v_d\) is treated as a shortcut edge. In this case, \(v_d\) is viewed as an outgoing neighbor of \(v_s\), and the weight of the shortcut edge is set to the result of the converged path segment. This enables the rapid propagation of state changes from the starting point to the endpoint within a single iteration.
+This design facilitates the seamless integration of our path-based computation sharing mechanism into existing point-to-point query systems. Furthermore, GraphCPP includes a runtime path extraction method that utilizes the convergence property of monotonic algorithms to dynamically update hot path segments, thereby minimizing computational and storage overhead.
+
+
+
+% \vspace{0.6cm}
+\begin{algorithm}[t]
+\caption{Path-based Computation Sharing}
+\begin{algorithmic}[1]
+\Statex \textbf{Input:}
+\Statex \hspace{\algorithmicindent} $V$: Set of vertices
+\Statex \hspace{\algorithmicindent} $k$: Number of level-1 vertices
+\Statex \hspace{\algorithmicindent} $m$: Number of level-2 vertices
+\Statex \hspace{\algorithmicindent} $b_i$: Cache block
+\Statex \hspace{\algorithmicindent} $Q_{b_i}$: Set of queries associated with $b_i$
+\Statex \hspace{\algorithmicindent} $R$: Convergent query results
+
+\Statex \textbf{Parameters:}
+\Statex \hspace{\algorithmicindent} $q_i$: Query in $Q_{b_i}$
+\Statex \hspace{\algorithmicindent} $v_i$: Active vertex in each iteration
+\Statex \hspace{\algorithmicindent} $bound$: Bound value for $q_i$ in each iteration
+\Statex \hspace{\algorithmicindent} $V_{level1}$: Set of level-1 vertices
+\Statex \hspace{\algorithmicindent} $V_{level2}$: Set of level-2 vertices
+\Statex \hspace{\algorithmicindent} $V_{active}$: Set of active vertices
+\Statex \hspace{\algorithmicindent} $T_{level1}^s, T_{level1}^d$: Tables storing query results with level-1 vertices as sources or destinations
+\Statex \hspace{\algorithmicindent} $T_{level2}$: Table storing query results for path segments related to level-2 vertices
+
+
+\Statex
+\Function{Initialization}{$V, k, m$}
+  \State $V_{level1}, V_{level2}, V_{level3} \gets \text{ClassifyVertices}(V, k, m)$
+  \State $T_{level1}^s, T_{level1}^d, T_{level2} \gets \text{InitTable}(V_{level1})$
+  \State \textbf{return} $T_{level1}^s, T_{level1}^d, T_{level2}$
+\EndFunction
+\Statex
+
+\Function{ComputeLevel1Table}{}
+  \State \textbf{return} $T_{level1}^s, T_{level1}^d$
+\EndFunction
+\Statex
+
+\Function{ComputationSharing}{$b_i, Q_{b_i}$}
+  \For{\textbf{each} $q_i$ \textbf{in parallel} \textbf{over} $Q_{b_i}$}
+    \State $bound \gets \text{L1Share}(T_{level1}, q_i)$
+    \For{\textbf{each} $v_i$ \textbf{in} $V_{active}$}
+      \If{$v_i \in V_{level2}$}
+        \State $bound \gets \text{L2Share}(v_i, T_{level2}, bound)$
+      \EndIf
+      \State $bound, V_{active} \gets \text{travNeighbors}(v_i, b_i)$
+    \EndFor
+  \EndFor
+  \State \textbf{return} $bound, V_{active}$
+\EndFunction
+\Statex
+
+\Function{ComputeLevel2Table}{$R$}
+  \State \textbf{return} $T_{level2}$
+\EndFunction
+
+\end{algorithmic}
+\end{algorithm}
+
+
+Algorithm 2 consists of four main phases:
+
+{\bf{Initialization.}}
+In this phase, we identify frequently accessed path segments that are likely to be processed repeatedly by different queries and iterations. Based on the observations in Section \ref{2.4}, the frequency of path segment access is positively correlated with the presence of high-degree vertices. This correlation arises from the fact that natural graphs often exhibit a power-law distribution, where a small number of high-degree vertices account for the majority of the edges. Therefore, we begin by classifying the vertices into three categories based on their degree (line 2):
+a) Level-1 vertices: The top $k$ vertices with the highest degree, possessing many outgoing edges and deemed the most critical.
+b) Level-2 vertices: The next $m$ vertices with moderate degrees, representing a balance in both quantity and importance.
+c) Level-3 vertices: Vertices with the lowest degree, connected to few or no edges, and considered the least significant.
+Next, based on the classification of vertices, we define three types of hot path segments:
+a) Path segments originating from a level-1 vertex to any other vertex.
+b) Path segments terminating at a level-1 vertex from any other vertex.
+c) Path segments connecting level-2 vertices.
+
+We use three two-dimensional tables to store the query results for the hot path segments. The first dimension represents the source of the path, while the second dimension represents the destination. Each coordinate in the tables corresponds to a value representing the query result for that path. Specifically, we use \(T_{\text{level1}}^s\) to store all query results where level-1 vertices are the source, and \(T_{\text{level1}}^d\) to store those where level-1 vertices are the destination (line 3). Additionally, \(T_{\text{level2}}\) records the query results for paths whose endpoints are both level-2 vertices (line 4). During initialization, all entries are set to infinity, signifying that paths are initially deemed unreachable. For self-loops, where the source and destination coincide, the value is set to zero, indicating a trivial path.
+
+
+{\bf{Computing \(T_{level1}\).}}
+In this phase, we compute the path segments associated with level-1 vertices. Point-to-all queries are executed using level-1 vertices as either the source or the destination. For instance, in point-to-point shortest path queries (PPSP), we perform Single Source Shortest Path (SSSP) queries with level-1 vertices as the source or destination and store the results. This generates \(k \times |V| \times 2\) results, where \(k\) is the number of level-1 vertices and \(|V|\) is the total number of vertices in the graph. The results are stored in \(T_{\text{level1}}^s\) and \(T_{\text{level1}}^d\), which are two-dimensional tables. Each entry corresponds to a point-to-point query, with the row and column indices representing the source and destination vertices, respectively. The computational overhead is minimal due to the limited number of level-1 vertices. Moreover, the results for level-1 vertices are reused across multiple queries, significantly reducing the computational cost.
+
+
+
+{\bf{Computation~Sharing.}}
+This phase focuses on iteratively computing bounds and improving the efficiency of computations by sharing results related to path segments across multiple queries. It consists of two levels of computation sharing, using data from the \(T_{\text{level1}}^s\), \(T_{\text{level1}}^d\), and \(T_{\text{level2}}\) tables at different stages.
+
+
+First level of computation sharing:
+When a query \(Q(v_s, v_d)\) starts, the \texttt{L1Share()} function queries \(T_{\text{level1}}^d\) to retrieve all results \(R(v_s, *)\) associated with the row ID of \(v_s\), and queries \(T_{\text{level1}}^s\) to retrieve all results \(R(*, v_d)\) corresponding to the column ID of the level-1 vertices. The function then iterates through all level-1 vertices \(v_{\text{level1}}\) to compute the minimum value of \(R(v_s, v_{\text{level1}}) + R(v_{\text{level1}}, v_d)\). This value serves as the query's bound and can be used for pruning (line 12). If the source or destination vertices are unavailable, the bound is set to infinity. The bound is updated during each iteration.
+
+Second level of computation sharing:
+For each active vertex being processed, we check if it belongs to the level-2 vertex set. If it does not, we traverse its outgoing neighbors using standard iterative steps, which generates new active vertices. If \(v_i \in V_{\text{level2}}\), we retrieve the query results for hot paths from \(v_i\) to other high-degree vertices, \(R(v_i, v_j)\), from \(T_{\text{level2}}\), where \(v_j\) represents another level-2 vertex. Even if the path from \(v_i\) to \(v_j\) involves multiple hops, we treat \(v_j\) as an outgoing neighbor of \(v_i\), allowing traversal in a single step. This shortcut mechanism reduces redundant computations and accelerates convergence.
+
+Note that, unlike \(T_{\text{level1}}^s\) and \(T_{\text{level1}}^d\), the results in \(T_{\text{level2}}\) are derived from the converged query results \(R\) obtained in the fourth stage. While we cannot guarantee that all values in \(T_{\text{level2}}\) are valid converged results (some may still be initialized to infinity), as additional query batches are processed, new query results are continuously added to \(T_{\text{level2}}\), ensuring the validity of the stored values over time.
+
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=7.0in, height=1.98in]{picture/Zhang-fig4.png}
+    \captionsetup{labelsep=period}
+    \vspace{-0.2cm}
+    \caption{Computation Sharing Mechanism}
+    \label{fig4}
+    \vspace{-0.5cm}
+\end{figure*}
+
+
+{\bf{Computing \(T_{level2}\).}}
+In this phase, we extract hot paths from the converged computation results and add them to \(T_{level2}\), instead of directly computing their values. The key idea is that in monotonic point-to-point query algorithms, any segment of a convergent path is also convergent. For example, if we obtain the shortest path between two vertices, any subsegment of this path is also the shortest path between the corresponding vertices.
+
+After completing a batch of queries, we analyze the composition of the paths. If a known query path contains multiple hot vertices, it indicates the presence of at least one convergent hot path.
+Since point-to-point algorithms inherently record path information, extracting query results for these hot paths is efficient.
+Consider the path \( (v_1 \rightarrow v_2 \rightarrow v_3) \) in Figure \ref{fig1}. We start at \(v_1\), which then traverses its outgoing neighbors, one of which is \(v_2\). \(v_2\) stores the value \(R(v_1, v_2)\) and records its parent node as \(v_1\). Similarly, \(v_3\) stores the value \(R(v_1, v_3)\) and records its parent node as \(v_2\). Since the algorithm is iterative, the query results and corresponding parent nodes for each vertex are dynamically updated.
+
+When the final query converges, each vertex records the distance and parent node for the shortest path from the source vertex to itself. Then, starting from the destination vertex (\(v_d\)), the query results from the source vertex to \(v_d\) and its corresponding parent node along the convergent path are extracted. This process is repeated with the obtained parent node until the complete convergent path from \(v_s\) to \(v_d\) is reconstructed.
+
+After this extraction, the query results in \(T_{level2}\) are updated in their corresponding positions to facilitate sharing in the next batch of queries.
+Thanks to pruning operations, which effectively avoid unnecessary query paths, the data accessed during the traversal process for point-to-point queries is minimal—typically only 1\% of all query paths for a point-to-all query \cite{sgraph}. Therefore, path information can be recorded with negligible storage overhead. Moreover, because many queries share common hot paths, the computational cost of extracting results from newly added hot paths is also minimal.
+
+It is important to note that all the algorithms discussed in this paper, such as the shortest path algorithm, are monotonic. The computation-sharing mechanism stores the corresponding results. Therefore, when the graph structure changes, we can apply the method proposed in KickStarter \cite{kickstarter} to update the affected query results within the path-based computation-sharing mechanism, making our solution applicable to dynamic graph scenarios.
+
+\subsection{An Example of Path-based Computational Sharing Mechanism}\label{3.2}
+In Figure \ref{fig4}(a), vertices connected by more than six edges are labeled as hot vertices. The vertex with the highest degree among these is designated as the level-1 Vertex, while the remaining hot vertices are allocated to the level-2 vertices.
+
+{\bf{First-level of Computation Sharing.}} In Figure \ref{fig4}(b), query results for paths from level-1 Vertices to other vertices ($Q(v_6, *)$) and from other vertices to level-1 Vertices ($Q(*, v_6)$) are computed during the second phase. These shared query results enable rapid determination of query bounds without actual computations when the query process involves level-1 Vertices. For instance, before processing the query $Q(v_1, v_9)$, we can quickly establish a available path connecting $v_1$ and $v_9$ as $v_1 \rightarrow v_6 \rightarrow v_9$. Thus, $Q(v_1, v_9) = R(v_1, v_6) + R(v_6, v_9)$. The right side of the equation represents the query results for $v_1$ to $v_6$ and $v_6$ to $v_9$. Using this equation, we obtain the bound for $Q(v_1, v_9)$ without redundant computation, aiding subsequent iterative processes.
+
+{\bf{Second-level of Computation Sharing.}} As shown in Figure \ref{fig4}(c), it records query results of hot paths retrieved from previous batch queries. Therefore, we have already obtained the results for $R(v_2, v_{10})$ before executing the current batch of queries. Leveraging the path segments related to level-2 vertices allows us to decompose $Q(v_1, v_9)$ into $Q(v_1, v_2) + R(v_2, v_{10}) + Q(v_{10}, v_9)$, effectively avoiding redundant computations of $Q(v_2, v_{10})$.
+It is crucial to note that during querying, we lack the knowledge to partition a complete query into multiple sub-queries. In practice, we treat shortcut edges in the level-2 as normal outgoing edges. When a query traverses a vertex $v_i$ within the level-2, it considers other hot vertices in the level-2 as outgoing neighbors of $v_i$, with the edge weights representing the corresponding query results.
+Therefore, for $Q(v_1, v_9)$, $v_1$ initially traverses its outgoing neighbor $v_2$. $v_2$ is a vertex in the level-2, and when traversing its outgoing neighbors, it treats other vertices in the core subgraph as neighbors as well: so $v_2$ will traverse $v_{10}$. Finally, $v_{10}$ traverses its outgoing neighbor $v_9$. The entire process aligns with normal traversal steps, rendering the level-2 transparent to the user.
+
+The hot paths connected with level-1 Vertices, benefiting from the power-law distribution of graphs, achieve a high reuse rate, making them effective for most queries. However, to avoid excessive storage and computation costs, we need to constrain the number of level-1 Vertices, which also limits the reuse rate.
+In contrast, the hot paths in the level-2 are more lightweight, incorporating more hot vertices and providing more precise pruning bounds.
+Thus, the path-based computation sharing mechanism effectively balances reuse rate and overhead.
+
+
+
+% \vspace{-8pt}
+\subsection{Cache-efficient Data Access Sharing Mechanism}\label{3.3}
+
+In Section \ref{motivation}, we observed that different queries frequently access the same graph structure data, which should be beneficial for improving cache hit rates. However, different queries access the same data at different times, leading to cache thrashing. As concurrency increases, cache conflicts also intensify. To address this issue, we propose a cache-efficient data access sharing mechanism. This mechanism first determines the loading order of graph blocks and then selectively triggers the execution of queries with similar data access patterns in an iteration. This approach effectively reduces data access overhead and improves data hit rates by enabling multiple queries to share access to cached data. Additionally, it introduces a similarity-aware query strategy that groups queries with a high probability of sharing data into the same execution batch, thereby enhancing the efficiency of data access sharing. This approach is more efficient than the passive acceptance of query sets in systems like Glign.
+
+The pseudocode for this mechanism is detailed in Algorithm 1, and Figure \ref{fig5} visually illustrates the process. Specifically, the mechanism involves four steps:
+1) Initialization (lines 2, 3, 5):
+   In this phase, we perform logical partitioning of the graph structure data and group queries with high sharing probability into the same execution batch using a similarity-aware query strategy. Specifically, to optimize the movement of graph data across the memory hierarchy, we logically subdivide coarse-grained graph partitions into fine-grained blocks, each with a size of \( S_{block} \). This process is rapid because it only requires recording the mapping of each edge to its corresponding logical graph block in a dictionary data structure \( T_{block} \). We then identify a subset of highly similar queries within the query set, designated as \( Q_{similar} \), to optimize parallel processing.
+2) Establishing Query-Graph Block Relationships (lines 6):
+   The relationship between queries and graph blocks is established based on the active vertices \( V_{active} \) involved in each query. During iterative querying, queries generate sets of active vertices distributed across different graph blocks. By analyzing these active vertices, we identify the set of graph blocks associated with each query and the set of queries associated with each graph block. Since these active vertices change with each iteration, the relationships need continuous updates to ensure accuracy and efficiency in query processing.
+3) Determining the Loading Order of Graph Blocks (lines 8):
+   The value of a graph block increases with the number of associated queries because its data can be shared among different queries in an iteration. We determine the loading order based on the number of queries associated with each graph block, prioritizing the graph blocks with more associated queries to be loaded into the LLC.
+4) Triggering Specific Query Execution (lines 9-10):
+   After loading a graph block into the LLC, we trigger the execution of queries associated with that block. These queries will access the data within the block, thus achieving higher cache hit rates. The core of our data access sharing mechanism is that we do not need to execute all queries in each iteration but rather select the most suitable queries for execution
+
+
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\columnwidth]{picture/Zhang-fig5.png} %调节单个子图大小
+	\setlength{\abovecaptionskip}{-0.2cm} %控制标题与子图距离
+    \captionsetup{labelsep=period}
+    	\caption{Data Access Sharing Mechanism} %子图下标题
+    \label{fig5} %引用标签
+    \vspace{-0.6cm}
+\end{figure}%
+
+
+\begin{algorithm}[t]
+\caption{Cache-efficient Data Access Sharing}
+\label{alg:data_access_sharing}
+\begin{algorithmic}[1]
+\Statex \textbf{Input:}
+\Statex \hspace{\algorithmicindent} $Q$: The set of point-to-point queries
+\Statex \hspace{\algorithmicindent} $G$: Graph structure data
+\Statex \textbf{Parameters:}
+\Statex \hspace{\algorithmicindent} $V_{active}$: The set of active vertices
+\Statex \hspace{\algorithmicindent} $Q_{similar}$: The set of similar point-to-point queries
+\Statex \hspace{\algorithmicindent} $Q_{b_i}$: The set of queries associated with $b_i$
+\Statex \hspace{\algorithmicindent} $S_{block}$: The size of fine-grained graph block
+\Statex \hspace{\algorithmicindent} $b_i$: The block cached in the cache
+\Statex \hspace{\algorithmicindent} $T_{block}$: The table recording the block
+
+\Statex \textbf{Output:}
+\Statex \hspace{\algorithmicindent} $R$: Convergent query results
+\Statex
+\Function{DataAccessSharing}{$Q$, $G$}
+    \State $S_{block} \gets$ GetBlockSize()
+    \State $T_{block} \gets$ LogicalPartition($G$, $S_{block}$)
+    \While{$Q$ is not empty}
+        \State $Q_{similar} \gets$ SelectQueries($Q$)
+        \State $V_{active} \gets$ GetActiveVertex($Q_{similar}$)
+        \While{$V_{active}$ is not empty}
+            \State $b_i \gets$ SelectBlock($T_{block}$, $V_{active}$)
+            \State $Q_{b_i} \gets$ GetQueries($b_i$)
+            \State $R, V_{active} \gets$ \textbf{ComputationSharing}($b_i$, $Q_{b_i}$)
+        \EndWhile
+    \EndWhile
+    \State \textbf{return} $R$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
+
+{\bf{Initialization.}}
+a) Determined Block Size. Selecting an appropriate shared graph block size is crucial for optimizing cache utilization. Ideally, the block size should be sufficiently small to fit into the LLC while avoiding overly small sizes that diminish locality and induce cache thrashing. Formula 1 is used to calculate the maximum size for shared graph blocks, considering factors such as block size ($S_{block}$), partition size ($S_{graph}$), total number of vertices ($|V|$), average storage cost per vertex ($S_{vertex}$), number of concurrent queries ($N$), and LLC size ($S_{LLC}$). This formula helps determine the maximum granularity for each shared graph block while ensuring efficient LLC capacity utilization.
+
+\begin{equation}
+    \vspace{-3pt}
+    S_{block} + \frac{S_{block}}{S_{graph}} \cdot \lvert V \rvert \cdot S_{vertex} \cdot N \leq S_{LLC}
+    \vspace{-3pt}
+    \end{equation}
+
+b) Logical Partitioning. Given that each edge in the graph dataset occupies a fixed size, we can calculate the maximum number of edges, \(N_{max}\), that a block of size \(S_{block}\) can accommodate. We traverse the graph data stored in edgelist format sequentially (other graph storage formats can be traversed similarly). Typically, edges are sorted in ascending order by the source vertex ID, and for edges with the same source ID, in ascending order by the destination ID. During this sequential traversal, these edges are grouped into partitions of size \(N_{max}\), with each partition corresponding to a graph block.
+We use \(T_{block}\) to record the mapping between edges and graph blocks. This is a dictionary data structure where the key is the edge (a pair of source and destination vertices), and the value is the block ID. If all edges originating from a vertex \(v_i\) are assigned to the same graph block, we can add a single record with the key \(e(v_i, *)\), representing all outgoing edges from \(v_i\), and the value as the corresponding block ID. This approach minimizes the storage overhead for \(T_{block}\).
+In subsequent phases, the system can use \(T_{block}\) to determine the graph block associated with the outgoing edges of active vertices. Since logical partitioning only requires partition information from \(T_{block}\) without altering the physical distribution of the graph data, our partitioning method is lightweight.
+
+c) Similar Query Scheduling. Instead of executing all queries at once or randomly dividing them into batches, we propose a strategy that groups similar queries into a batch for execution. Query similarity reflects the proportion of common path segments to all traversed paths across different queries. Different queries have varying degrees of similarity, with some sharing many common paths and others having very few overlapping paths. It is essential to select similar queries in a batch to maximize cache hit rates. We employ an intuitive similarity-aware approach to calculate the similarity score between queries $q_i$ and $q_j$ using the following formula, where $v_{src}^i$ and $v_{dst}^i$ denote the source and destination vertices of query $q_i$, and $D(v_i,v_j)$ represents the distance between two vertices ($v_i$ and $v_j$) using PPSP. A higher similarity score indicates greater similarity between queries. We randomly select a query $q_i$ and compute its similarity with other queries. A query is deemed similar to $q_i$ if their similarity score surpasses a predefined threshold. In our experiments, we set this threshold to 0.1. However, if clustering results in a small number of similar queries within a group, this threshold can be adjusted to ensure that a sufficient number of queries are included in each execution batch. Similarity computations can be performed in the background while queries are executed in the foreground, ensuring high throughput of system.
+
+\begin{equation}
+% \vspace{-2pt}
+{Similarity} = \frac{1}{{D}(v_{src}^i,v_{src}^j) + {D}(v_{dst}^i,v_{dst}^j)}
+% \vspace{-2pt}
+\end{equation}
+
+{\bf{Establishing Query-Graph Block Relationships.}}
+During iterative querying, each query generates a set of active vertices $V_{active}$, distributed across different graph blocks, establishing relationships between queries and blocks. Using $V_{active}$ and $T_{block}$, we map each query to its associated graph blocks and each block to its associated graph queries. These relationships are dynamic, changing with each iteration, as active vertices evolve, ensuring accuracy and efficiency in query processing.
+
+{\bf{Determining the Loading Order of Graph Blocks.}}
+We propose a block prioritization schedule to enhance system performance by prioritizing blocks with the highest potential for shared data utilization across queries. The priority is calculated using the formula below:
+
+\begin{equation}
+% \vspace{-8pt}
+{Priority} = w_1 \cdot {N}_{{query}} + w_2 \cdot \left(\frac{{N}_{{hot}}}{{N}_{{active}}}\right)
+% \vspace{2pt}
+\end{equation}
+
+Here, $N_{query}$ denotes the number of queries associated with the block, and $\frac{N_{hot}}{N_{active}}$ represents the proportion of active hot vertices within a block out of the total active vertices.
+We manually tuned weight parameters $w_1$ and $w_2$ to balance the influence of various factors. In our experiments, we set $w_1$ to 0.1 and $w_2$ to 1 because the $N_{query}$ is significantly larger than the $\frac{{N}_{{hot}}}{{N}_{{active}}}$. The computed priority determines the sequence for loading graph blocks into the LLC, prioritizing those with higher priority to facilitate efficient data sharing.
+
+{\bf{Triggering Specific Queries Execution.}}
+The core of our data access sharing mechanism is to select the most suitable queries for execution rather than executing all queries in each iteration. After loading a block $b_i$ into the LLC, we trigger the execution of queries associated with $b_i$. These queries access the data within $b_i$, achieving higher cache hit rates and thus higher throughput. We pass the active vertex information $V_{active}$ and the query set $Q_{b_i}$ to the computation sharing function, which retrieves $b_i$ from the cache and employs a path-based computation sharing method to accelerate the query. This function returns the current computation results and the set of active vertices for the next round of computation.
+
+\section{EXPERIMENTAL EVALUATION}\label{experimental}
+%This section presents experimental evaluation of GraphSO in comparison with state-of-the-art solutions.
+
+% \vspace{-4pt}
+\subsection{Experimental Setup}
+{\bf{Hardware Configuration.}} The experiments are conducted on an 8-node cluster, each machine equipped with two 32-core Intel Xeon Platinum 8358 CPUs (each CPU has 48 MB L3 cache) and 256 GB memory. All nodes are interconnected through an InfiniBand network with a bandwidth of 300 Gbps. The programs are compiled using GCC version 9.4.0 with the -O3 flag, and are parallelized using OpenMP and OpenMPI version 4.0.3
+
+
+{\bf{Graph Algorithms And Datasets.}}
+We utilized six commonly used point-to-point query algorithms, as shown in Table \ref{table1}. These algorithms have broad applications in different domains, such as social networks and traffic planning, making them representative.
+Additionally, Table \ref{table3} provides details on the graph datasets used in these algorithms. The datasets cover diverse application scenarios and scales, following a power-law distribution that accurately reflects the characteristics of real-world graph distributions.
+We adopt advanced graph partitioning approach \cite{china1} to meet the requirements of distributed systems.
+
+\begin{table}[t]
+    \centering
+    \renewcommand\arraystretch{1.2}
+    \scriptsize
+    \begin{tabular}{c c c c}
+    \hline
+    \rule{0pt}{8pt}
+    Datasets          & Vertices & Edges  & Data sizes \\
+    \hline
+    \rule{0pt}{8pt}
+    Twitter-2010(TW) \cite{twitter}   & 41.7M    & 1.5B   & 10.9GB     \\
+    Friendster(FS) \cite{Friendster}    & 65.6M     & 1.81B    & 8.7GB      \\
+    Gsh-2015-host(GS) \cite{bubing}  & 68.7M    & 1.8B   & 13.4GB     \\
+    UK-2007-05(UK) \cite{timeaware}     & 106M     & 3.74B  & 27.9GB     \\
+    \hline
+    \end{tabular}
+    \caption{Graph Dataset Information}
+    \label{table3}
+    % \vspace{-0.3cm}
+\end{table}
+
+{\bf{System Comparison.}} We conducted a comparative analysis between GraphCPP and the state-of-the-art point-to-point query solution SGraph \cite{sgraph}. SGraph, originally designed for linear queries, is denoted as SGraph-S in this analysis. Additionally, we implemented a concurrent query processing version of SGraph using multi-threading techniques, denoted by the '-C' suffix, which avoids both data sharing and computation sharing mechanisms.
+To ensure scientific rigor in our experiments, we used random parameters for each query, maintaining consistency with the baseline: the number of level-1 Vertices was set to 10, and the vertices of the level-2 in GraphCPP were set to 512. All tests were conducted 10 times, and the reported results represent the average values.
+
+
+\vspace{-8pt}
+\subsection{Overall Performance Comparison}
+\vspace{-2pt}
+\begin{figure*}[ht]
+	\centering
+	\includegraphics[width=6.0in,height=4.2cm]{picture/Zhang-fig6.png} %调节单个子图大小
+	%\setlength{\abovecaptionskip}{-0.05cm} %控制标题与子图距离
+    \captionsetup{labelsep=period}
+		\caption{Total execution time of different systems with six algorithms on four datasets (512 queries, 128 concurrent, normalized to SGraph-S)} %子图下标题
+		\label{fig6} %引用标签
+        \vspace{-0.3cm}
+\end{figure*}%
+
+\begin{figure*}[ht]
+	\centering
+	\includegraphics[width=6.0in,height=4.2cm]{picture/Zhang-fig7.png}
+	%\setlength{\abovecaptionskip}{-0.05cm}
+    \captionsetup{labelsep=period}
+		\caption{Execution time breakdown of different systems with six algorithms on four datasets (512 queries, 128 concurrent, normalized to SGraph-S)}
+		\label{fig7}
+        % \vspace{-0.5cm}
+\end{figure*}
+
+\begin{figure}[ht]
+    \centering
+	\includegraphics[width=2.8in]{picture/Zhang-fig8.png}
+	\setlength{\abovecaptionskip}{-0.2cm}
+    \captionsetup{labelsep=period}
+	\caption{LLC miss rate of GraphCPP with six algorithms on four datasets (512 queries, 128 concurrent, normalized to SGraph-S)}
+	\label{fig8}
+    \vspace{-0.5cm}
+\end{figure}
+
+Figure \ref{fig6} illustrates the overall execution time for 512 queries using various approaches. The execution time is normalized relative to the performance of SGraph-S, considering significant variations in the execution time across different test cases. The results indicate that GraphCPP consistently achieves shorter execution time for all graphs and algorithms. Specifically, when compared to alternative schemas, GraphCPP demonstrates an average throughput improvement ranging from 1.56 to 5.67 times. This improvement is attributed to the reduction of data access costs and effective pruning of the level-2 in GraphCPP.
+
+For a more detailed performance analysis, we further break down the total time into data access time and graph processing time. For GraphCPP, we also consider the additional time required to maintain the level-2. The Initialization Phase and the Merged Computation of level-1 Vertices Phase, as mentioned in Section 3.1, fall under graph processing time, measured by the waiting time for core pauses.
+As depicted in Figure \ref{fig7}, GraphCPP requires less time for graph data access compared to SGraph-S, with this proportion decreasing as the graph size increases. Notably, GraphCPP's data access time averages a reduction of 1.23 to 2.39 times when compared to other systems. The efficiency of GraphCPP stems from two critical factors: 1) identical portions of graph data required by different queries are loaded and maintained as a single copy in memory, reducing overall memory consumption; 2) graph data blocks are prioritized and regularly loaded into the LLC based on associated query counts, facilitating job reuse and effectively lowering LLC miss rates. Furthermore, the two-level computing sharing mechanism contributes to GraphCPP's lower computation time compared to other systems.
+
+
+
+% \vspace{-10pt}
+\subsection{Efficiency of Data Access Sharing Mechanism}
+% \vspace{-2pt}
+In Figure \ref{fig7}, GraphCPP demonstrates a substantial reduction in data access time, ranging from 45\% to 85\%, when utilizing the data access sharing mechanism compared to SGraph. This performance improvement is attributed to concurrent queries sharing the data access overhead, and the unified scheduling approach of the data access sharing mechanism enhances data locality for various queries. To assess the effectiveness of our data-sharing mechanism, we conducted 512 queries on the different graph and normalized GraphCPP's LLC miss ratio relative to SGraph-S. As shown in Figure \ref{fig8}, GraphCPP consistently achieves a lower LLC miss ratio across all datasets and algorithms, averaging a 50\% improvement.
+
+
+% \vspace{-8pt}
+\subsection{Efficiency of the Computation Sharing Mechanism}
+% \vspace{-2pt}
+We compared the performance of GraphCPP and SGraph-S (Figure \ref{fig7}), demonstrating that despite the inherent overhead of the computation sharing mechanism (including the cost of computing level-1 Vertices and maintaining the level-2), an overall computational acceleration is achieved. The specific costs associated with this mechanism are outlined below:
+
+{\bf{level-1 Vertices Overhead.}} GraphCPP and SGraph-S both require computation and storage of queries involving level-1 Vertices in the graph, facilitating shared computations for any computation that involves level-1 Vertices. The computation and storage overhead for level-1 Vertices is proportionate to the number of level-1 Vertices. For SGraph, it needs to maintain a sufficient number of Gobal Vertices (usually 16) to ensure the efficiency of computation sharing. However, for GraphCPP, it achieves this by initializing query boundaries based on level-1 Vertices, and more precise boundaries can be established in subsequent level-2 computations. This flexibility enables GraphCPP to select fewer level-1 Vertices query results without compromising the efficiency of computation sharing. For instance, reducing the number of level-1 Vertices from 16 to 10 can result in a 37.5\% reduction in the computation and storage overhead associated with level-1 Vertices.
+
+{\bf{level-2 Overhead.}} We designed the construction of the level-2 to leverage previous query results, employing a lightweight prefix sum method for extracting hot paths. As depicted in Figure \ref{fig7}, the time dedicated to maintaining the level-2 constitutes approximately 5\% of GraphCPP's total execution time. Despite this, it reduces the overall computation time. Additionally, for each hot path, we need to store its query result and the vertices it traverses. We observe a positive correlation between the number of level-2 vertices and storage overhead. Nevertheless, this cost remains relatively small when compared to the overall graph size since the level-2 exclusively stores paths among hot vertices, and the maximum number of hot paths is merely the square of the hot vertices, making it quite limited compared to larger graphs.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=2.5in]{picture/Zhang-fig9.png}
+    %\setlength{\abovecaptionskip}{-0.05cm}
+    \captionsetup{labelsep=period}
+    \vspace{-2pt}
+    \caption{Scalability of different systems with varying concurrency (512 PPSP queries on TW \cite{twitter}, normalized to SGraph-S)}
+    \label{fig9}
+    \vspace{-0.5cm}
+\end{figure}
+
+% \vspace{-8pt}
+\subsection{Scalability of GraphCPP}
+% \vspace{-4pt}
+In Figure \ref{fig9}, we evaluated the scalability of different systems by examining the time required for 512 queries under different concurrent query counts.
+For clearer comparison, we normalized the query time of SGraph-C and GraphCPP relative to SGraph-S. The blue horizontal line represents the time required for SGraph-S to linearly execute 512 queries.
+We chose the maximum of 512 concurrency, indicating that all queries can be completed in a single concurrent execution.
+SGraph-C benefits from concurrent execution; however, the absence of a data sharing mechanism results in the highest synchronization overhead among concurrent queries, resulting in an earlier performance turning point. As the concurrent count increases, the performance gains diminish gradually.
+In comparison, GraphCPP consistently exhibits a decrease in processing time. This is attributed to its efficient data access and computation sharing mechanism, which consequently reduce the overhead of individual query, enhancing the system's scalability to concurrent queries.
+
+
+% \vspace{-8pt}
+\section{RELATED WORK}\label{relate_work}
+{\bf{Graph Processing Systems}}. Graph computation systems fall into three main categories based on differences in storage media and computing platforms.
+1) Single-node in-memory systems: Ligra \cite{ligra} optimizes graph traversal using push-pull computation. KickStarter \cite{kickstarter} and ACGraph \cite{acgraph} handle streaming graphs incrementally. TDGraph \cite{tdgraph} reduce redundancy and data access costs through topology-aware execution.
+2) Single-node out-of-core systems: FlashGraph \cite{flashgraph} achieves high IOPS with semi-external memory. GridGraph \cite{gridgraph} enhances locality with Streaming-Apply. DiGraph \cite{efficient} supports iterative directed graph processing on GPUs. GraphM \cite{graphm} optimizes throughput for concurrent systems.
+3) Distributed systems: Pregel \cite{pregel} uses Bulk Synchronous Parallel (BSP) for scalable, fault-tolerant processing of large graphs. PowerGr
+aph \cite{powergraph} reduces communication volume with vertex-cut partitioning. PowerLyra \cite{powerlyra} employs a hybrid model for high/low-degree vertices. Gemini \cite{gemini} ensures scalability with a dual-mode engine. CGraph \cite{cgraph} minimizes overhead with a load-trigger-push (LTP) model. level-2 \cite{level2} employs a two-phase processing model. Initially, it computes the query results on a subgraph, and then it incrementally updates these results to apply to the entire graph.
+However, existing graph computing systems mainly focus on point-to-all algorithms, which are not suitable for point-to-point scenarios.
+
+{\bf{Point-to-Point Queries}}. Numerous studies have explored point-to-point queries. For example, $Hub^2$ \cite{hub} introduces a specialized hardware accelerator that utilizes a hub-centric approach to constrain the search scope of high-degree vertices, thereby expediting the PPSP process. Quegel \cite{quegel} pursues a software-based query result sharing approach, improving response speed by constructing a static distributed query-sharing table during loading. PnP \cite{pnp} adopts a universal pruning strategy to reduce redundant accesses and computations. Tripoline \cite{tripoline} combines query reuse and pruning, achieving incremental query evaluation without prior knowledge through the application of the triangle inequality principle. Although initially designed for point-to-all algorithms, it can also be applied to point-to-point query systems.
+SGraph \cite{sgraph} further optimizes pruning strategies by incorporating upper and lower bounds, resulting in sub-second latency queries on large graphs with dynamically changing data.
+Existing solutions focus on improving the speed of individual point-to-point queries by pruning or sharing results. But they often overlook optimizing throughput in concurrent queries by sharing data access. Additionally, some approaches utilize the level-1 Vertices mechanism to achieve computation sharing. This approach requires exponential storage, computation, and dynamic upkeep as the graph size grows. To alleviate high overhead, practitioners often limit the number of vertices, which compromises the efficiency of computation sharing.
+
+
+{\bf{Concurrent Graph Computing}}. Concurrent graph processing systems address large-scale data across diverse architectures. Single-node in-memory system like Congra \cite{Congra}, enhances throughput and resource efficiency through dynamic query scheduling and awareness of atomic operations. Krill \cite{krill} adopts an SAP model to simplify attribute data management and reduce memory access.
+IBFS \cite{ibfs} introduces a GPU-based multitasking execution strategy to enable runtime sharing across multiple BFS queries.
+ForkGraph \cite{cache} accelerates execution by employing a yield-based scheduling strategy for efficient data sharing among concurrent queries. Out-of-core systems, such as GraphM \cite{graphm} and its distributed counterpart CGraph \cite{cgraph}, exploit locality to facilitate effective data sharing and computation.
+Other out-of-core systems, including Seraph \cite{seraph}, advocates for decoupling data structures, while MultiLyra \cite{multilyra} optimizes batch query evaluation by distributing communication costs through graph and boundary sharing.
+However, the concurrent graph computing solutions discussed above only enable runtime sharing of redundant computations across different queries within the same batch. They do not facilitate the sharing of redundant computations across different iterations of the same query. More importantly, these solutions do not exploit the pruning features of point-to-point algorithms to minimize redundant computations during runtime.
+
+
+\section{CONCLUSION}\label{conclusion}
+
+Traditional point-to-point query systems excel in handling serial queries but face challenges with throughput in high-concurrency scenarios. On the other hand, general concurrent graph computing systems optimize the efficiency of concurrent point-to-all queries but incur redundant data access and computational overhead when executing point-to-point queries, due to the lack of suitable pruning mechanisms.
+GraphCPP identifies significant redundancies in data access and computation among concurrent point-to-point queries, which also brings optimization opportunities. GraphCPP introduces a data access mechanism to reduce redundant data access by improving cache hit rates. Additionally, it employs a path-based concurrent point-to-point mechanism that accelerates query convergence by sharing computations of frequently accessed paths across multiple queries. Experimental results demonstrate that GraphCPP achieves an average performance improvement of 3.2x compared to existing state-of-the-art systems.
+
+
+
+% \section{ACKNOWLEDGMENTS}\label{acknowledfments}
+% This paper is supported by National Key Research and Development Program of China (No. 2022YFB2404202), Key Research and Development Program of Hubei Province (No. 2023BAB078), Knowledge Innovation Program of Wuhan-Basi Research (No. 2022013301015177), and Huawei Technologies Co., Ltd (No. YBN2021035018A6).
+
+%\vspace{-10pt}
+% use section* for acknowledgment
+\ifCLASSOPTIONcompsoc
+% The Computer Society usually uses the plural form
+%\section*{Acknowledgments}
+%\else
+% regular IEEE prefers the singular form
+%\section*{Acknowledgment}
+%\fi
+%This paper is supported by National Key Research and Development Program of China under grant No. 2018YFB1003500, National Natural Science Foundation of China under grant No.~61832006, 61825202, and 61702202. This work is also supported by Science and Technology on Parallel and Distributed Processing Laboratory (PDL).
+\vspace{-8pt}
+% Can use something like this to put references on a page
+% by themselves when using endfloat and the captionsoff option.
+\ifCLASSOPTIONcaptionsoff
+  \newpage
+\fi
+
+
+\begin{thebibliography}{100}
+\bibliographystyle{IEEEtran}
+\bibitem{google}
+``Google Maps,'' https://www.alibabagroup, 2023.
+
+\bibitem{facebook}
+``Facebook,'' www.facebook.com, 2023.
+
+\bibitem{alipay}
+``Alipay,'' www.alipay.com, 2019.
+
+\bibitem{cache}
+S. Lu, S. Sun, J. Paul, et al., ``Cache-efficient fork-processing patterns on large graphs,'' in \textit{Proc. Int. Conf. Manage. Data}, New York, NY, USA, 2021, pp. 1208--1221.
+
+\bibitem{pnp}
+C. Xu, K. Vora, R. Gupta, ``Pnp: Pruning and prediction for point-to-point iterative graph analytics,'' in \textit{Proc. Int. Conf. Architectural Support Program. Languages Operating Syst.}, Providence, RI, USA, 2019, pp. 587--600.
+
+\bibitem{sgraph}
+H. Chen, M. Zhang, K. Yang, et al., ``Achieving Sub-second Pairwise Query over volving Graphs,'' in \textit{Proc. Int. Conf. Architectural Support Program. Languages Operating Syst.}, Vancouver, BC, Canada, 2023, pp. 1--15.
+
+\bibitem{tripoline}
+X. Jiang, C. Xu, X. Yin, et al., ``Tripoline: generalized incremental graph processing via graph triangle inequality,'' in \textit{Proc. Eur. Conf. Comput. Syst.}, United Kingdom, 2021, pp. 17--32.
+
+\bibitem{glign}
+X. Yin, Z. Zhao, and R. Gupta, ``Glign: Taming Misaligned Graph Traversals in Concurrent Graph Processing,'' in \textit{Proc. ACM Int. Conf. Architectural Support Program. Languages Operating Syst.}, Vancouver, BC, Canada, 2022, pp. 78--92.
+
+\bibitem{ibfs}
+H. Liu, H. H. Huang, and Y. Hu, "iBFS: Concurrent Breadth-First Search on GPUs," in \textit{Proceedings of the 2016 International Conference on Management of Data}, SIGMOD '16, New York, NY, USA, 2016, pp. 403–416.
+
+
+\bibitem{cagis}
+``Cagis,'' http://www.cagis.org.cn, 2021.
+
+\bibitem{Friendster}
+``Stanford large network dataset collection,'' http://snap.stanford.edu/data/index.html, 2020.
+
+\bibitem{twitter}
+H. Kwak, C. Lee, H. Park, et al., ``What is Twitter, a social network or a news media?'' in \textit{Proc. Int. Conf. World Wide Web}, Raleigh, NC, USA, 2020, pp. 591--600.
+
+\bibitem{bubing}
+P. Boldi, A. Marino and M. Santini, et al.,  ``BUbiNG: Massive Crawling for the Masses,''  \textit{ACM Trans. Web}, vol. 12, no. 2, pp. 1--26, 2018.
+
+\bibitem{timeaware}
+P. Boldi, M. Santini and S. Vigna,  ``A large time-aware web graph,''  \textit{ACM SIGIR Forum}, vol. 42, no. 2, pp. 33--38, 2008.
+
+\bibitem{ppsp}
+K. Joseph, H. Jiang, ``Content based News Recommendation via Shortest Entity Distance over Knowledge Graphs,'' in \textit{Companion Proc. 2019 World Wide Web Conf.}, San Francisco, CA, USA, 2019, pp. 690--699.
+
+\bibitem{ppwp}
+M. Pollack, ``The maximum capacity through a network,'' \textit{Operations Res.}, Vol. 8, no. 5, pp. 733--736, 1960.
+
+\bibitem{ppnp}
+O. Berman, G. Handler, ``Optimal Minimax Path of a Single Service Unit on a Network to Nonservice Destinations,'' \textit{Transp. Sci.}, Vol. 21, no. 2, pp. 115--122, 1987.
+
+\bibitem{bfs}
+S. Schaeffer, ``Graph clustering,'' \textit{Comput. Sci. Rev.}, Vol. 1, no. 1, pp. 27--64, 2020.
+
+\bibitem{connectivity}
+L. Dhulipala, C. Hong, J. Shun, ``A framework for static and incremental parallel graph connectivity algorithms,'' \textit{arXiv preprint arXiv:2008.03909}, 2020.
+
+\bibitem{reachability}
+E. Cohen, E. Halperin, H. Kaplan, et al., ``Reachability and Distance Queries via 2-Hop Labels,'' \textit{SIAM J. Comput.}, Vol. 32, no. 5, pp. 1338--1355, 2003.
+
+\bibitem{ligra}
+J. Shun, J. Blelloch, ``Ligra: a lightweight graph processing framework for shared memory,'' in \textit{Proc. Symp. Princ. Pract. Parallel Program.}, Shenzhen, China, 2013, pp. 135--146.
+
+
+\bibitem{kickstarter}
+K. Vora, R. Gupta, G. Xu, ``Kickstarter: Fast and accurate computations on streaming graphs via trimmed approximations,'' in \textit{Proc. 22nd Int. Conf. Architectural Support for Programming Languages and Operating Systems}, Xi'an, China, 2017, pp. 237--251.
+
+
+\bibitem{acgraph}
+Z. Jiang, et al., ``ACGraph: Accelerating Streaming Graph Processing via Dependence Hierarchy,'' in \textit{2023 60th ACM/IEEE Design Automation Conference (DAC)}, IEEE, 2023.
+
+\bibitem{digraph}
+Y. Zhang, X. Liao, H. Jin, et al., ``DiGraph: An efficient path-based iterative directed graph processing system on multiple GPUs,'' in \textit{Proc. Int. Cinf. Architectural Support Program. Languages and Operating Syst.}, Providence, RI, USA, 2019, pp. 601--614.
+
+
+\bibitem{tdgraph}
+J. Zhao, Y. Yang, Y. Zhang, et al., ``TDGraph: a topology-driven accelerator for high-performance streaming graph processing,'' in \textit{Proc. Annu. Int. Symp. Comput. Architecture}, New York, NY, USA, 2022, pp. 116--129.
+
+\bibitem{flashgraph}
+D. Zheng, M. Mhembere, R. Burns, et al., ``{FlashGraph}: Processing {Billion-Node} Graphs on an Array of Commodity {SSDs},'' in \textit{USENIX Conf. File Storage Technologies}, Santa Clara, CA, USA, 2015, pp. 45--58.
+
+\bibitem{gridgraph}
+X. Zhu, W. Han, W. Chen, ``{GridGraph}:{Large-Scale} Graph Processing on a Single Machine Using 2-Level Hierarchical Partitioning,'' in \textit{USENIX Annu. Tech. Conf.}, Santa Clara, CA, USA, 2015, pp. 375--386.
+
+\bibitem{efficient}
+Y. Zhang, X. Liao, X. Shi, et al., ``Efficient Disk-Based Directed Graph Processing: A Strongly Connected Component Approach,'' \textit{IEEE Trans. Parallel Distrib. Syst.}, vol. 29, no. 4, pp. 830--842, 2018.
+
+\bibitem{graphm}
+J. Zhao, Y. Zhang, X. Liao, et al., ``GraphM: an efficient storage system for high throughput of concurrent graph processing,'' in \textit{Proc. Int. Conf. High Perform. Comput., Netw., Storage and Anal.}, Denver, Colorado, USA, 2019, pp. 1--14.
+
+\bibitem{pregel}
+G. Malewicz, M. Austern, A. Bik, et al., ``Pregel: a system for large-scale graph processing,'' in \textit{Proc. ACM SIGMOD Int. Conf. Manage. Data}, New York, NY, USA, 2010, pp. 135--146.
+
+\bibitem{cgraph}
+Y. Zhang, J. Zhao, X. Liao, et al., ``{CGraph}: A Correlations-aware Approach for Efficient Concurrent Iterative Graph Processing,'' in \textit{USENIX Annu. Tech. Conf.}, Boston, MA, USA, 2018, pp. 441--452.
+
+\bibitem{gemini}
+X. Zhu, W. Chen, W. Zheng, et al., ``Gemini: A {Computation-Centric} Distributed Graph Processing System,'' in \textit{USENIX Symp. Operating Syst. Des. Implementation}, Savannah, GA, USA, 2016, pp. 301--316.
+
+\bibitem{giraph}
+C. Avery, ``Giraph: Large-scale graph processing infrastructure on hadoop,'' in \textit{Proc. Hadoop Summit}, pp. 5--9, 2011.
+
+\bibitem{graphlab}
+Y. Low, J. Gonzalez, A. Kyrola, et al., ``Graphlab: A new framework for parallel machine learning,'' \textit{arXiv preprint arXiv:1408.2041}, 2019.
+
+\bibitem{powergraph}
+J. Gonzalez, Y. Low, H. Gu, et al., ``{PowerGraph}: Distributed {Graph-Parallel} Computation on Natural Graphs,'' in \textit{USENIX Symp. Operating Syst. Des. Implementation}, Hollywood, CA, USA, 2012, pp. 17--30.
+
+\bibitem{level2}
+X. Jiang, M. Afarin, Z. Zhao, et al., ``Core Graph: Exploiting edge centrality to speedup the evaluation of iterative graph queries,'' in \textit{Proc. Eur. Conf. Comput. Syst.}, 2024.
+
+\bibitem{graphx}
+J. Gonzalez, R. Xin, A. Dave, et al., ``{GraphX}: Graph Processing in a Distributed Dataflow Framework,'' in \textit{USENIX Symp. Operating Syst. Des. Implementation}, Broomfield, CO, USA, 2014, pp. 599--613.
+
+
+\bibitem{powerlyra}
+R. Chen, J. Shi, Y. Chen, et al., ``Powerlyra: Differentiated graph computation and partitioning on skewed graphs,'' \textit{ACM Trans. Parallel Comput.}, vol. 5, no. 3, pp. 1--39, 2019.
+
+\bibitem{hub}
+R. Jin, N. Ruan, B. You, et al., ``Hub-accelerator: Fast and exact shortest path computation in large social networks,'' \textit{arXiv preprint arXiv:1305.0507}, 2013.
+
+\bibitem{quegel}
+Q. Zhang, D. Yan and J. Cheng, ``Quegel: A general-purpose system for querying big graphs,'' in \textit{Proc. Int. Conf. Manage. Data}, New York, NY, USA, 2016, pp. 2189--2192.
+
+\bibitem{Congra}
+P. Pan and C. Li, ``Congra: Towards Efficient Processing of Concurrent Graph Queries on Shared-Memory Machines,'' in \textit{IEEE Int. Conf. Comput. Des.}, Boston, MA, USA, 2017, pp. 217--224.
+
+\bibitem{krill}
+H. Chen, M. Shen, N. Xiao, et al., ``Krill: a compiler and runtime system for concurrent graph processing,'' in \textit{Proc. Int. Conf. High Perform. Comput., Netw., Storage and Anal.}, New York, NY, USA, 2021, pp. 1--16.
+
+
+\bibitem{seraph}
+J. Xue, Z. Yang, Z. Qu, et al., ``Seraph: an efficient, low-cost system for concurrent graph processing,'' in \textit{Proc. Int. Symp. High-perform. Parallel Distrib. Comput.}, Vancouver, BC, Canada, 2014, pp. 227--238.
+
+\bibitem{multilyra}
+A. Mazloumi, X. Jiang, R. Gupta, ``Multilyra: Scalable distributed evaluation of batches of iterative graph queries,'' in \textit{IEEE Int. Conf. Big Data}, Los Angeles, CA, USA, 2019, pp. 349--358.
+
+\bibitem{china1}
+X. Liu, Z. Ji, T. Hou, ``Graph partitions and the controllability of directed signed networks,'' in \textit{Sci. China Inf. Sci}, vol. 62, no. 4, pp. 1--11, 2019.
+
+\bibitem{china2}
+J. Zhang, H. Chen, D. Yu, et al., ``Cluster-preserving sampling algorithm for large-scale graphs,'' in \textit{Sci. China Inf. Sci}, vol. 66, no. 1, pp. 1--17, 2023.
+
+\end{thebibliography}
+
+\vspace{-1.5cm}
+\begin{IEEEbiography}
+[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{picture/Yu-eps-converted-to.png}}]
+{\bf Yu Zhang} (Member, IEEE) received the PhD degree in computer science from the Huazhong University of Science and Technology in 2016. He is currently a professor with the School of Computer Science and Technology, Huazhong University of Science and Technology, Wuhan, China. His research interests include computer architecture, system software, runtime optimization, programming model, and big data processing. He is a member of the CCF, ACM, and USENIX.
+\end{IEEEbiography}
+\vspace{-1.5cm}
+
+
+\begin{IEEEbiography}
+[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{picture/lhy.jpg}}]
+{\bf Haoyu Lu} received the bachelor's degree from Zhengzhou University, China. He is currently working toward master's degree with the School of Computer Science and Technology, Huazhong University of Science and Technology, Wuhan, China. His research interests include dynamic graph and high performance computing.
+\end{IEEEbiography}
+\vspace{-1.5cm}
+
+\begin{IEEEbiography}
+[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{picture/yue.jpg}}]
+{\bf Jianhui Yue} (Member, IEEE) received the PhD degree in computer science from the University of Maine, Orono, in 2012. He is an assistant professor of Computer Science Department, Michigan Technological University, Michigan. Before joining Michigan Technological University, he was a visiting assistant professor with Miami University, Ohio. His research interests include computer architecture, systems, and accelerator designs for machine learning. He received the Best Paper Award at IEEE CLUSTER 2007 and was the Best Paper Award candidate at HPCA 2013.
+\end{IEEEbiography}
+\vspace{-1.3cm}
+
+
+
+\begin{IEEEbiography}
+[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{picture/ywh.jpg}}]
+{\bf Weihang Yin} received the bachelor's degree from Wuhan University, China. He is currently working toward master's degree with the School of Computer Science and Technology, Huazhong University of Science and Technology, Wuhan, China. His research interests include dynamic graph and large model.
+\end{IEEEbiography}
+\vspace{-1.3cm}
+
+\begin{IEEEbiography}
+[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{picture/cmz.jpg}}]
+{\bf Minzhi Cai}
+received the bachelor's degree from Dalian University of Technology, China. He is currently working toward the master's degree with the School of Computer Science and Technology, Huazhong University of Science and Technology, Wuhan, China. His research interests include dynamic graph and graph mining.
+\end{IEEEbiography}
+\vspace{-1.3cm}
+
+\begin{IEEEbiography}
+[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{picture/lk.png}}]
+{\bf Kang Luo} received the bachelor's degree from the School of Computer Science and Engineering, Northeastern University, China. He is currently working toward the master's degree with the School of Computer Science and Technology, Huazhong University of Science and Technology, China. His research interests include graph process and graph mining.
+\end{IEEEbiography}
+\vspace{-1.3cm}
+
+
+\begin{IEEEbiography}
+[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{picture/fyt.jpg}}]
+{\bf Yutao Fu} received the bachelor's degree in software engineering from China University of Geosciences, Wuhan, China, in 2023. He is currently working toward the PhD degree with the school of computer science, Huazhong University of Science and Technology. His research interests include graph processing, system software, and architecture.
+\end{IEEEbiography}
+\vspace{-1.3cm}
+
+
+\begin{IEEEbiography}
+[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{picture/hzr.jpg}}]
+{\bf Zirui He} received the bachelor's degree from the School of Software, Shandong University, Jinan, China. He is currently working toward the master's degree with the School of Computer and Science, Huazhong University of Science and Technology, China. His research interests include graph processing and graph neural networks.
+\end{IEEEbiography}
+\vspace{-1.3cm}
+
+\begin{IEEEbiography}
+[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{picture/xxx.jpg}}]
+{\bf Xiaoxuan Xu} received the bachelor's degree from the School of Intelligence Science and Technology, University of Science and Technology Beijing, China. He is currently working toward the master's degree with the School of Computer and Science, Huazhong University of Science and Technology, Wuhan, China. His research interests include dynamic graph and graph neural networks.
+\end{IEEEbiography}
+\vspace{-1.3cm}
+
+\begin{IEEEbiography}
+[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{picture/ljp.jpg}}]
+{\bf Jiapeng Li} is an undergraudate from the School of Computer Science, Huazhong University of Science and Technology at Wuhan, China. His research interests include Graph Processing and Big Data Analysis.
+\end{IEEEbiography}
+\vspace{-0.8cm}
+
+\begin{IEEEbiography}
+[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{picture/zjin.jpg}}]
+{\bf Jin Zhao} received the PhD degree from the Huazhong University of Science and Technology, in 2022. He is now working toward the postdoctoral fellow at Zhejiang Lab, in China. His current research interests include graph processing, system software and architecture.
+\end{IEEEbiography}
+\vspace{-0.8cm}
+
+\begin{IEEEbiography}
+[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{picture/Xiaofei-eps-converted-to.png}}]
+{\bf Xiaofei Liao} (Member, IEEE) received a PhD degree in computer science and engineering from Huazhong University of Science and Technology, China, in 2005. He is now a professor in school of Computer Science and Engineering at Huazhong University of Science and Technology. His research interests are in the areas of system virtualization, system software, and Cloud computing.
+\end{IEEEbiography}
+\vspace{-0.8cm}
+
+\begin{IEEEbiography}
+[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{picture/Hai-eps-converted-to.png}}]
+{\bf Hai Jin} (Fellow, IEEE) is a Cheung Kung Scholars Chair Professor of computer science and engineering at Huazhong University of Science and Technology in China. Jin received his PhD in computer engineering from Huazhong University of Science and Technology in 1994. He was awarded Excellent Youth Award from the National Science Foundation of China in 2001. Jin is the chief scientist of ChinaGrid, the largest grid computing project in China, and the chief scientists of National 973 Basic Research Program Project of Virtualization Technology of Computing System, and Cloud Security. Jin is a Fellow of CCF, a Fellow of the IEEE and a member of the ACM. He has co-authored 22 books and published over 800 research papers. His research interests include computer architecture, virtualization technology, cluster computing and cloud computing, peer-to-peer computing, network storage, and network security.
+\end{IEEEbiography}
+\vfill
+
+
+
+% if you will not have a photo at all
+
+% You can push biographies down or up by placing
+% a \vfill before or after them. The appropriate
+% use of \vfill depends on what kind of text is
+% on the last page and whether or not the columns
+% are being equalized.
+
+%\vfill
+
+% Can be used to pull up biographies so that the bottom of the last one
+% is flush with the other column.
+%\enlargethispage{-5in}
+
+
+
+% that's all folks
+\end{document}
+
+

@@ -1,0 +1,1130 @@
+@inproceedings {CGraph,
+	author = {Yu Zhang and
+	Xiaofei Liao and
+	Hai Jin and
+	Lin Gu and
+	Ligang He and
+	Bingsheng He and
+	Haikun Liu},
+	title = {C{G}raph: A Correlations-aware Approach for Efficient Concurrent Iterative Graph Processing},
+	booktitle = {Proceedings of the 2018 {USENIX} Annual Technical Conference},
+	year = {2018},
+	pages = {441--452}
+}
+
+@techreport{PageRank,
+	author= {Lawrence Page and Sergey Brin and Rajeev Motwani and Terry Winograd},
+	title= {The PageRank citation ranking: Bringing order to the web},
+	institution= {Stanford Digital Library Technologies Project},
+	booktitle={Technical report},
+	year= {1998}
+}
+
+@inproceedings{SSSP,
+	title={Single-source shortest-paths on arbitrary directed graphs in linear average-case time},
+	author={Meyer, Ulrich},
+	booktitle={Proceedings of the 12th Annual ACM-SIAM Symposium on Discrete Algorithms},
+	pages={797--806},
+	year={2001}
+}
+
+@inproceedings{SCC,
+	title={On fast parallel detection of strongly connected components (SCC) in small-world graphs},
+	author={Sungpack Hong and
+	Nicole C. Rodia and
+	Kunle Olukotun},
+	booktitle={Proceedings of the 2013 International Conference for High Performance Computing, Networking, Storage and Analysis},
+	pages={1--11},
+	year={2013}
+}
+
+@inproceedings{BFS,
+	author = {Bulu\c{c}, Aydin and Madduri, Kamesh},
+	title = {Parallel Breadth-first Search on Distributed Memory Systems},
+	booktitle = {Proceedings of 2011 International Conference for High Performance Computing, Networking, Storage and Analysis},
+	year = {2011},
+	pages = {1--12}
+}
+
+@inproceedings{GraphChi,
+	title={GraphChi: Large-Scale Graph Computation on Just a PC},
+	author={Kyrola, Aapo and Blelloch, Guy and Guestrin, Carlos},
+	booktitle={Proceedings of the 10th USENIX Symposium on Operating Systems Design and Implementation},
+	pages={31--46},
+	year={2012}
+}
+
+@inproceedings{X-stream,
+	title={X-stream: Edge-centric Graph Processing Using Streaming Partitions},
+	author={Roy, Amitabha and Mihailovic, Ivo and Zwaenepoel, Willy},
+	booktitle={Proceedings of the 24th ACM Symposium on Operating Systems Principles},
+	pages={472--488},
+	year={2013}
+}
+
+@inproceedings{seraph,
+	title={Seraph: an efficient, low-cost system for concurrent graph processing},
+	author={Jilong Xue and
+	Zhi Yang and
+	Zhi Qu and
+	Shian Hou and
+	Yafei Dai},
+	booktitle={Proceedings of the 23rd International Symposium on High-performance Parallel and Distributed Computing},
+	pages={227--238},
+	year={2014}
+}
+
+@article{seraph1,
+	title={Processing Concurrent Graph Analytics with Decoupled Computation Model},
+	author={Xue, Jilong and Yang, Zhi and Hou, Shian and Dai, Yafei},
+	journal={{IEEE} Transactions on Computers},
+	volume={66},
+	number={5},
+	pages={876--890},
+	year={2017},
+}
+
+@inproceedings{GridGraph,
+	title={GridGraph: Large scale graph processing on a single machine using 2-level hierarchical partitioning},
+	author={Zhu, Xiaowei and Han, Wentao and Chen, Wenguang},
+	booktitle={Proceedings of the 2015 USENIX Annual Technical Conference},
+	pages={375--386},
+	year={2015}
+}
+
+@inproceedings{Vora,
+	author = {Keval Vora and Guoqing Xu and Rajiv Gupta},
+	title = {Load the Edges You Need: A Generic I/O Optimization for Disk-based Graph Processing},
+	booktitle = {Proceedings of the 2016 USENIX Annual Technical Conference},
+	year = {2016},
+	pages = {507--522}
+}
+
+@inproceedings{NXgraph,
+	title={NXgraph: An efficient graph processing system on a single machine},
+	author={Chi, Yuze and Dai, Guohao and Wang, Yu and Sun, Guangyu and Li, Guoliang and Yang, Huazhong},
+	booktitle ={Proceedings of the 2016 IEEE International Conference on Data Engineering},
+	pages={409--420},
+	year={2016}
+}
+
+@inproceedings{twitter,
+	title={What is Twitter, a social network or a news media?},
+	author={Kwak, Haewoon and Lee, Changhyun and Park, Hosung and Moon, Sue},
+	booktitle={Proceedings of the 19th International Conference on World Wide Web},
+	pages={591--600},
+	year={2010}
+}
+
+
+@misc{LAW,
+	title={LAW.},
+	howpublished={\url{http://law.di.unimi.it/datasets.php}},
+	year={2020}
+}
+
+@misc{SNAP,
+	title={SNAP.},
+	howpublished={\url{http://snap.stanford.edu/data/index.html}},
+	year={2020}
+}
+
+
+@inproceedings{CLIP,
+	title={Squeezing out All the Value of Loaded Data: An Out-of-core Graph Processing System with Reduced Disk I/O},
+	author={Ai, Zhiyuan and Zhang, Mingxing and Wu, Yongwei and Qian, Xuehai and Chen, Kang and Zheng, Weimin},
+	booktitle={Proceedings of the 2017 USENIX Annual Technical Conference},
+	pages={125--137},
+	year={2017}
+}
+
+
+@inproceedings{Wukong,
+	author = {Jiaxin Shi and Youyang Yao and Rong Chen and Haibo Chen and Feifei Li},
+	title = {Fast and Concurrent {RDF} Queries with RDMA-Based Distributed Graph Exploration},
+	booktitle = {Proceedings of the 12th USENIX Symposium on Operating Systems Design and Implementation},
+	year = {2016},
+	pages = {317--332}
+}
+
+@inproceedings{Congra,
+	author = {Peitian Pan and Chao Li},
+	title = {Congra: Towards Efficient Processing of Concurrent Graph Queries on
+	Shared-Memory Machines},
+	booktitle = {Proceedings of the 2017 International Conference on Computer Design},
+	pages = {217--224},
+	year = {2017}
+}
+
+@inproceedings {TAO,
+	author = {Nathan Bronson and
+	Zach Amsden and
+	George Cabrera and
+	Prasad Chakka and
+	Peter Dimov and
+	Hui Ding and
+	Jack Ferris and
+	Anthony Giardullo and
+	Sachin Kulkarni and
+	Harry C. Li and
+	Mark Marchukov and
+	Dmitri Petrov and
+	Lovro Puzar and
+	Yee Jiun Song and
+	Venkateshwaran Venkataramani},
+	title = {{TAO}: Facebook{\textquoteright}s Distributed Data Store for the Social Graph},
+	booktitle = {Proceedings of the 2013 USENIX Annual Technical Conference},
+	year = {2013},
+	pages = {49--60}
+}
+@inproceedings{Wonderland,
+	title={Wonderland: A Novel Abstraction-Based Out-Of-Core Graph Processing System},
+	author={Mingxing Zhang and
+	Yongwei Wu and
+	Youwei Zhuo and
+	Xuehai Qian and
+	Chengying Huan and
+	Kang Chen},
+	booktitle={Proceedings of the 23th International Conference on Architectural Support for Programming Languages and Operating Systems },
+	pages={608-621},
+	year={2018}
+}
+
+@article{DGraph,
+	author    = {Yu Zhang and Xiaofei Liao and Xiang Shi and Hai Jin and  Bingsheng He},
+	title     = {Efficient Disk-Based Directed Graph Processing: {A} Strongly Connected
+	Component Approach},
+	journal   = {{IEEE} Transactions on Parallel and Distributed Systems},
+	volume    = {29},
+	number    = {4},
+	pages     = {830--842},
+	year      = {2018}
+}
+
+@article{FBSGraph,
+	author    = {Yu Zhang and
+	Xiaofei Liao and
+	Hai Jin and
+	Lin Gu and
+	Bing Bing Zhou},
+	title     = {{FBSG}raph: Accelerating Asynchronous Graph Processing via Forward and
+	Backward Sweeping},
+	journal   = {{IEEE} Transactions on Knowledge and Data Engineering},
+	volume    = {30},
+	number    = {5},
+	pages     = {895--907},
+	year      = {2018}
+}
+
+
+@inproceedings{LiveJournal1,
+	author = {Backstrom, Lars and Huttenlocher, Dan and Kleinberg, Jon and Lan, Xiangyang},
+	title = {Group Formation in Large Social Networks: Membership, Growth, and Evolution},
+	booktitle = {Proceedings of the 12th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+	year = {2006},
+	pages = {44--54}
+}
+
+@inproceedings{TurboGraph++,
+	author = {Ko, Seongyun and Han, Wook-Shin},
+	title = {TurboGraph++: A Scalable and Fast Graph Analytics System},
+	booktitle = {Proceedings of the 2018 International Conference on Management of Data},
+	year = {2018},
+	pages = {395--410}
+}
+
+@inproceedings{BlumFS18,
+	author    = {Johannes Blum and
+	Stefan Funke and
+	Sabine Storandt},
+	title     = {Sublinear Search Spaces for Shortest Path Planning in Grid and Road Networks},
+	booktitle = {Proceedings of the 32nd {AAAI} Conference on Artificial Intelligence},
+	year      = {2018},
+	pages = {6119--6126}
+}
+
+@inproceedings{GraphR,
+	author    = {Linghao Song and
+	Youwei Zhuo and
+	Xuehai Qian and
+	Hai Helen Li and
+	Yiran Chen},
+	title     = {GraphR: Accelerating Graph Processing Using ReRAM},
+	booktitle = {Proceedings of the 24th {IEEE} International Symposium on High Performance Computer Architecture},
+	pages     = {531--543},
+	year      = {2018}
+}
+
+@inproceedings{LP,
+	author    = {Paolo Boldi and
+	Marco Rosa and
+	Massimo Santini and
+	Sebastiano Vigna},
+	title     = {Layered label propagation: a multiresolution coordinate-free ordering
+	for compressing social networks},
+	booktitle = {Proceedings of the 20th International Conference on World Wide Web},
+	pages     = {587--596},
+	year      = {2011}
+}
+
+@inproceedings{Ligra,
+	author    = {Julian Shun and Guy E. Blelloch},
+	title     = {Ligra: a lightweight graph processing framework for shared memory},
+	booktitle = {Proceedings of the 18th {ACM} {SIGPLAN} Symposium on Principles and Practice of Parallel Programming},
+	pages     = {135--146},
+	year      = {2013}
+}
+
+@inproceedings{Minnow,
+	author    = {Dan Zhang and
+	Xiaoyu Ma and
+	Michael Thomson and
+	Derek Chiou},
+	title     = {Minnow: Lightweight Offload Engines for Worklist Management and Worklist-Directed
+	Prefetching},
+	booktitle = {Proceedings of the 23th International Conference on Architectural
+	Support for Programming Languages and Operating Systems},
+	pages     = {593--607},
+	year      = {2018}
+}
+
+@article{HotGraph,
+	author    = {Yu Zhang and
+	Xiaofei Liao and
+	Hai Jin and
+	Lin Gu and
+	Guang Tan and
+	Bing Bing Zhou},
+	title     = {HotGraph: Efficient Asynchronous Processing for Real-World Graphs},
+	journal   = {IEEE Transactions on Computers},
+	volume    = {66},
+	number    = {5},
+	pages     = {799--809},
+	year      = {2017}
+}
+
+@inproceedings{PowerGraph,
+	author    = {Joseph E. Gonzalez and
+	Yucheng Low and
+	Haijie Gu and
+	Danny Bickson and
+	Carlos Guestrin},
+	title     = {PowerGraph: Distributed Graph-Parallel Computation on Natural Graphs},
+	booktitle = {Proceedings of the 10th {USENIX} Symposium on Operating Systems Design and Implementation},
+	pages     = {17--30},
+	year      = {2012}
+}
+
+@inproceedings{Chaos,
+	author    = {Amitabha Roy and
+	Laurent Bindschaedler and
+	Jasmina Malicevic and
+	Willy Zwaenepoel},
+	title     = {Chaos: scale-out graph processing from secondary storage},
+	booktitle = {Proceedings of the 25th ACM Symposium on Operating Systems Principles},
+	pages     = {410--424},
+	year      = {2015}
+}
+
+
+@inproceedings{GraphOne,
+	author    = {Pradeep Kumar and
+	H. Howie Huang},
+	title     = {GraphOne: {A} Data Store for Real-time Analytics on Evolving Graphs},
+	booktitle = {Proceedings of the 17th {USENIX} Conference on File and Storage Technologies},
+	pages     = {249--263},
+	year      = {2019}
+}
+
+@inproceedings{Elyasi,
+	author    = {Nima Elyasi and
+	Changho Choi and
+	Anand Sivasubramaniam},
+	title     = {Large-Scale Graph Processing on Emerging Storage Devices},
+	booktitle = {Proceedings of the 17th {USENIX} Conference on File and Storage Technologies},
+	pages     = {309--316},
+	year      = {2019}
+}
+
+@inproceedings{GraFBoost,
+	author    = {Sang-Woo Jun and
+	Andy Wright and
+	Sizhuo Zhang and
+	Shuotao Xu and
+	Arvind},
+	title     = {GraFBoost: Using Accelerated Flash Storage for External Graph Analytics},
+	booktitle = {Proceedings of the 45th {ACM/IEEE} Annual International Symposium on Computer Architecture},
+	pages     = {411--424},
+	year      = {2018}
+}
+
+@misc{Sogou,
+	title={Sogou},
+	howpublished={\url{https://www.sogou.com/}},
+	year={2020}
+}
+
+@inproceedings{DiGraph,
+	title={{DiGraph}: An Efficient Path-based Iterative Directed Graph Processing System on Multiple {GPUs}},
+	author={Zhang, Yu and Liao, Xiaofei and Jin, Hai and He, Bingsheng and Liu, Haikun and Gu, Lin},
+	booktitle={Proceedings of the 2019 Architectural Support for Programming Languages and Operating Systems},
+	pages={601--614},
+	year={2019}
+}
+
+@inproceedings{BasakLHOXZJ019,
+	author    = {Abanti Basak and
+	Shuangchen Li and
+	Xing Hu and
+	Sang Min Oh and
+	Xinfeng Xie and
+	Li Zhao and
+	Xiaowei Jiang and
+	Yuan Xie},
+	title     = {Analysis and Optimization of the Memory Hierarchy for Graph Processing
+	Workloads},
+	booktitle = {Proceedings of the 25th {IEEE} International Symposium on High Performance Computer Architecture},
+	pages     = {373--386},
+	year      = {2019},
+}
+
+@article{FBSGraph,
+	title={{FBSGraph}: Accelerating Asynchronous Graph Processing via Forward and Backward Sweeping},
+	author={Zhang, Yu and Liao, Xiaofei and Jin, Hai and Gu, Lin and Zhou, Bing Bing},
+	journal={IEEE Transactions on Knowledge and Data Engineering},
+	volume={30},
+	number={5},
+	pages={895-907},
+	year={2018}
+}
+
+@article{DGraph,
+	title={Efficient Disk-based Directed Graph Processing: A Strongly Connected Component Approach},
+	author={Zhang, Yu and Liao, Xiaofei and Shi, Xiang and Jin, Hai and He, Bingsheng},
+	journal={IEEE Transactions on Parallel and Distributed Systems},
+	volume={29},
+	number={4},
+	pages={830--842},
+	year={2018}
+}
+
+@article{CGraph2019,
+	title={C{G}raph: A Distributed Storage and Processing System for Concurrent Iterative Graph Analysis Jobs},
+	author={Zhang, Yu and Zhao, Jin and Liao, Xiaofei and Jin, Hai and Gu, Lin and Liu, Haikun and He, Bingsheng and He, Ligang},
+	journal={ACM Transactions on Storage},
+	volume={15},
+	number={2},
+	pages={10:1--10:26},
+	year={2019}
+}
+
+@inproceedings{Gemini,
+	author    = {Xiaowei Zhu and
+	Wenguang Chen and
+	Weimin Zheng and
+	Xiaosong Ma},
+	title     = {Gemini: {A} Computation-Centric Distributed Graph Processing System},
+	booktitle = {Proceedings of the 12th {USENIX} Symposium on Operating Systems Design and Implementation},
+	pages     = {301--316},
+	year      = {2016},
+}
+
+@inproceedings{Pregel,
+	author    = {Grzegorz Malewicz and
+	Matthew H. Austern and
+	Aart J. C. Bik and
+	James C. Dehnert and
+	Ilan Horn and
+	Naty Leiser and
+	Grzegorz Czajkowski},
+	title     = {Pregel: a system for large-scale graph processing},
+	booktitle = {Proceedings of the {ACM} {SIGMOD} International Conference on Management
+	of Data},
+	pages     = {135--146},
+	year      = {2010},
+}
+
+@inproceedings{PowerSwitch,
+	author    = {Chenning Xie and
+	Rong Chen and
+	Haibing Guan and
+	Binyu Zang and
+	Haibo Chen},
+	title     = {{SYNC} or {ASYNC:} time to fuse for distributed graph-parallel computation},
+	booktitle = {Proceedings of the 20th {ACM} {SIGPLAN} Symposium on Principles and
+	Practice of Parallel Programming},
+	pages     = {194--204},
+	year      = {2015},
+}
+
+@inproceedings{Gluon,
+	author    = {Roshan Dathathri and
+	Gurbinder Gill and
+	Loc Hoang and
+	Hoang{-}Vu Dang and
+	Alex Brooks and
+	Nikoli Dryden and
+	Marc Snir and
+	Keshav Pingali},
+	title     = {Gluon: a communication-optimizing substrate for distributed heterogeneous
+	graph analytics},
+	booktitle = {Proceedings of the 39th {ACM} {SIGPLAN} Conference on Programming Language Design and Implementation},
+	pages     = {752--768},
+	year      = {2018},
+}
+
+@inproceedings{GraphM,
+	author    = {Jin Zhao and
+	Yu Zhang and
+	Xiaofei Liao and
+	Ligang He and
+	Bingsheng He and
+	Hai Jin and
+	Haikun Liu and
+	Yicheng Chen},
+	title     = {Graph{M}: an efficient storage system for high throughput of concurrent graph processing},
+	booktitle = {Proceedings of the 2019 International Conference for High Performance Computing, Networking, Storage and Analysis},
+	pages     = {3:1--3:14},
+	year      = {2019},
+}
+
+@article{Tarjan,
+	author    = {Robert Endre Tarjan},
+	title     = {Depth-First Search and Linear Graph Algorithms},
+	journal   = {{SIAM} J. Comput.},
+	volume    = {1},
+	number    = {2},
+	pages     = {146--160},
+	year      = {1972},
+}
+
+@article{SLFE,
+	author    = {Shuang Song and
+	Xu Liu and
+	Qinzhe Wu and
+	Andreas Gerstlauer and
+	Tao Li and
+	Lizy K. John},
+	title     = {Start Late or Finish Early: {A} Distributed Graph Processing System
+	with Redundancy Reduction},
+	journal   = {Proceedings of the VLDB Endowment},
+	volume    = {12},
+	number    = {2},
+	pages     = {154--168},
+	year      = {2018}
+}
+
+@inproceedings{PostMan,
+	author    = {Panpan Jin and
+	Jian Guo and
+	Yikai Xiao and
+	Rong Shi and
+	Yipei Niu and
+	Fangming Liu and
+	Chen Qian and
+	Yang Wang},
+	title     = {PostMan: Rapidly Mitigating Bursty Traffic by Offloading Packet Processing},
+	booktitle = {Proceedings of the 2019 {USENIX} Annual Technical Conference},
+	pages     = {849--862},
+	year      = {2019},
+}
+
+@inproceedings{LUMOS,
+	author    = {Keval Vora},
+	title     = {{LUMOS:} Dependency-Driven Disk-based Graph Processing},
+	booktitle = {Proceedings of the 2019 {USENIX} Annual Technical Conference},
+	pages     = {429--442},
+	year      = {2019},
+}
+
+@inproceedings{LeeKLNS19,
+	author    = {Eunjae Lee and
+	Junghyun Kim and
+	Keunhak Lim and
+	Sam H. Noh and
+	Jiwon Seo},
+	title     = {Pre-Select Static Caching and Neighborhood Ordering for BFS-like Algorithms
+	on Disk-based Graph Engines},
+	booktitle = {Proceedings of the 2019 {USENIX} Annual Technical Conference},
+	pages     = {459--474},
+	year      = {2019},
+}
+
+@inproceedings{ASAP,
+	author    = {Anand Padmanabha Iyer and
+	Zaoxing Liu and
+	Xin Jin and
+	Shivaram Venkataraman and
+	Vladimir Braverman and
+	Ion Stoica},
+	title     = {{ASAP:} Fast, Approximate Graph Pattern Mining at Scale},
+	booktitle = {Proceedings of the 13th {USENIX} Symposium on Operating Systems Design and Implementation},
+	pages     = {745--761},
+	year      = {2018},
+}
+
+@inproceedings{RStream,
+	author    = {Kai Wang and
+	Zhiqiang Zuo and
+	John Thorpe and
+	Tien Quang Nguyen and
+	Guoqing Harry Xu},
+	title     = {R{S}tream: Marrying Relational Algebra with Streaming for Efficient Graph Mining on {A} Single Machine},
+	booktitle = {Proceedings of the 13th {USENIX} Symposium on Operating Systems Design and Implementation},
+	pages     = {763--782},
+	year      = {2018},
+}
+
+@inproceedings{Grazelle,
+	author    = {Samuel Grossman and
+	Heiner Litz and
+	Christos Kozyrakis},
+	title     = {Making pull-based graph processing performant},
+	booktitle = {Proceedings of the 23rd {ACM} {SIGPLAN} Symposium on Principles and
+	Practice of Parallel Programming},
+	pages     = {246--260},
+	year      = {2018},
+}
+
+@inproceedings{Lazygraph,
+	author    = {Lei Wang and
+	Liangji Zhuang and
+	Junhang Chen and
+	Huimin Cui and
+	Fang Lv and
+	Ying Liu and
+	Xiaobing Feng},
+	title     = {Lazygraph: lazy data coherency for replicas in distributed graph-parallel
+	computation},
+	booktitle = {Proceedings of the 23rd {ACM} {SIGPLAN} Symposium on Principles and
+	Practice of Parallel Programming},
+	pages     = {276--289},
+	year      = {2018},
+}
+
+@inproceedings{AutoMine,
+	author    = {Daniel Mawhirter and
+	Bo Wu},
+	title     = {Auto{M}ine: harmonizing high-level abstraction and high performance for graph mining},
+	booktitle = {Proceedings of the 27th {ACM} Symposium on Operating Systems Principles},
+	pages     = {509--523},
+	year      = {2019},
+}
+
+@inproceedings{Galois,
+	author    = {Donald Nguyen and
+	Andrew Lenharth and
+	Keshav Pingali},
+	title     = {A lightweight infrastructure for graph analytics},
+	booktitle = {Proceedings of the 24th {ACM} Symposium on Operating Systems Principles},
+	pages     = {456--471},
+	year      = {2013},
+}
+
+@inproceedings{Graphene,
+	author    = {Hang Liu and
+	H. Howie Huang},
+	title     = {Graphene: Fine-Grained {IO} Management for Graph Computing},
+	booktitle = {Proceedings of the 15th {USENIX} Conference on File and Storage Technologies},
+	pages     = {285--300},
+	year      = {2017},
+}
+
+@inproceedings{TuFast,
+	author    = {Zechao Shang and
+	Jeffrey Xu Yu and
+	Zhiwei Zhang},
+	title     = {TuFast: {A} Lightweight Parallelization Library for Graph Analytics},
+	booktitle = {Proceedings of the 35th {IEEE} International Conference on Data Engineering},
+	pages     = {710--721},
+	year      = {2019},
+}
+
+@article{FanHLLYZ19,
+	author    = {Wenfei Fan and
+	Chunming Hu and
+	Muyang Liu and
+	Ping Lu and
+	Qiang Yin and
+	Jingren Zhou},
+	title     = {Dynamic Scaling for Parallel Graph Computations},
+	journal   = {Proceedings of the VLDB Endowment},
+	volume    = {12},
+	number    = {8},
+	pages     = {877--890},
+	year      = {2019},
+}
+
+@inproceedings{PnP,
+	author    = {Chengshuo Xu and
+	Keval Vora and
+	Rajiv Gupta},
+	title     = {PnP: Pruning and Prediction for Point-To-Point Iterative Graph Analytics},
+	booktitle = {Proceedings of the 24th International Conference on Architectural
+	Support for Programming Languages and Operating Systems},
+	pages     = {587--600},
+	year      = {2019},
+}
+
+@inproceedings{PCPM,
+	author    = {Kartik Lakhotia and
+	Rajgopal Kannan and
+	Viktor K. Prasanna},
+	title     = {Accelerating PageRank using Partition-Centric Processing},
+	booktitle = {Proceedings of the 2018 {USENIX} Annual Technical Conference},
+	pages     = {427--440},
+	year      = {2018},
+}
+
+@inproceedings{Wukong+G,
+	author    = {Siyuan Wang and
+	Chang Lou and
+	Rong Chen and
+	Haibo Chen},
+	title     = {Fast and Concurrent {RDF} Queries using RDMA-assisted {GPU} Graph
+	Exploration},
+	booktitle = {Proceedings of the 2018 {USENIX} Annual Technical Conference},
+	pages     = {651--664},
+	year      = {2018},
+}
+
+@inproceedings{IX,
+	author = {Adam Belay and George Prekas and Ana Klimovic and Samuel Grossman and Christos Kozyrakis and Edouard Bugnion},
+	title = {{IX}: A Protected Dataplane Operating System for High Throughput and Low Latency},
+	booktitle = {Proceedings of the 11th {USENIX} Symposium on Operating Systems Design and Implementation},
+	year = {2014},
+	pages = {49--65},
+}
+
+@inproceedings{netmap,
+	author    = {Luigi Rizzo},
+	title     = {netmap: {A} Novel Framework for Fast Packet {I/O}},
+	booktitle = {Proceedings of the 2012 {USENIX} Annual Technical Conference},
+	pages     = {101--112},
+	year      = {2012},
+}
+
+@inproceedings{arrakis,
+	author    = {Simon Peter and
+	Jialin Li and
+	Irene Zhang and
+	Dan R. K. Ports and
+	Doug Woos and
+	Arvind Krishnamurthy and
+	Thomas E. Anderson and
+	Timothy Roscoe},
+	title     = {Arrakis: The Operating System is the Control Plane},
+	booktitle = {Proceedings of the 11th {USENIX} Symposium on Operating Systems Design and Implementation},
+	pages     = {1--16},
+	year      = {2014},
+}
+
+@inproceedings {mTCP,
+	author = {EunYoung Jeong and Shinae Wood and Muhammad Jamshed and Haewon Jeong and Sunghwan Ihm and Dongsu Han and KyoungSoo Park},
+	title = {mTCP: a Highly Scalable User-level {TCP} Stack for Multicore Systems},
+	booktitle = {Proceedings of the 11th {USENIX} Symposium on Networked Systems Design and Implementation},
+	year = {2014},
+	pages = {489--502},
+}
+
+@inproceedings{LCI,
+	author={Dang, Hoang Vu and Dathathri, Roshan and Gill, Gurbinder and Brooks, Alex and Dryden, Nikoli and Lenharth, Andrew and Hoang, Loc and Pingali, Keshav and Snir, Marc}, 
+	booktitle={Proceedings of the 2018 IEEE International Parallel and Distributed Processing Symposium}, 
+	title={A Lightweight Communication Runtime for Distributed Graph Analytics}, 
+	year={2018}, 
+	pages={980-989},
+} 
+
+@inproceedings{GRASP,
+	author    = {Priyank Faldu and
+	Jeff Diamond and
+	Boris Grot},
+	title     = {Domain-Specialized Cache Management for Graph Analytics},
+	booktitle = {Proceedings of the 26th {IEEE} International Symposium on High Performance Computer Architecture},
+	pages     = {234--248},
+	year      = {2020},
+}
+
+@inproceedings{Tux,
+	author    = {Wencong Xiao and
+	Jilong Xue and
+	Youshan Miao and
+	Zhen Li and
+	Cheng Chen and
+	Ming Wu and
+	Wei Li and
+	Lidong Zhou},
+	title     = {Tux\({}^{\mbox{2}}\): Distributed Graph Computation for Machine Learning},
+	booktitle = {Proceedings of the 14th {USENIX} Symposium on Networked Systems Design and Implementation},
+	pages     = {669--682},
+	year      = {2017},
+}
+
+@inproceedings{Presto,
+	author    = {Shivaram Venkataraman and
+	Erik Bodzsar and
+	Indrajit Roy and
+	Alvin AuYoung and
+	Robert S. Schreiber},
+	title     = {Presto: distributed machine learning and graph processing with sparse
+	matrices},
+	booktitle = {Proceedings of the Eighth Eurosys Conference},
+	pages     = {197--210},
+	year      = {2013},
+}
+
+@inproceedings{NeuGraph,
+	author    = {Lingxiao Ma and
+	Zhi Yang and
+	Youshan Miao and
+	Jilong Xue and
+	Ming Wu and
+	Lidong Zhou and
+	Yafei Dai},
+	title     = {NeuGraph: Parallel Deep Neural Network Computation on Large Graphs},
+	booktitle = {Proceedings of the 2019 {USENIX} Annual Technical Conference},
+	pages     = {443--458},
+	year      = {2019},
+}
+
+@article{WebGraph,
+	author    = {Andrei Z. Broder and
+	Ravi Kumar and
+	Farzin Maghoul and
+	Prabhakar Raghavan and
+	Sridhar Rajagopalan and
+	Raymie Stata and
+	Andrew Tomkins and
+	Janet L. Wiener},
+	title     = {Graph structure in the Web},
+	journal   = {Computer Networks},
+	volume    = {33},
+	number    = {1-6},
+	pages     = {309--320},
+	year      = {2000},
+}
+
+@inproceedings{WilsonBSPZ09,
+	author    = {Christo Wilson and
+	Bryce Boe and
+	Alessandra Sala and
+	Krishna P. N. Puttaswamy and
+	Ben Y. Zhao},
+	title     = {User interactions in social networks and their implications},
+	booktitle = {Proceedings of the 2009 EuroSys Conference},
+	pages     = {205--218},
+	year      = {2009},
+}
+
+@article{LindenSY03,
+	author    = {Greg Linden and
+	Brent Smith and
+	Jeremy York},
+	title     = {Amazon.com Recommendations: Item-to-Item Collaborative Filtering},
+	journal   = {{IEEE} Internet Computing},
+	volume    = {7},
+	number    = {1},
+	pages     = {76--80},
+	year      = {2003},
+}
+
+@inproceedings{AlexandrescuK07,
+	author    = {Andrei Alexandrescu and
+	Katrin Kirchhoff},
+	title     = {Data-Driven Graph Construction for Semi-Supervised Graph-Based Learning
+	in {NLP}},
+	booktitle = {Proceedings of the 2007 Human Language Technology Conference of the North American Chapter
+	of the Association of Computational Linguistics},
+	pages     = {204--211},
+	year      = {2007},
+}
+
+@inproceedings{GoyalDG12,
+	author    = {Amit Goyal and
+	Hal Daum{\'{e}} III and
+	Raul Guerra},
+	title     = {Fast Large-Scale Approximate Graph Construction for {NLP}},
+	booktitle = {Proceedings of the 2012 Joint Conference on Empirical Methods in Natural
+	Language Processing and Computational Natural Language Learning},
+	pages     = {1069--1080},
+	year      = {2012},
+}
+
+@article{ShunRFM16,
+	author    = {Julian Shun and
+	Farbod Roosta{-}Khorasani and
+	Kimon Fountoulakis and
+	Michael W. Mahoney},
+	title     = {Parallel Local Graph Clustering},
+	journal   = {Proceedings of the VLDB Endowment},
+	volume    = {9},
+	number    = {12},
+	pages     = {1041--1052},
+	year      = {2016},
+}
+
+@article{FoussPRS07,
+	author    = {Fran{\c{c}}ois Fouss and
+	Alain Pirotte and
+	Jean{-}Michel Renders and
+	Marco Saerens},
+	title     = {Random-Walk Computation of Similarities between Nodes of a Graph with
+	Application to Collaborative Recommendation},
+	journal   = {{IEEE} Transactions on Knowledge and Data Engineering},
+	volume    = {19},
+	number    = {3},
+	pages     = {355--369},
+	year      = {2007},
+}
+
+@inproceedings{GuanBMCW09,
+	author    = {Ziyu Guan and
+	Jiajun Bu and
+	Qiaozhu Mei and
+	Chun Chen and
+	Can Wang},
+	title     = {Personalized tag recommendation using graph-based ranking on multi-type
+	interrelated objects},
+	booktitle = {Proceedings of the 32nd Annual International {ACM} {SIGIR} Conference
+	on Research and Development in Information Retrieval},
+	pages     = {540--547},
+	year      = {2009},
+}
+
+@incollection{TangL10,
+	author    = {Lei Tang and
+	Huan Liu},
+	title     = {Graph Mining Applications to Social Network Analysis},
+	booktitle = {Managing and Mining Graph Data},
+	volume    = {40},
+	pages     = {487--513},
+	year      = {2010},
+}
+
+@inproceedings{WangCZXJHDL11,
+	author    = {Tianyi Wang and
+	Yang Chen and
+	Zengbin Zhang and
+	Tianyin Xu and
+	Long Jin and
+	Pan Hui and
+	Beixing Deng and
+	Xing Li},
+	title     = {Understanding Graph Sampling Algorithms for Social Network Analysis},
+	booktitle = {Proceedings of the 31st {IEEE} International Conference on Distributed Computing Systems
+	Workshops},
+	pages     = {123--128},
+	year      = {2011},
+}
+
+@inproceedings{FalduDG20,
+	author    = {Priyank Faldu and
+	Jeff Diamond and
+	Boris Grot},
+	title     = {Domain-Specialized Cache Management for Graph Analytics},
+	booktitle = {Proceedings of the 26th {IEEE} International Symposium on High Performance Computer Architecture},
+	pages     = {234--248},
+	year      = {2020},
+}
+
+@inproceedings{JaleelTSE10,
+	author    = {Aamer Jaleel and
+	Kevin B. Theobald and
+	Simon C. Steely Jr. and
+	Joel S. Emer},
+	title     = {High performance cache replacement using re-reference interval prediction
+	{(RRIP)}},
+	booktitle = {Proceedings of the 37th International Symposium on Computer Architecture {(ISCA} 2010),
+	June 19-23, 2010, Saint-Malo, France},
+	pages     = {60--71},
+	year      = {2010},
+}
+
+@inproceedings{V-Part,
+	author    = {Nima Elyasi and
+	Changho Choi and
+	Anand Sivasubramaniam},
+	title     = {Large-Scale Graph Processing on Emerging Storage Devices},
+	booktitle = {Proceedings of the 17th {USENIX} Conference on File and Storage Technologies},
+	pages     = {309--316},
+	year      = {2019},
+}
+
+@inproceedings{HUS-Graph,
+	author    = {Xianghao Xu and
+	Fang Wang and
+	Hong Jiang and
+	Yongli Cheng and
+	Dan Feng and
+	Yongxuan Zhang},
+	title     = {HUS-Graph: I/O-Efficient Out-of-Core Graph Processing with Hybrid
+	Update Strategy},
+	booktitle = {Proceedings of the 47th International Conference on Parallel Processing},
+	pages     = {3:1--3:10},
+	year      = {2018},
+}
+
+@inproceedings{GRACE,
+	author    = {Guozhang Wang and
+	Wenlei Xie and
+	Alan J. Demers and
+	Johannes Gehrke},
+	title     = {Asynchronous Large-Scale Graph Processing Made Easy},
+	booktitle = {Proceedings of the Sixth Biennial Conference on Innovative Data Systems
+	Research},
+	year      = {2013},
+}
+
+@inproceedings{Polymer,
+	author    = {Kaiyuan Zhang and
+	Rong Chen and
+	Haibo Chen},
+	title     = {NUMA-aware graph-structured analytics},
+	booktitle = {Proceedings of the 20th {ACM} {SIGPLAN} Symposium on Principles and
+	Practice of Parallel Programming},
+	pages     = {183--193},
+	year      = {2015},
+}
+
+@article{LvXZLJH19,
+	author    = {Xinqiao Lv and
+	Wei Xiao and
+	Yu Zhang and
+	Xiaofei Liao and
+	Hai Jin and
+	Qiang{-}Sheng Hua},
+	title     = {An effective framework for asynchronous incremental graph processing},
+	journal   = {Frontiers of Computer Science},
+	volume    = {13},
+	number    = {3},
+	pages     = {539--551},
+	year      = {2019},
+}
+
+@article{YangZGJ20,
+	author    = {Chengbo Yang and
+	Long Zheng and
+	Chuangyi Gui and
+	Hai Jin},
+	title     = {Efficient {FPGA}-based graph processing with hybrid pull-push computational
+	model},
+	journal   = {Frontiers of Computer Science},
+	volume    = {14},
+	number    = {4},
+	pages     = {144102},
+	year      = {2020},
+}
+
+@article{LiuJH19,
+	author    = {Xianzhu Liu and
+	Zhijian Ji and
+	Ting Hou},
+	title     = {Graph partitions and the controllability of directed signed networks},
+	journal   = {SCIENCE CHINA Information Sciences},
+	volume    = {62},
+	number    = {4},
+	pages     = {42202:1--42202:11},
+	year      = {2019},
+}
+
+@article{LiuLS20,
+	author    = {Yi Liu and
+	Lejian Liao and
+	Tian Song},
+	title     = {Static tainting extraction approach based on information flow graph
+	for personally identifiable information},
+	journal   = {SCIENCE CHINA Information Sciences},
+	volume    = {63},
+	number    = {3},
+	year      = {2020},
+}
+
+@inproceedings{ReGraph,
+	author    = {Xue Li and
+	Mingxing Zhang and
+	Kang Chen and
+	Yongwei Wu},
+	title     = {ReGraph: {A} Graph Processing Framework that Alternately Shrinks and
+	Repartitions the Graph},
+	booktitle = {Proceedings of the 32nd International Conference on Supercomputing},
+	pages     = {172--183},
+	year      = {2018},
+}
+
+@inproceedings{VENUS,
+	author    = {Jiefeng Cheng and
+	Qin Liu and
+	Zhenguo Li and
+	Wei Fan and
+	John C. S. Lui and
+	Cheng He},
+	title     = {{VENUS:} Vertex-centric streamlined graph computation on a single
+	{PC}},
+	booktitle = {Proceedings of the 31st {IEEE} International Conference on Data Engineering},
+	pages     = {1131--1142},
+	year      = {2015},
+}
+
+@inproceedings{InfiniCache,
+	author    = {Ao Wang and
+	Jingyuan Zhang and
+	Xiaolong Ma and
+	Ali Anwar and
+	Lukas Rupprecht and
+	Dimitrios Skourtis and
+	Vasily Tarasov and
+	Feng Yan and
+	Yue Cheng},
+	title     = {InfiniCache: Exploiting Ephemeral Serverless Functions to Build a
+	Cost-Effective Memory Cache},
+	booktitle = {Proceedings of the 18th {USENIX} Conference on File and Storage Technologies},
+	pages     = {267--281},
+	year      = {2020},
+}
+
+@inproceedings{SP-cache,
+	author    = {Yinghao Yu and
+	Renfei Huang and
+	Wei Wang and
+	Jun Zhang and
+	Khaled Ben Letaief},
+	title     = {S{P}-cache: load-balanced, redundancy-free cluster caching with selective
+	partition},
+	booktitle = {Proceedings of the 2018 International Conference for High Performance Computing,
+	Networking, Storage, and Analysis},
+	pages     = {1:1--1:13},
+	year      = {2018},
+}
+
+@inproceedings{TurboGraph,
+	author    = {Wook{-}Shin Han and
+	Sangyeon Lee and
+	Kyungyeol Park and
+	Jeong{-}Hoon Lee and
+	Min{-}Soo Kim and
+	Jinha Kim and
+	Hwanjo Yu},
+	title     = {TurboGraph: a fast parallel graph engine handling billion-scale graphs
+	in a single {PC}},
+	booktitle = {Proceedings of the 19th {ACM} {SIGKDD} International Conference on Knowledge Discovery
+	and Data Mining},
+	pages     = {77--85},
+	year      = {2013},
+}
+
+@inproceedings{Alexander,
+	author    = {Alexander van Renen and
+	Viktor Leis and
+	Alfons Kemper and
+	Thomas Neumann and
+	Takushi Hashida and
+	Kazuichi Oe and
+	Yoshiyasu Doi and
+	Lilian Harada and
+	Mitsuru Sato},
+	title     = {Managing Non-Volatile Memory in Database Systems},
+	booktitle = {Proceedings of the 2018 International Conference on Management of
+	Data},
+	pages     = {1541--1555},
+	year      = {2018},
+}
