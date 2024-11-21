@@ -149,11 +149,13 @@ E-mail: \{zhyu, hylu, hannyin, caimz, luokang2000, fuyutao, hezirui, xuxiaoxuan,
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-With the increasing demand for concurrent point-to-point queries in applications such as map navigation and network analysis, graph processing systems are facing growing challenges in maintaining high throughput. Dedicated point-to-point query systems are optimized for the response speed of individual queries in a serial manner. However, in concurrent scenarios, multiple tasks independently load the necessary data without inter-thread cooperation, leading to severe cache contention and redundant data access overhead.
-While some general-purpose concurrent graph query solutions excel at handling concurrent queries and can be adapted for point-to-point queries, they only allow data sharing within a single iteration. More importantly, point-to-point queries heavily rely on pruning strategies to avoid redundant computation caused by the activation of irrelevant vertices that do not contribute to query convergence—an aspect often overlooked by these concurrent systems.
-To address these challenges, we propose GraphCPP, the first redundancy-aware graph processing system designed to optimize the throughput of concurrent point-to-point queries. It introduces a path-based computation mechanism to minimize redundant overhead. In this context, a path is a linear data structure consisting of vertices and edges, where the set of vertices and edges traversed by each query can be divided into path segments. During traversal, a path segment acts as a shortcut, allowing the rapid propagation of state changes from the starting point of the path to the endpoint within a single iteration.
-During the pruning process, path segments can be used to estimate intermediate query values, thereby terminating unnecessary vertex activations earlier, reducing redundant computations compared to intermediate values that are farther from convergence in previous iterations.
-Additionally, to address severe cache conflicts in high-concurrency scenarios, GraphCPP proposes a cache-efficient data access sharing mechanism. This mechanism prioritizes loading graph blocks shared by multiple queries into the cache and selectively triggers queries that can efficiently utilize these graph blocks during each iteration. By enhancing cache hit rates, this approach reduces redundant data access overhead. Based on our experiments, GraphCPP outperforms the state-of-the-art point-to-point query system, SGraph, by an average factor of 3.2.
+As the demand for concurrent point-to-point queries increases in applications such as map navigation and network analysis, graph processing systems face growing challenges in maintaining high throughput. Dedicated point-to-point query systems are optimized for fast responses to individual queries. However, in concurrent execution, multiple tasks independently load data without inter-thread coordination, leading to cache contention and redundant data access.
+Although some general-purpose concurrent graph query systems can handle concurrent queries and be adapted for point-to-point queries, they typically support data sharing only within a single iteration. Point-to-point queries, however, rely heavily on pruning strategies to avoid redundant computations caused by the activation of irrelevant vertices that do not contribute to query convergence—an optimization that these systems overlook.
+To address these challenges, we propose GraphCPP, the first redundancy-aware graph processing system designed to optimize throughput for concurrent point-to-point queries. GraphCPP introduces a path-based computation mechanism to minimize redundant overhead.
+A path segment is a linear structure consisting of vertices and edges, with the vertices and edges traversed during a query being divided into a series of such segments.
+During traversal, path segments act as shortcuts, enabling the rapid propagation of state changes from the starting point to the endpoint of the path within a single iteration.
+During pruning, path segments are used to estimate intermediate query values, terminating unnecessary vertex activations 	sooner and reducing redundant computations compared to intermediate values that are farther from convergence in previous iterations.
+Additionally, to alleviate cache conflicts in high-concurrency scenarios, GraphCPP proposes a cache-efficient data access sharing mechanism. This mechanism prioritizes loading graph blocks shared by multiple queries into the cache and selectively triggers queries that can efficiently utilize these blocks. By improving cache hit rates, the mechanism reduces redundant data access. Our experiments demonstrate that GraphCPP outperforms the state-of-the-art point-to-point query system, SGraph, by an average factor of 3.2.
 \end{abstract}
 
 
@@ -217,7 +219,7 @@ Point-to-point query algorithms are designed to analyze specific traversal paths
     \vspace{-0.4cm}
     \caption{Point-to-point shortest path query $Q(v_1, v_9)$}
     \label{fig1}
-    % \vspace{-0.1cm}
+    \vspace{-0.5cm}
 \end{figure}
 
 The uniqueness of point-to-point query algorithms lies in their ability to reduce the search space through pruning during traversal. As shown in Figure \ref{fig1}, we use the PPSP algorithm on an undirected graph, although the same principles apply to directed graphs. In Figure \ref{fig2}(a), each edge has a weight representing the distance between two vertices, denoted as $W_{(v_i,v_j)}$. The source and destination vertices, $v_1$ and $v_9$, form the query task $Q(v_1, v_9)$, which aims to find the shortest path between them. While multiple paths may exist, the PPSP algorithm focuses only on the shortest one. In Figure \ref{fig1}(b), for each active vertex $v_i$, $R(v_1,v_i)$ denotes the known shortest path distance from $v_1$ to $v_i$. The key value in each iteration is the bound, which starts at infinity and decreases as the algorithm converges to the shortest path.
@@ -258,7 +260,7 @@ This process highlights that the effectiveness of point-to-point queries relies 
     \hline
     \end{tabular}
     \caption{Details of different query algorithms}
-    % \vspace{-0.6cm}
+    \vspace{-0.6cm}
     \label{table1}
 \end{table}
 
@@ -315,7 +317,7 @@ Glign exhibits a higher ratio of redundant computation compared to other systems
  	\end{tabular}
  	\caption{Performance analysis of systems with varying concurrency (512 PPSP queries on TW \cite{twitter})}
  	\label{table2}
-        % \vspace{-0.5cm}
+    \vspace{-0.6cm}
 \end{table}
 
 These results highlight that both specialized point-to-point query systems and general-purpose concurrent graph computation systems struggle to address redundant computation and data access overhead adequately, resulting in a throughput bottleneck for concurrent point-to-point queries.
@@ -329,10 +331,10 @@ The challenges discussed earlier limit the effectiveness of current systems in h
 	\includegraphics[width=2.5in]{picture/Zhang-fig2.png}
 	%\setlength{\abovecaptionskip}{-0.05cm}
     \captionsetup{labelsep=period}
-        % \vspace{-6pt}
+        \vspace{-6pt}
 		\caption{Redundant computation across different levels of concurrency}
 		\label{fig2}
-        % \vspace{-0.6cm}
+        \vspace{-0.6cm}
 \end{figure}
 
 \begin{figure}[t]
@@ -340,10 +342,10 @@ The challenges discussed earlier limit the effectiveness of current systems in h
 	\includegraphics[width=2.5in]{picture/Zhang-fig3.png} %调节单个子图大小
 	%\setlength{\abovecaptionskip}{-0.05cm} %控制标题与子图距离
         \captionsetup{labelsep=period}
-        % \vspace{-6pt}
+        \vspace{-6pt}
 		\caption{Data access redundancy across different levels of concurrency} %子图下标题
 		\label{fig3} %引用标签
-        % \vspace{-0.4cm}
+        \vspace{-0.4cm}
 \end{figure}
 
 {\bf{Computation Sharing.}}
@@ -470,7 +472,7 @@ Note that, unlike \(T_{\text{level1}}^s\) and \(T_{\text{level1}}^d\), the resul
     \vspace{-0.2cm}
     \caption{Computation Sharing Mechanism}
     \label{fig4}
-    % \vspace{-0.5cm}
+    \vspace{-0.5cm}
 \end{figure*}
 
 
@@ -523,10 +525,11 @@ The pseudocode for this mechanism is detailed in Algorithm 1, and Figure \ref{fi
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=\columnwidth]{picture/Zhang-fig5.png} %调节单个子图大小
-	%\setlength{\abovecaptionskip}{-0.05cm} %控制标题与子图距离
+	\setlength{\abovecaptionskip}{-0.2cm} %控制标题与子图距离
     \captionsetup{labelsep=period}
-		\caption{Data Access Sharing Mechanism} %子图下标题
-		\label{fig5} %引用标签
+    	\caption{Data Access Sharing Mechanism} %子图下标题
+    \label{fig5} %引用标签
+    \vspace{-0.6cm}
 \end{figure}%
 
 
@@ -670,10 +673,10 @@ To ensure scientific rigor in our experiments, we used random parameters for eac
 \begin{figure}[ht]
     \centering
 	\includegraphics[width=2.8in]{picture/Zhang-fig8.png}
-	%\setlength{\abovecaptionskip}{-0.05cm}
+	\setlength{\abovecaptionskip}{-0.2cm}
     \captionsetup{labelsep=period}
-		\caption{LLC miss rate of GraphCPP with six algorithms on four datasets (512 queries, 128 concurrent, normalized to SGraph-S)}
-		\label{fig8}
+	\caption{LLC miss rate of GraphCPP with six algorithms on four datasets (512 queries, 128 concurrent, normalized to SGraph-S)}
+	\label{fig8}
     \vspace{-0.5cm}
 \end{figure}
 
